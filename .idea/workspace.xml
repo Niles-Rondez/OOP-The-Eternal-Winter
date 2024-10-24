@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/characters/Enemy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/combat/CombatSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/skills/Skill.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/skills/SkillManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stats/Stats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/characters/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/skills/Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/skills/Skill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stats/Stats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stats/Stats.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +54,26 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.Game" />
+      <module name="OOP-The-Eternal-Winter" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Game" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -75,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729738742318</updated>
-      <workItem from="1729738743356" duration="814000" />
+      <workItem from="1729738743356" duration="1788000" />
     </task>
     <servers />
   </component>
