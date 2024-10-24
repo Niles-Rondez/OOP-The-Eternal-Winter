@@ -31,6 +31,17 @@ public class Stats {
         return wisdom * 12; // modify after balancing
     }
 
+    // Getters and setters
+    public int getHealthPoints() { return health; }
+    public int getManaPoints() { return mana; }
+    public int getConstitution() { return constitution; }
+    public int getStrength() { return strength; }
+    public int getAgility() { return agility; }
+    public int getDexterity() { return dexterity; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getLuck() { return luck; }
+
     public void displayStats() {
         // Depends on how we make the game look
         // Temp
