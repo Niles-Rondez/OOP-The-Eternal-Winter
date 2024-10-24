@@ -16,8 +16,11 @@ public class Game {
 
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
-
+    Font textFont = new Font("Times New Roman", Font.PLAIN, 20);
     titleScreenHandler titleScreenHandler = new titleScreenHandler();
+
+    String text;
+    int i;
 
     public Font getButtonFont() {
         return buttonFont;
@@ -74,12 +77,13 @@ public class Game {
         mainTextPanel.setBounds(100, 100, 600, 250);
         con.add(mainTextPanel);
 
-        mainTextArea = new JTextArea("Character: blahblahblahblahblahblahblahblah blahblahblah blahblahblah blahblahblahblah");
+        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        mainTextArea = new JTextArea("Niles: "); // should probably separate name and text
         mainTextArea.setEditable(false);
         mainTextArea.setBounds(100, 100, 600, 250);
         mainTextArea.setForeground(Color.WHITE);
         mainTextArea.setBackground(Color.black);
-        mainTextArea.setFont(buttonFont);
+        mainTextArea.setFont(textFont);
         mainTextArea.setLineWrap(true);
         mainTextPanel.add(mainTextArea);
 
@@ -87,7 +91,6 @@ public class Game {
         choicePanel.setBackground(Color.black);
         choicePanel.setBounds(50, 350, 700, 150);
         con.add(choicePanel);
-
         choice1 = new JButton("CHOICE 1");
         choice1.setBackground(Color.BLACK);
         choice1.setForeground(Color.WHITE);
@@ -108,6 +111,7 @@ public class Game {
         choicePanel.add(choice2);
         choicePanel.add(choice3);
         choicePanel.add(choice4);
+        timer.start();
     }
 
     public class titleScreenHandler implements ActionListener {
@@ -115,4 +119,24 @@ public class Game {
             createGameScreen();
         }
     }
+
+    Timer timer = new Timer(50, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char c[] = text.toCharArray();
+            int arrayNumber = c.length;
+
+            String addedCharacter = "";
+            String blank = "";
+
+            addedCharacter = blank + c[i];
+            mainTextArea.append(addedCharacter);
+            i++;
+
+            if(i == arrayNumber){
+                i = 0;
+                timer.stop();
+            }
+        }
+    });
 }
