@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="" />
+    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/characters/Enemy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/combat/CombatSystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/skills/Skill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/skills/SkillManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stats/Stats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 3
 }]]></component>
   <component name="ProjectId" id="2nrkmEDmKqaPW6By7PIaax9T4Iz" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -19,8 +46,16 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -40,7 +75,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729738742318</updated>
-      <workItem from="1729738743356" duration="1000" />
+      <workItem from="1729738743356" duration="814000" />
     </task>
     <servers />
   </component>
