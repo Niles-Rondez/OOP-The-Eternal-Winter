@@ -20,6 +20,8 @@
   },
   "end": {
     "text": "The tutorial has ended.",
-    "choices": []
+    "choices": [
+      { "text": "Back to start", "nextNode": "tutorial" }
+    ]
   }
 }
