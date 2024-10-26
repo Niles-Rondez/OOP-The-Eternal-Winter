@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/dialogues.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/story/DialogueManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/story/DialogueNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/story/Storyline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/story/Storyline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
-    </list>
+    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +93,7 @@
       <workItem from="1729745286664" duration="3617000" />
       <workItem from="1729920782209" duration="5453000" />
       <workItem from="1729927003650" duration="1498000" />
-      <workItem from="1729941937159" duration="3058000" />
+      <workItem from="1729941937159" duration="3362000" />
     </task>
     <servers />
   </component>
