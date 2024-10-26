@@ -8,38 +8,33 @@ public class Storyline {
     private Game game;
     private GameUI gameUI;
     private GameState gameState;
+    private DialogueManager dialogueManager;
 
     public Storyline(Game game, GameUI gameUI, GameState gameState) {
         this.game = game;
         this.gameUI = gameUI;
         this.gameState = gameState;
+        this.dialogueManager = new DialogueManager("dialogues.json");
     }
 
-    public void processChoice(String choice) {
-        switch (gameState.getPosition()) {
-            case "tutorial":
-                if ("c1".equals(choice)) {
-                    startTutorial2();
-                }
-                break;
-            case "tutorial2":
-                if ("c1".equals(choice)) {
-                    startTutorial();
-                }
-                break;
+    public void startDialogue(String nodeId) {
+        DialogueNode node = dialogueManager.getDialogue(nodeId);
+        gameState.setPosition(nodeId);
+        gameUI.updateMainTextWithTypingEffect(node.getText()); // Use the new typing effect method
+
+        String[] choices = node.getChoices().stream()
+                .map(DialogueNode.Choice::getText)
+                .toArray(String[]::new);
+        gameUI.updateChoices(choices);
+    }
+
+    public void processChoice(String choiceText) {
+        DialogueNode currentNode = dialogueManager.getDialogue(gameState.getPosition());
+        for (DialogueNode.Choice choice : currentNode.getChoices()) {
+            if (choice.getText().equals(choiceText)) {
+                startDialogue(choice.getNextNode());
+                return;
+            }
         }
-    }
-
-
-    public void startTutorial() {
-        gameState.setPosition("tutorial");
-        gameUI.updateMainText("This is the start of the Tutorial");
-        gameUI.updateChoices(new String[]{">"});
-    }
-
-    public void startTutorial2() {
-        gameState.setPosition("tutorial2");
-        gameUI.updateMainText("Storyline blahblahblah then ask for your name and then your class");
-        gameUI.updateChoices(new String[]{">"});
     }
 }

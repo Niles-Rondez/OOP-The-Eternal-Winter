@@ -26,7 +26,6 @@ public class GameUI {
     private void createWindow() {
         window = new JFrame();
         window.setSize(800, 600);
-        window.setMinimumSize(new Dimension(800, 600));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.BLACK);
         window.setLayout(null);
@@ -64,24 +63,32 @@ public class GameUI {
 
         mainTextPanel = new JPanel();
         mainTextPanel.setBackground(Color.black);
-        mainTextPanel.setBounds(100, 100, 600, 250);
+        mainTextPanel.setBounds(100, 100, 600, 300);
         mainTextArea = new JTextArea();
         mainTextArea.setEditable(false);
-        mainTextArea.setBounds(100, 100, 600, 250);
         mainTextArea.setForeground(Color.WHITE);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setFont(textFont);
         mainTextArea.setLineWrap(true);
-        mainTextPanel.add(mainTextArea);
+        mainTextArea.setWrapStyleWord(true);
+        mainTextArea.setPreferredSize(new Dimension(580, 250));
+        mainTextArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JScrollPane scrollPane = new JScrollPane(mainTextArea);
+        scrollPane.setPreferredSize(new Dimension(580, 250));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        mainTextPanel.add(scrollPane);
 
         choicePanel = new JPanel();
         choicePanel.setBackground(Color.black);
-        choicePanel.setBounds(250, 350, 300, 150);
-        choicePanel.setLayout(new GridLayout(4, 1));
+        choicePanel.setBounds(250, 400, 300, 150);
+        choicePanel.setLayout(new GridLayout(5, 1));
         createChoiceButtons();
 
         window.add(mainTextPanel);
         window.add(choicePanel);
+        window.setVisible(true);
     }
 
     private void createChoiceButtons() {
@@ -89,42 +96,87 @@ public class GameUI {
         choice2 = new JButton();
         choice3 = new JButton();
         choice4 = new JButton();
+        JButton skipButton = new JButton("Skip");
 
-        choice1.setBackground(Color.BLACK);
-        choice1.setForeground(Color.WHITE);
-        choice1.setFont(buttonFont);
-        choice1.setFocusPainted(false);
-        choice1.addActionListener(new ChoiceButtonHandler());
-        choice1.setActionCommand("c1");
-        choicePanel.add(choice1);
+        JButton[] choices = {choice1, choice2, choice3, choice4, skipButton};
+        for (JButton button : choices) {
+            button.setBackground(Color.BLACK);
+            button.setForeground(Color.WHITE);
+            button.setFont(buttonFont);
+            button.setFocusPainted(false);
+            button.addActionListener(new ChoiceButtonHandler());
+            choicePanel.add(button);
+        }
 
-        choice2.setBackground(Color.BLACK);
-        choice2.setForeground(Color.WHITE);
-        choice2.setFont(buttonFont);
-        choice2.setFocusPainted(false);
-        choice2.addActionListener(new ChoiceButtonHandler());
-        choice2.setActionCommand("c2");
-        choicePanel.add(choice2);
-
-        choice3.setBackground(Color.BLACK);
-        choice3.setForeground(Color.WHITE);
-        choice3.setFont(buttonFont);
-        choice3.setFocusPainted(false);
-        choice3.addActionListener(new ChoiceButtonHandler());
-        choice3.setActionCommand("c3");
-        choicePanel.add(choice3);
-        choice4.setBackground(Color.BLACK);
-        choice4.setForeground(Color.WHITE);
-        choice4.setFont(buttonFont);
-        choice4.setFocusPainted(false);
-        choice4.addActionListener(new ChoiceButtonHandler());
-        choice4.setActionCommand("c4");
-        choicePanel.add(choice4);
+        // Set the skip button to be hidden initially
+        skipButton.setVisible(false);
     }
 
     public void updateMainText(String text) {
         mainTextArea.setText(text);
     }
+
+    private volatile boolean isTyping = false;
+
+    public void updateMainTextWithTypingEffect(String text) {
+        mainTextArea.setText(""); // Clear previous text
+        isTyping = true; // Set typing to true
+
+        // Hide other choice buttons and show the skip button
+        for (int i = 0; i < choicePanel.getComponentCount(); i++) {
+            Component comp = choicePanel.getComponent(i);
+            if (comp instanceof JButton && !((JButton) comp).getText().equals("Skip")) {
+                comp.setEnabled(false); // Make all buttons except skip unclickable
+            }
+        }
+
+        JButton skipButton = (JButton) choicePanel.getComponent(4);
+        skipButton.setVisible(true); // Show skip button
+        skipButton.addActionListener(e -> skipTyping(text)); // Allow skipping the typing
+
+        new Thread(() -> {
+            StringBuilder displayedText = new StringBuilder();
+            for (char character : text.toCharArray()) {
+                if (!isTyping) break; // Exit if typing is skipped
+                displayedText.append(character);
+                mainTextArea.setText(displayedText.toString());
+                try {
+                    Thread.sleep(50); // Adjust the delay as needed
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Handle interruption properly
+                }
+            }
+
+            // Typing is done
+            isTyping = false;
+            mainTextArea.setText(text); // Optionally set full text here
+            skipButton.setVisible(false); // Hide skip button
+
+            // Show the other choice buttons again
+            for (int i = 0; i < choicePanel.getComponentCount(); i++) {
+                Component comp = choicePanel.getComponent(i);
+                if (comp instanceof JButton && !((JButton) comp).getText().equals("Skip")) { // Cast to JButton
+                    comp.setEnabled(true); // Enable all buttons except skip
+                }
+            }
+        }).start();
+    }
+
+    private void skipTyping(String fullText) {
+        isTyping = false; // Stop typing
+        mainTextArea.setText(fullText); // Show the full text immediately
+        JButton skipButton = (JButton) choicePanel.getComponent(4); // Cast to JButton
+        skipButton.setVisible(false); // Hide skip button
+
+        // Show the other choice buttons again
+        for (int i = 0; i < choicePanel.getComponentCount(); i++) {
+            Component comp = choicePanel.getComponent(i);
+            if (comp instanceof JButton && !((JButton) comp).getText().equals("Skip")) { // Cast to JButton
+                comp.setEnabled(true); // Enable all buttons except skip
+            }
+        }
+    }
+
 
     public void updateChoices(String[] options) {
         JButton[] choices = {choice1, choice2, choice3, choice4};
@@ -140,7 +192,8 @@ public class GameUI {
 
     private class ChoiceButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            game.handleChoice(e.getActionCommand());
+            JButton source = (JButton) e.getSource();
+            game.handleChoice(source.getText());
         }
     }
 }

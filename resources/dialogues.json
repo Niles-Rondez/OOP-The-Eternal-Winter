@@ -1,0 +1,25 @@
+{
+  "tutorial": {
+    "text": "Welcome to the game tutorial!",
+    "choices": [
+      { "text": "Continue", "nextNode": "tutorial2" }
+    ]
+  },
+  "tutorial2": {
+    "text": "Here, you can explore more options.",
+    "choices": [
+      { "text": "Learn more", "nextNode": "tutorial3" },
+      { "text": "End tutorial", "nextNode": "end" }
+    ]
+  },
+  "tutorial3": {
+    "text": "Congratulations on reaching the end of the tutorial.",
+    "choices": [
+      { "text": "Back to start", "nextNode": "tutorial" }
+    ]
+  },
+  "end": {
+    "text": "The tutorial has ended.",
+    "choices": []
+  }
+}

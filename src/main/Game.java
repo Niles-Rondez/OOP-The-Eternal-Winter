@@ -21,7 +21,7 @@ public class Game {
 
     public void startGame() {
         gameUI.createGameScreen();
-        storyline.startTutorial();
+        storyline.startDialogue("tutorial");
     }
 
     public void handleChoice(String choice) {
