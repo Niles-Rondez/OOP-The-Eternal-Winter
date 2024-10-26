@@ -17,7 +17,9 @@ public class Game {
     Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     Font textFont = new Font("Times New Roman", Font.PLAIN, 20);
+
     titleScreenHandler titleScreenHandler = new titleScreenHandler();
+    choiceButtonHandler choiceButtonHandler = new choiceButtonHandler();
 
     String text;
     int i;
@@ -58,6 +60,7 @@ public class Game {
         startButton.setForeground(Color.WHITE);
         startButton.setFont(buttonFont);
         startButton.addActionListener(titleScreenHandler);
+        startButton.setFocusPainted(false);
 
         titlePanel.add(titleLabel);
         startButtonPanel.add(startButton);
@@ -77,8 +80,8 @@ public class Game {
         mainTextPanel.setBounds(100, 100, 600, 250);
         con.add(mainTextPanel);
 
-        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        mainTextArea = new JTextArea("Niles: "); // should probably separate name and text
+        //text = "text"
+        mainTextArea = new JTextArea(); // should probably separate name and text
         mainTextArea.setEditable(false);
         mainTextArea.setBounds(100, 100, 600, 250);
         mainTextArea.setForeground(Color.WHITE);
@@ -89,29 +92,47 @@ public class Game {
 
         choicePanel = new JPanel();
         choicePanel.setBackground(Color.black);
-        choicePanel.setBounds(50, 350, 700, 150);
+        choicePanel.setBounds(250, 350, 300, 150);
+        choicePanel.setLayout(new GridLayout(4, 1));
         con.add(choicePanel);
+
         choice1 = new JButton("CHOICE 1");
         choice1.setBackground(Color.BLACK);
         choice1.setForeground(Color.WHITE);
         choice1.setFont(buttonFont);
+        choice1.setFocusPainted(false);
+        choice1.addActionListener(choiceButtonHandler);
+        choice1.setActionCommand("choice1");
+
         choice2 = new JButton("CHOICE 2");
         choice2.setBackground(Color.BLACK);
         choice2.setForeground(Color.WHITE);
         choice2.setFont(buttonFont);
+        choice2.setFocusPainted(false);
+        choice2.addActionListener(choiceButtonHandler);
+        choice2.setActionCommand("choice2");
+
         choice3 = new JButton("CHOICE 3");
         choice3.setBackground(Color.BLACK);
         choice3.setForeground(Color.WHITE);
         choice3.setFont(buttonFont);
+        choice3.setFocusPainted(false);
+        choice3.addActionListener(choiceButtonHandler);
+        choice3.setActionCommand("choice3");
+
         choice4 = new JButton("CHOICE 4");
         choice4.setBackground(Color.BLACK);
         choice4.setForeground(Color.WHITE);
         choice4.setFont(buttonFont);
+        choice4.setFocusPainted(false);
+        choice4.addActionListener(choiceButtonHandler);
+        choice4.setActionCommand("choice4");
+
         choicePanel.add(choice1);
         choicePanel.add(choice2);
         choicePanel.add(choice3);
         choicePanel.add(choice4);
-        timer.start();
+        tutorial();
     }
 
     public class titleScreenHandler implements ActionListener {
@@ -119,6 +140,30 @@ public class Game {
             createGameScreen();
         }
     }
+
+    public class choiceButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String choice = e.getActionCommand();
+            switch (position) {
+                case "tutorial":
+                    switch (choice){
+                        case "choice1":
+                            tutorial2();
+                            break;
+                    }
+                    break;
+                case "tutorial2":
+                    switch (choice){
+                        case "choice1":
+                            tutorial();
+                            break;
+                    }
+                    break;
+            }
+        }
+    }
+
+    /* Typewriter effect, will implement
 
     Timer timer = new Timer(50, new ActionListener() {
         @Override
@@ -138,5 +183,23 @@ public class Game {
                 timer.stop();
             }
         }
-    });
+    });*/
+
+    String position;
+    public void tutorial(){
+        position="tutorial"; // current location tracker
+        mainTextArea.setText("This is the start of the Tutorial");
+        choice1.setText(">");
+        choice2.setVisible(false);
+        choice3.setVisible(false);
+        choice4.setVisible(false);
+    }
+    public void tutorial2(){
+        position="tutorial2";
+        mainTextArea.setText("Storyline blahblahblah then i ask for your name and then I ask for you class");
+        choice1.setText(">");
+        choice2.setVisible(false);
+        choice3.setVisible(false);
+        choice4.setVisible(false);
+    }
 }
