@@ -4,6 +4,7 @@ public class GameState {
     private String position;
 
     public String getPosition() {
+        System.out.println("Returning position: " + position);
         return position;
     }
 

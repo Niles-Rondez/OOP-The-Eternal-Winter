@@ -85,21 +85,41 @@ public class GameUI {
     }
 
     private void createChoiceButtons() {
-        choice1 = new JButton("CHOICE 1");
-        choice2 = new JButton("CHOICE 2");
-        choice3 = new JButton("CHOICE 3");
-        choice4 = new JButton("CHOICE 4");
+        choice1 = new JButton();
+        choice2 = new JButton();
+        choice3 = new JButton();
+        choice4 = new JButton();
 
-        JButton[] choices = {choice1, choice2, choice3, choice4};
-        for (JButton choice : choices) {
-            choice.setBackground(Color.BLACK);
-            choice.setForeground(Color.WHITE);
-            choice.setFont(buttonFont);
-            choice.setFocusPainted(false);
-            choice.addActionListener(new ChoiceButtonHandler());
-            choice.setActionCommand(choice.toString());
-            choicePanel.add(choice);
-        }
+        choice1.setBackground(Color.BLACK);
+        choice1.setForeground(Color.WHITE);
+        choice1.setFont(buttonFont);
+        choice1.setFocusPainted(false);
+        choice1.addActionListener(new ChoiceButtonHandler());
+        choice1.setActionCommand("c1");
+        choicePanel.add(choice1);
+
+        choice2.setBackground(Color.BLACK);
+        choice2.setForeground(Color.WHITE);
+        choice2.setFont(buttonFont);
+        choice2.setFocusPainted(false);
+        choice2.addActionListener(new ChoiceButtonHandler());
+        choice2.setActionCommand("c2");
+        choicePanel.add(choice2);
+
+        choice3.setBackground(Color.BLACK);
+        choice3.setForeground(Color.WHITE);
+        choice3.setFont(buttonFont);
+        choice3.setFocusPainted(false);
+        choice3.addActionListener(new ChoiceButtonHandler());
+        choice3.setActionCommand("c3");
+        choicePanel.add(choice3);
+        choice4.setBackground(Color.BLACK);
+        choice4.setForeground(Color.WHITE);
+        choice4.setFont(buttonFont);
+        choice4.setFocusPainted(false);
+        choice4.addActionListener(new ChoiceButtonHandler());
+        choice4.setActionCommand("c4");
+        choicePanel.add(choice4);
     }
 
     public void updateMainText(String text) {
