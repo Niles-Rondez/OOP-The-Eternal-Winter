@@ -1,27 +1,35 @@
 {
   "tutorial": {
-    "text": "Welcome to the game tutorial!",
+    "text": "Welcome to The Eternal Winter.",
     "choices": [
       { "text": "Continue", "nextNode": "tutorial2" }
     ]
   },
   "tutorial2": {
-    "text": "Here, you can explore more options.",
+    "text": "What is your name traveller?",
     "choices": [
-      { "text": "Learn more", "nextNode": "tutorial3" },
-      { "text": "End tutorial", "nextNode": "end" }
+      { "text": "Continue", "nextNode": "class" }
     ]
   },
-  "tutorial3": {
-    "text": "Congratulations on reaching the end of the tutorial.",
+  "class": {
+    "text": "Do you remember your profession?",
     "choices": [
-      { "text": "Back to start", "nextNode": "tutorial" }
+      { "text": "Warrior", "nextNode": "end" },
+      { "text": "Ranger", "nextNode": "end" },
+      { "text": "Mage", "nextNode": "end" },
+      { "text": "Next", "nextNode": "class2" }
+    ]
+  },
+  "class2": {
+    "text": "Maybe you were one of these instead?",
+    "choices": [
+      { "text": "Monk", "nextNode": "end" },
+      { "text": "I dont know", "nextNode": "end" },
+      { "text": "Back", "nextNode": "class" }
     ]
   },
   "end": {
-    "text": "The tutorial has ended.",
-    "choices": [
-      { "text": "Back to start", "nextNode": "tutorial" }
-    ]
+    "text": "I see, May your travels be blessed by the Gods traveller",
+    "choices": []
   }
 }
