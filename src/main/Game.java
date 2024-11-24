@@ -19,10 +19,10 @@ public class Game {
         gameUI.showTitleScreen();
     }
 
-    public void startGame() {
-        gameUI.createGameScreen();
-        storyline.startDialogue("tutorial");
-    }
+//    public void startGame() {
+//        gameUI.createGameScreen();
+//        storyline.startDialogue("tutorial");
+//    }
 
     public void handleChoice(String choice) {
         storyline.processChoice(choice);
