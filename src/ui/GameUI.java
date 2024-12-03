@@ -463,7 +463,7 @@ public class GameUI {
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
 // Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("Wandering the town's cold roads.", SwingConstants.CENTER);
+        textLabel = new JLabel("Tabang Nurse.", SwingConstants.CENTER);
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
         textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
@@ -777,7 +777,7 @@ public class GameUI {
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
 // Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("May the Lord be with you.", SwingConstants.CENTER);
+        textLabel = new JLabel("Merchant Shakoy.", SwingConstants.CENTER);
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
         textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
