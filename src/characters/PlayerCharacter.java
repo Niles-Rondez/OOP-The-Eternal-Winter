@@ -41,7 +41,7 @@ public class PlayerCharacter {
 
     private Stats initializeStats() {
         return switch (characterClass) {
-            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 0, 1); // Example base health
+            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 0, 1);
             case MAGE -> new Stats(2, 0, 1, 1, 3, 3, 0);
             case RANGER -> new Stats(3, 2, 2, 2, 0, 0, 1);
             case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 0, 0);

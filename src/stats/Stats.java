@@ -25,11 +25,11 @@ public class Stats {
     }
 
     private int calculateHealth() {
-        return constitution * 10;
+        return constitution * 5;
     }
 
     private int calculateMana() {
-        return wisdom * 12;
+        return wisdom * 3;
     }
 
     //getters

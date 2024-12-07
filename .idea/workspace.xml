@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/adventure/AdventureManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/enemies/Enemy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/items/ItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/skills/SkillEffect.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/characters/CharacterClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/CharacterClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/characters/Enemy.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/skills/Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/skills/Skill.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stats/Stats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stats/Stats.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +113,7 @@
       <workItem from="1732456258453" duration="1188000" />
       <workItem from="1733063114229" duration="8283000" />
       <workItem from="1733232613921" duration="9264000" />
-      <workItem from="1733552826360" duration="3961000" />
+      <workItem from="1733552826360" duration="5030000" />
     </task>
     <servers />
   </component>
