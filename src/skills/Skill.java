@@ -1,21 +1,37 @@
 package skills;
 
-import java.util.List;
-
 public class Skill {
-    private String name;
-    private String description;
-    private boolean classLocked;
-    private List<String> allowedClasses;
+    private final String name;
+    private final String description;
+    private final int manaCost;
+    private final int cooldown;
+    private final SkillEffect effect;
 
-    public Skill(String name, String description, boolean classLocked, List<String> allowedClasses) {
+    public Skill(String name, String description, int manaCost, int cooldown, SkillEffect effect) {
         this.name = name;
         this.description = description;
-        this.classLocked = classLocked;
-        this.allowedClasses = allowedClasses;
+        this.manaCost = manaCost;
+        this.cooldown = cooldown;
+        this.effect = effect;
     }
 
-    public boolean canUse(String playerClass){
-        return !classLocked || allowedClasses.contains(playerClass);
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getManaCost() {
+        return manaCost;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public SkillEffect getEffect() {
+        return effect;
     }
 }

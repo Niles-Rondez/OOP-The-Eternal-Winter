@@ -11,40 +11,74 @@ public class Stats {
     private int wisdom;
     private int luck;
 
-    public Stats(int cons, int str, int agi, int dex, int inte, int wis, int luck ) {
-        this.constitution = cons;
-        this.strength = str;
-        this.agility = agi;
-        this.dexterity = dex;
-        this.intelligence = inte;
-        this.wisdom = wis;
+    public Stats(int constitution, int strength, int agility, int dexterity, int intelligence, int wisdom, int luck) {
+        this.constitution = constitution;
+        this.strength = strength;
+        this.agility = agility;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
         this.luck = luck;
 
         this.health = calculateHealth();
         this.mana = calculateMana();
     }
 
-    public int calculateHealth() {
-        return constitution * 10; // modify later
-    }
-    public int calculateMana() {
-        return wisdom * 12; // modify after balancing
+    private int calculateHealth() {
+        return constitution * 10;
     }
 
-    // Getters and setters
-    public int getHealthPoints() { return health; }
-    public int getManaPoints() { return mana; }
-    public int getConstitution() { return constitution; }
-    public int getStrength() { return strength; }
-    public int getAgility() { return agility; }
-    public int getDexterity() { return dexterity; }
-    public int getIntelligence() { return intelligence; }
-    public int getWisdom() { return wisdom; }
-    public int getLuck() { return luck; }
+    private int calculateMana() {
+        return wisdom * 12;
+    }
+
+    //getters
+    public int getHealth() {
+        return health;
+    }
+    public int getMana() {
+        return mana;
+    }
+    public int getConstitution() {
+        return constitution;
+    }
+    public int getStrength() {
+        return strength;
+    }
+    public int getAgility() {
+        return agility;
+    }
+    public int getDexterity() {
+        return dexterity;
+    }
+    public int getIntelligence() {
+        return intelligence;
+    }
+    public int getWisdom() {
+        return wisdom;
+    }
+    public int getLuck() {
+        return luck;
+    }
+
+    //setters
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public static Stats combine(Stats base, Stats equipment) {
+        return new Stats(
+                base.constitution + equipment.constitution,
+                base.strength + equipment.strength,
+                base.agility + equipment.agility,
+                base.dexterity + equipment.dexterity,
+                base.intelligence + equipment.intelligence,
+                base.wisdom + equipment.wisdom,
+                base.luck + equipment.luck
+        );
+    }
 
     public void displayStats() {
-        // Depends on how we make the game look
-        // Temp
         System.out.println("Health: " + health);
         System.out.println("Mana: " + mana);
         System.out.println("Constitution: " + constitution);
@@ -56,4 +90,3 @@ public class Stats {
         System.out.println("Luck: " + luck);
     }
 }
-

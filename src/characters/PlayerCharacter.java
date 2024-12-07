@@ -1,48 +1,78 @@
 package characters;
 
 import stats.Stats;
+import items.Inventory;
+import java.util.Scanner;
 
 public class PlayerCharacter {
+    private static final String DEFAULT_NAME = "Simon";
     private String name;
-    private int level;
     private CharacterClass characterClass;
-    private Stats stats;
+    private Stats baseStats;
+    private Stats equipmentStats;
+    private Inventory inventory;
+    private int gold;
 
+    public PlayerCharacter() {
+        this.name = DEFAULT_NAME;
+        this.characterClass = chooseClass();
+        this.baseStats = initializeStats();
+        this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);
+        this.inventory = new Inventory();
+        this.gold = 0;
+    }
 
+    private CharacterClass chooseClass() {
+        Scanner scanner = new Scanner(System.in);
+        CharacterClass chosenClass = null;
 
-    public PlayerCharacter(String name, CharacterClass characterClass) {
-        this.name = name;
-        this.characterClass = characterClass;
-        this.level = 1;
-        this.stats = initializeStats();
+        while (chosenClass == null) {
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1 -> chosenClass = CharacterClass.WARRIOR;
+                case 2 -> chosenClass = CharacterClass.MAGE;
+                case 3 -> chosenClass = CharacterClass.RANGER;
+                case 4 -> chosenClass = CharacterClass.ASSASSIN;
+                case 5 -> chosenClass = CharacterClass.MONK;
+            }
+        }
+        return chosenClass;
     }
 
     private Stats initializeStats() {
-        switch (characterClass){
-            case WARRIOR:
-                return new Stats(1,1,1,1,1,1,1); // modify
-            case RANGER:
-                return new Stats(2,1,1,1,1,1,1);
-            case MAGE:
-                return new Stats(3,1,1,1,1,1,1);
-            case ASSASSIN:
-                return new Stats(4,1,1,1,1,1,1);
-            case MONK:
-                return new Stats(5,1,1,1,1,1,1);
-            default:
-                return new Stats(0,0,0,0,0,0,0);
-        }
+        return switch (characterClass) {
+            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 0, 1); // Example base health
+            case MAGE -> new Stats(2, 0, 1, 1, 3, 3, 0);
+            case RANGER -> new Stats(3, 2, 2, 2, 0, 0, 1);
+            case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 0, 0);
+            case MONK -> new Stats(3, 2, 1, 1, 2, 1, 0);
+        };
     }
-
 
     public Stats getStats() {
-        return stats;
+        return Stats.combine(baseStats, equipmentStats);
     }
 
-    public void displayCharacter(){
-        System.out.println("Player Name: " + name);
-        System.out.println("Level: " + level);
-        System.out.println("Character Class: " + characterClass);
-        stats.displayStats();
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void addGold(int amount) {
+        gold += amount;
+    }
+
+    // Method to reduce health
+    public void takeDamage(int damage) {
+        baseStats.setHealth(baseStats.getHealth() - damage);
+        if (baseStats.getHealth() < 0) baseStats.setHealth(0);
+    }
+
+    // Method to heal
+    public void heal(int amount) {
+        baseStats.setHealth(baseStats.getHealth() + amount);
     }
 }
