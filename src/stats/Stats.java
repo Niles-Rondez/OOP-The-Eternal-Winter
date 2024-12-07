@@ -77,16 +77,4 @@ public class Stats {
                 base.luck + equipment.luck
         );
     }
-
-    public void displayStats() {
-        System.out.println("Health: " + health);
-        System.out.println("Mana: " + mana);
-        System.out.println("Constitution: " + constitution);
-        System.out.println("Strength: " + strength);
-        System.out.println("Agility: " + agility);
-        System.out.println("Dexterity: " + dexterity);
-        System.out.println("Intelligence: " + intelligence);
-        System.out.println("Wisdom: " + wisdom);
-        System.out.println("Luck: " + luck);
-    }
 }

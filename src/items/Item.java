@@ -1,11 +1,11 @@
 package items;
 
 public class Item {
-    private final String name;
-    private final String description;
-    private final ItemType type;
-    private final int value;
-    private int quantity; // New field for quantity
+    private String name;
+    private String description;
+    private ItemType type;
+    private int value; // Item's monetary value
+    private int quantity;
 
     public Item(String name, String description, ItemType type, int value, int quantity) {
         this.name = name;
@@ -19,8 +19,17 @@ public class Item {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void decreaseQuantity(int amount) {
+        quantity -= amount;
+        if (quantity < 0) quantity = 0;
+    }
+
+    public void increaseQuantity(int amount) {
+        quantity += amount;
     }
 
     public ItemType getType() {
@@ -31,27 +40,7 @@ public class Item {
         return value;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    // Decreases the quantity when the item is used
-    public void decreaseQuantity(int amount) {
-        if (quantity - amount >= 0) {
-            quantity -= amount;
-        }
-    }
-
-    // Increases the quantity, useful for potions or items dropped by enemies
-    public void increaseQuantity(int amount) {
-        quantity += amount;
-    }
-
-    public void displayItem() {
-        System.out.println("Name: " + name);
-        System.out.println("Description: " + description);
-        System.out.println("Type: " + type);
-        System.out.println("Value: " + value);
-        System.out.println("Quantity: " + quantity); // Display the quantity
+    public String getDescription() {
+        return description;
     }
 }

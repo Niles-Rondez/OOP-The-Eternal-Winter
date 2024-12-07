@@ -2,6 +2,8 @@ package characters;
 
 import stats.Stats;
 import items.Inventory;
+import items.Item;
+import items.ItemType;
 import java.util.Scanner;
 
 public class PlayerCharacter {
@@ -65,14 +67,24 @@ public class PlayerCharacter {
         gold += amount;
     }
 
-    // Method to reduce health
     public void takeDamage(int damage) {
         baseStats.setHealth(baseStats.getHealth() - damage);
         if (baseStats.getHealth() < 0) baseStats.setHealth(0);
     }
 
-    // Method to heal
     public void heal(int amount) {
         baseStats.setHealth(baseStats.getHealth() + amount);
+    }
+
+    public boolean isDefeated() {
+        return baseStats.getHealth() == 0;
+    }
+
+    public void addItemToInventory(Item item) {
+        if (inventory.addItem(item)) {
+            System.out.println(item.getName() + " has been added to your inventory.");
+        } else {
+            System.out.println("Inventory is full! Couldn't add " + item.getName() + ".");
+        }
     }
 }

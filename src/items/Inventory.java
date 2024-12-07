@@ -11,8 +11,14 @@ public class Inventory {
         this.items = new ArrayList<>();
     }
 
-    // Adds an item to the inventory, if there is space
     public boolean addItem(Item item) {
+        for (Item existingItem : items) {
+            if (existingItem.getName().equals(item.getName())) {
+                existingItem.increaseQuantity(item.getQuantity());
+                return true;
+            }
+        }
+
         if (items.size() < MAX_SLOTS) {
             items.add(item);
             return true;
@@ -22,39 +28,29 @@ public class Inventory {
         }
     }
 
-    // Removes an item from the inventory
     public void removeItem(Item item) {
         items.remove(item);
     }
 
-    // Display all items in the inventory
     public void displayInventory() {
         if (items.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory:");
             for (Item item : items) {
-                System.out.println(item.getName() + " (x" + item.getQuantity() + ")");
+                System.out.println(item.getName() + " (x" + item.getQuantity() + ") - " + item.getDescription());
             }
         }
     }
 
-    // Check if the player has a specific item
-    public boolean hasItem(String itemName) {
-        for (Item item : items) {
-            if (item.getName().equals(itemName) && item.getQuantity() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Use an item from the inventory
     public boolean useItem(String itemName) {
         for (Item item : items) {
             if (item.getName().equals(itemName) && item.getQuantity() > 0) {
-                item.decreaseQuantity(1); // Use one of this item
+                item.decreaseQuantity(1);
                 System.out.println("You used a " + item.getName() + "!");
+                if (item.getQuantity() == 0) {
+                    items.remove(item);
+                }
                 return true;
             }
         }
