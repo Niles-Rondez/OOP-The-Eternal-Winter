@@ -11,8 +11,8 @@ public class Inventory {
         this.items = new ArrayList<>();
     }
 
+    // Method to add an item to the inventory (already exists)
     public boolean addItem(String itemName, int quantity) {
-        // Fetch item details from the registry
         ItemRegistry registryItem = null;
         for (ItemRegistry item : ItemRegistry.values()) {
             if (item.getName().equalsIgnoreCase(itemName)) {
@@ -28,7 +28,6 @@ public class Inventory {
 
         int remainingQuantity = quantity;
 
-        // Try to add to existing stacks first
         for (Item existingItem : items) {
             if (existingItem.getName().equalsIgnoreCase(itemName)) {
                 int maxAddable = registryItem.getMaxStackSize() - existingItem.getQuantity();
@@ -37,13 +36,12 @@ public class Inventory {
                     existingItem.increaseQuantity(toAdd);
                     remainingQuantity -= toAdd;
                     if (remainingQuantity <= 0) {
-                        return true; // Fully added
+                        return true;
                     }
                 }
             }
         }
 
-        // Add new stacks if necessary and there's space
         while (remainingQuantity > 0) {
             if (items.size() < MAX_SLOTS) {
                 int toAdd = Math.min(remainingQuantity, registryItem.getMaxStackSize());
@@ -51,13 +49,37 @@ public class Inventory {
                 remainingQuantity -= toAdd;
             } else {
                 System.out.println("Inventory is full! Cannot add more items.");
-                return false; // Stop if no space for a new stack
+                return false;
             }
         }
 
         return true;
     }
 
+    // Method to check if an item exists in the inventory
+    public boolean hasItem(String itemName) {
+        for (Item item : items) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return true; // Item exists in the inventory
+            }
+        }
+        return false; // Item not found
+    }
+
+    // Method to remove an item from the inventory
+    public boolean removeItem(Item item) {
+        for (Item existingItem : items) {
+            if (existingItem.equals(item)) {
+                items.remove(existingItem);
+                System.out.println(item.getName() + " has been removed from your inventory.");
+                return true; // Item removed successfully
+            }
+        }
+        System.out.println("Item not found in inventory.");
+        return false; // Item not found in the inventory
+    }
+
+    // Other methods (displayInventory, useItem, etc.) remain unchanged
     public void displayInventory() {
         if (items.isEmpty()) {
             System.out.println("Inventory is empty.");
@@ -75,7 +97,7 @@ public class Inventory {
                 item.decreaseQuantity(1);
                 System.out.println("You used a " + item.getName() + "!");
                 if (item.getQuantity() == 0) {
-                    items.remove(item); // Remove the item if quantity reaches 0
+                    items.remove(item);
                 }
                 return true;
             }
@@ -91,7 +113,7 @@ public class Inventory {
                 return item;
             }
         }
-        return null; // Item not found
+        return null;
     }
 
     public void addUnequippedItem(Item item) {

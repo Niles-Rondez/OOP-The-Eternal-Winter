@@ -1,6 +1,7 @@
 package characters;
 
 import items.ItemType;
+import quests.Quest;
 import skills.Skill;
 import skills.SkillsRegistry;
 import stats.Stats;
@@ -20,6 +21,7 @@ public class PlayerCharacter {
     private Map<String, Item> equipmentSlots;
     private int gold;
     private List<Skill> skills;
+    private List<Quest> activeQuests;
 
     public PlayerCharacter() {
         this.name = DEFAULT_NAME;
@@ -30,13 +32,25 @@ public class PlayerCharacter {
         this.inventory = new Inventory();  // Empty inventory initially
         this.gold = 0;  // Start with 0 gold
         this.skills = initializeSkills(); // Initialize starting skills
-        this.equipmentSlots = new HashMap<>();
-        // Initialize slots with null values, no equipment in any slot at first
+        this.equipmentSlots = new HashMap<>(); // Initialize slots with null values, no equipment in any slot at first
         this.equipmentSlots.put("Head", null);
         this.equipmentSlots.put("Body", null);
         this.equipmentSlots.put("Legs", null);
         this.equipmentSlots.put("Weapon", null);
+        this.activeQuests = new ArrayList<>();
     }
+
+    public void addQuest(Quest quest) {
+        activeQuests.add(quest);
+        System.out.println("Quest added: " + quest.getName());
+    }
+
+    // Other existing methods (equipItem, unequipItem, etc.) remain unchanged
+
+    public List<Quest> getActiveQuests() {
+        return activeQuests;
+    }
+
 
     public boolean equipItem(Item item) {
         if (item.getType() != ItemType.EQUIPMENT) {
@@ -188,6 +202,10 @@ public class PlayerCharacter {
 
     public void addGold(int amount) {
         gold += amount;
+    }
+
+    public void subtractGold(int amount) {
+        gold -= amount;
     }
 
     public void takeDamage(int damage) {
