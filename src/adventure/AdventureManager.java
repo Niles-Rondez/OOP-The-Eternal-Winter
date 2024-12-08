@@ -2,11 +2,9 @@ package adventure;
 
 import characters.PlayerCharacter;
 import enemies.Enemy;
+import enemies.EnemyRegistry;
 import items.Item;
-import items.ItemType;
-import stats.Stats;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -25,22 +23,8 @@ public class AdventureManager {
         this.scanner = new Scanner(System.in);
     }
 
-    private List<Item> generateMiniBossDrops() {
-        return Arrays.asList(
-                new Item("Iron Sword", "A basic sword", ItemType.EQUIPMENT, 100, 1),
-                new Item("Large Health Potion", "Restores 30 HP", ItemType.CONSUMABLE, 150, 1)
-        );
-    }
-
-    private List<Item> generateFinalBossDrops() {
-        return Arrays.asList(
-                new Item("Legendary Sword", "A sword of great power", ItemType.EQUIPMENT, 500, 1),
-                new Item("Elixir", "Fully restores health and mana", ItemType.CONSUMABLE, 300, 1)
-        );
-    }
-
     public void startAdventure() {
-        System.out.println("Starting your adventure!");
+        System.out.println("Starting your adventure, " + player.getStats().getHealth() + " health!");
 
         while (currentStep <= MAX_ADVENTURES) {
             System.out.println("\nAdventure Step: " + currentStep);
@@ -74,27 +58,19 @@ public class AdventureManager {
 
     private void encounterMiniBoss() {
         System.out.println("A Mini-boss blocks your path!");
-        Enemy miniBoss = new Enemy(
-                "Mini-Boss",
-                new Stats(5, 3, 2, 2, 1, 1, 1),
-                generateMiniBossDrops()
-        );
+        Enemy miniBoss = generateEnemy("MINI_BOSS");
         combat(miniBoss);
     }
 
     private void encounterFinalBoss() {
         System.out.println("The Final Boss awaits!");
-        Enemy finalBoss = new Enemy(
-                "Final Boss",
-                new Stats(10, 5, 3, 3, 3, 3, 2),
-                generateFinalBossDrops()
-        );
+        Enemy finalBoss = generateEnemy("FINAL_BOSS");
         combat(finalBoss);
     }
 
     private void combat(Enemy enemy) {
         System.out.println("Combat starts with " + enemy.getName() + "!");
-        while (enemy.getStats().getHealth() > 0 && player.getStats().getHealth() > 0) {
+        while (!enemy.isDefeated() && !player.isDefeated()) {
             System.out.println("\nChoose an action: \n1. Attack \n2. Use Health Potion");
             int choice = scanner.nextInt();
             switch (choice) {
@@ -116,33 +92,46 @@ public class AdventureManager {
 
             if (enemy.isDefeated()) {
                 System.out.println("You defeated " + enemy.getName() + "!");
-                Item drop = enemy.dropItem();
-                if (drop != null) {
-                    System.out.println("The enemy dropped: " + drop.getName() + "!");
-                    player.getInventory().addItem(drop);
-                }
+                handleEnemyDrops(enemy);
                 break;
             }
 
             int enemyDamage = random.nextInt(10) + enemy.getStats().getStrength();
-            System.out.println(enemy.getName() + " dealt " + enemyDamage + " damage to you!");
             player.takeDamage(enemyDamage);
+            System.out.println(enemy.getName() + " dealt " + enemyDamage + " damage to you!");
         }
 
-        if (player.getStats().getHealth() <= 0) {
+        if (player.isDefeated()) {
             System.out.println("You were defeated by " + enemy.getName() + "! Game over.");
             System.exit(0);
         }
     }
 
+    private void handleEnemyDrops(Enemy enemy) {
+        Item droppedItem = enemy.dropItem();
+        if (droppedItem != null) {
+            player.addItemToInventory(droppedItem, 1);
+        } else {
+            System.out.println("No items were dropped.");
+        }
+    }
+
+    // Picks a random enemy from EnemyRegistry.
     private Enemy generateRandomEnemy() {
-        String[] enemyNames = {"Goblin", "Wolf", "Skeleton"};
-        String name = enemyNames[random.nextInt(enemyNames.length)];
-        Stats enemyStats = new Stats(3, 2, 1, 1, 0, 0, 1);
-        List<Item> drops = Arrays.asList(
-                new Item("Gold Coin", "Shiny gold coin", ItemType.CURRENCY, 10, 1),
-                new Item("Small Health Potion", "Restores 10 HP", ItemType.CONSUMABLE, 50, 1)
-        );
-        return new Enemy(name, enemyStats, drops);
+        List<Enemy> allEnemies = EnemyRegistry.getAllEnemies();
+        // Exclude bosses from random encounters
+        List<Enemy> nonBossEnemies = allEnemies.stream()
+                .filter(enemy -> !enemy.getName().equals("Mini-Boss") && !enemy.getName().equals("Final Boss"))
+                .toList();
+        return nonBossEnemies.get(random.nextInt(nonBossEnemies.size()));
+    }
+
+    // Retrieves a specific enemy by name from EnemyRegistry.
+    private Enemy generateEnemy(String enemyName) {
+        return switch (enemyName) {
+            case "MINI_BOSS" -> EnemyRegistry.MINI_BOSS;
+            case "FINAL_BOSS" -> EnemyRegistry.FINAL_BOSS;
+            default -> throw new IllegalArgumentException("Invalid enemy name: " + enemyName);
+        };
     }
 }

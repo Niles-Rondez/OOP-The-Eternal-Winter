@@ -32,40 +32,49 @@ public class Stats {
         return wisdom * 3;
     }
 
-    //getters
+    // Getters
     public int getHealth() {
         return health;
     }
+
     public int getMana() {
         return mana;
     }
+
     public int getConstitution() {
         return constitution;
     }
+
     public int getStrength() {
         return strength;
     }
+
     public int getAgility() {
         return agility;
     }
+
     public int getDexterity() {
         return dexterity;
     }
+
     public int getIntelligence() {
         return intelligence;
     }
+
     public int getWisdom() {
         return wisdom;
     }
+
     public int getLuck() {
         return luck;
     }
 
-    //setters
+    // Setters
     public void setHealth(int health) {
         this.health = health;
     }
 
+    // Method to combine base and equipment stats
     public static Stats combine(Stats base, Stats equipment) {
         return new Stats(
                 base.constitution + equipment.constitution,
@@ -76,5 +85,19 @@ public class Stats {
                 base.wisdom + equipment.wisdom,
                 base.luck + equipment.luck
         );
+    }
+
+    // Override the toString() method for custom string representation
+    @Override
+    public String toString() {
+        return "Health: " + health + "\n" +
+                "Mana: " + mana + "\n" +
+                "Constitution: " + constitution + "\n" +
+                "Strength: " + strength + "\n" +
+                "Agility: " + agility + "\n" +
+                "Dexterity: " + dexterity + "\n" +
+                "Intelligence: " + intelligence + "\n" +
+                "Wisdom: " + wisdom + "\n" +
+                "Luck: " + luck;
     }
 }

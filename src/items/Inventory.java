@@ -11,25 +11,51 @@ public class Inventory {
         this.items = new ArrayList<>();
     }
 
-    public boolean addItem(Item item) {
-        for (Item existingItem : items) {
-            if (existingItem.getName().equals(item.getName())) {
-                existingItem.increaseQuantity(item.getQuantity());
-                return true;
+    public boolean addItem(String itemName, int quantity) {
+        // Fetch item details from the registry
+        ItemRegistry registryItem = null;
+        for (ItemRegistry item : ItemRegistry.values()) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                registryItem = item;
+                break;
             }
         }
 
-        if (items.size() < MAX_SLOTS) {
-            items.add(item);
-            return true;
-        } else {
-            System.out.println("Inventory is full!");
+        if (registryItem == null) {
+            System.out.println("Item not found in registry!");
             return false;
         }
-    }
 
-    public void removeItem(Item item) {
-        items.remove(item);
+        int remainingQuantity = quantity;
+
+        // Try to add to existing stacks first
+        for (Item existingItem : items) {
+            if (existingItem.getName().equalsIgnoreCase(itemName)) {
+                int maxAddable = registryItem.getMaxStackSize() - existingItem.getQuantity();
+                if (maxAddable > 0) {
+                    int toAdd = Math.min(maxAddable, remainingQuantity);
+                    existingItem.increaseQuantity(toAdd);
+                    remainingQuantity -= toAdd;
+                    if (remainingQuantity <= 0) {
+                        return true; // Fully added
+                    }
+                }
+            }
+        }
+
+        // Add new stacks if necessary and there's space
+        while (remainingQuantity > 0) {
+            if (items.size() < MAX_SLOTS) {
+                int toAdd = Math.min(remainingQuantity, registryItem.getMaxStackSize());
+                items.add(registryItem.createItem(toAdd));
+                remainingQuantity -= toAdd;
+            } else {
+                System.out.println("Inventory is full! Cannot add more items.");
+                return false; // Stop if no space for a new stack
+            }
+        }
+
+        return true;
     }
 
     public void displayInventory() {
@@ -45,11 +71,11 @@ public class Inventory {
 
     public boolean useItem(String itemName) {
         for (Item item : items) {
-            if (item.getName().equals(itemName) && item.getQuantity() > 0) {
+            if (item.getName().equalsIgnoreCase(itemName) && item.getQuantity() > 0) {
                 item.decreaseQuantity(1);
                 System.out.println("You used a " + item.getName() + "!");
                 if (item.getQuantity() == 0) {
-                    items.remove(item);
+                    items.remove(item); // Remove the item if quantity reaches 0
                 }
                 return true;
             }

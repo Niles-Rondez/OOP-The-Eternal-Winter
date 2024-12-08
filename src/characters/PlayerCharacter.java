@@ -17,18 +17,27 @@ public class PlayerCharacter {
 
     public PlayerCharacter() {
         this.name = DEFAULT_NAME;
-        this.characterClass = chooseClass();
-        this.baseStats = initializeStats();
-        this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);
-        this.inventory = new Inventory();
-        this.gold = 0;
+        this.characterClass = chooseClass();  // Get the character class first
+        this.baseStats = initializeStats();  // Initialize stats based on the class
+        this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);  // Equipment stats
+        this.inventory = new Inventory();  // Empty inventory initially
+        this.gold = 0;  // Start with 0 gold
     }
 
     private CharacterClass chooseClass() {
         Scanner scanner = new Scanner(System.in);
         CharacterClass chosenClass = null;
 
+        // Add the class selection dialogue
+        System.out.println("Choose your character class:");
+        System.out.println("1. Warrior");
+        System.out.println("2. Mage");
+        System.out.println("3. Ranger");
+        System.out.println("4. Assassin");
+        System.out.println("5. Monk");
+
         while (chosenClass == null) {
+            System.out.print("Enter the number corresponding to your choice: ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> chosenClass = CharacterClass.WARRIOR;
@@ -36,6 +45,7 @@ public class PlayerCharacter {
                 case 3 -> chosenClass = CharacterClass.RANGER;
                 case 4 -> chosenClass = CharacterClass.ASSASSIN;
                 case 5 -> chosenClass = CharacterClass.MONK;
+                default -> System.out.println("Invalid choice, please choose a valid class.");
             }
         }
         return chosenClass;
@@ -80,8 +90,8 @@ public class PlayerCharacter {
         return baseStats.getHealth() == 0;
     }
 
-    public void addItemToInventory(Item item) {
-        if (inventory.addItem(item)) {
+    public void addItemToInventory(Item item, int quantity) {
+        if (inventory.addItem(item.getName(), quantity)) {
             System.out.println(item.getName() + " has been added to your inventory.");
         } else {
             System.out.println("Inventory is full! Couldn't add " + item.getName() + ".");

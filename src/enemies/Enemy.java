@@ -1,20 +1,20 @@
 package enemies;
 
-import stats.Stats;
 import items.Item;
+import stats.Stats;
 
 import java.util.List;
+import java.util.Random;
 
 public class Enemy {
     private final String name;
     private final Stats stats;
-    private final List<Item> possibleDrops; // List of possible drops
+    private final List<ItemDrop> possibleDrops;
 
-    public Enemy(String name, Stats stats, List<Item> possibleDrops) {
+    public Enemy(String name, Stats stats, List<ItemDrop> possibleDrops) {
         this.name = name;
         this.stats = stats;
-        this.stats.setHealth(stats.getHealth());
-        this.possibleDrops = possibleDrops; // Initialize the list of drops
+        this.possibleDrops = possibleDrops;
     }
 
     public String getName() {
@@ -25,29 +25,39 @@ public class Enemy {
         return stats;
     }
 
-    public int getHealth() {
-        return stats.getHealth();
-    }
-
-    public List<Item> getPossibleDrops() {
-        return possibleDrops;
+    public boolean isDefeated() {
+        return stats.getHealth() <= 0;
     }
 
     public void takeDamage(int damage) {
-        int newHealth = stats.getHealth() - damage;
-        stats.setHealth(Math.max(newHealth, 0)); // Ensure health does not go below 0
+        stats.setHealth(stats.getHealth() - damage);
     }
 
-    public boolean isDefeated() {
-        return stats.getHealth() == 0;
-    }
-
-    // Method to retrieve a random drop upon defeat
     public Item dropItem() {
-        if (!isDefeated() || possibleDrops.isEmpty()) {
-            return null; // No drop if the enemy is not defeated or has no drops
+        Random random = new Random();
+        for (ItemDrop drop : possibleDrops) {
+            if (random.nextDouble() <= drop.getDropRate()) {
+                return drop.getItem().clone(); // Clone to avoid modifying the original item.
+            }
         }
-        int randomIndex = (int) (Math.random() * possibleDrops.size());
-        return possibleDrops.get(randomIndex); // Randomly pick an item
+        return null; // No item dropped.
+    }
+
+    public static class ItemDrop {
+        private final Item item;
+        private final double dropRate; // Probability of this item dropping (0.0 - 1.0).
+
+        public ItemDrop(Item item, double dropRate) {
+            this.item = item;
+            this.dropRate = dropRate;
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public double getDropRate() {
+            return dropRate;
+        }
     }
 }

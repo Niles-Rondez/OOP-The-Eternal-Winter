@@ -1,6 +1,6 @@
 package items;
 
-public class Item {
+public class Item implements Cloneable {
     private String name;
     private String description;
     private ItemType type;
@@ -15,6 +15,7 @@ public class Item {
         this.quantity = quantity;
     }
 
+    // Getters
     public String getName() {
         return name;
     }
@@ -42,5 +43,21 @@ public class Item {
 
     public String getDescription() {
         return description;
+    }
+
+    // Override clone method
+    @Override
+    public Item clone() {
+        try {
+            return (Item) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported for Item", e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Item{name='" + name + "', description='" + description + "', type=" + type +
+                ", value=" + value + ", quantity=" + quantity + "}";
     }
 }
