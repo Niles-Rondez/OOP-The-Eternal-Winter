@@ -1,14 +1,13 @@
 package characters;
 
+import items.ItemType;
 import skills.Skill;
 import skills.SkillsRegistry;
 import stats.Stats;
 import items.Inventory;
 import items.Item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class PlayerCharacter {
     private static final String DEFAULT_NAME = "Simon";
@@ -18,8 +17,8 @@ public class PlayerCharacter {
     private Stats baseStats;
     private Stats equipmentStats;
     private Inventory inventory;
+    private Map<String, Item> equipmentSlots;
     private int gold;
-
     private List<Skill> skills;
 
     public PlayerCharacter() {
@@ -31,6 +30,71 @@ public class PlayerCharacter {
         this.inventory = new Inventory();  // Empty inventory initially
         this.gold = 0;  // Start with 0 gold
         this.skills = initializeSkills(); // Initialize starting skills
+        this.equipmentSlots = new HashMap<>();
+        // Initialize slots with null values, no equipment in any slot at first
+        this.equipmentSlots.put("Head", null);
+        this.equipmentSlots.put("Body", null);
+        this.equipmentSlots.put("Legs", null);
+        this.equipmentSlots.put("Weapon", null);
+    }
+
+    public boolean equipItem(Item item) {
+        if (item.getType() != ItemType.EQUIPMENT) {
+            System.out.println("This item cannot be equipped.");
+            return false;
+        }
+
+        String slot = item.getSlot();  // Get the slot from the item
+        if (slot == null) {
+            System.out.println("This item cannot be equipped to any slot.");
+            return false;
+        }
+
+        if (equipmentSlots.get(slot) != null) {
+            System.out.println("Slot is occupied. Unequip the current item first.");
+            return false;
+        }
+
+        equipmentSlots.put(slot, item);
+        applyEquipmentStats(item);
+        System.out.println(item.getName() + " has been equipped in the " + slot + " slot.");
+        return true;
+    }
+
+    public boolean unequipItem(String slot) {
+        if (!equipmentSlots.containsKey(slot) || equipmentSlots.get(slot) == null) {
+            System.out.println("No item is equipped in the " + slot + " slot.");
+            return false; // Return false if no item is equipped in the slot
+        }
+
+        Item removedItem = equipmentSlots.remove(slot);
+        removeEquipmentStats(removedItem);
+        System.out.println(removedItem.getName() + " has been unequipped from the " + slot + " slot.");
+        return true; // Return true if the item was successfully unequipped
+    }
+
+    public void displayEquipment() {
+        System.out.println("\n=== Equipped Items ===");
+        for (Map.Entry<String, Item> entry : equipmentSlots.entrySet()) {
+            if (entry.getValue() != null) {
+                System.out.println(entry.getKey() + ": " + entry.getValue().getName() + " - " + entry.getValue().getBonusStats());
+            } else {
+                System.out.println(entry.getKey() + ": (empty)");
+            }
+        }
+    }
+
+    private void applyEquipmentStats(Item item) {
+        Stats bonus = item.getBonusStats();
+        equipmentStats = Stats.combine(equipmentStats, bonus);
+    }
+
+    private void removeEquipmentStats(Item item) {
+        Stats bonus = item.getBonusStats();
+        equipmentStats = Stats.combine(equipmentStats, new Stats(
+                -bonus.getConstitution(), -bonus.getStrength(), -bonus.getAgility(),
+                -bonus.getDexterity(), -bonus.getIntelligence(), -bonus.getWisdom(), -bonus.getLuck()
+        ));
     }
 
     public List<Skill> getSkills() {
@@ -89,7 +153,7 @@ public class PlayerCharacter {
 
     private Stats initializeStats() {
         return switch (characterClass) {
-            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 30, 1);
+            case WARRIOR -> new Stats(100, 100, 100, 100, 100, 100, 100);
             case MAGE -> new Stats(2, 0, 1, 1, 3, 30, 0);
             case RANGER -> new Stats(3, 2, 2, 2, 0, 30, 1);
             case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 30, 0);
@@ -127,16 +191,16 @@ public class PlayerCharacter {
     }
 
     public void takeDamage(int damage) {
-        baseStats.setHealth(baseStats.getHealth() - damage);
-        if (baseStats.getHealth() < 0) baseStats.setHealth(0);
+        getStats().setHealth(getStats().getHealth() - damage);
+        if (getStats().getHealth() < 0) getStats().setHealth(0);
     }
 
     public void heal(int amount) {
-        baseStats.setHealth(baseStats.getHealth() + amount);
+        getStats().setHealth(getStats().getHealth() + amount);
     }
 
     public boolean isDefeated() {
-        return baseStats.getHealth() == 0;
+        return getStats().getHealth() == 0;
     }
 
     public void addItemToInventory(Item item, int quantity) {
@@ -152,7 +216,7 @@ public class PlayerCharacter {
         System.out.println("Character Name: " + name);
         System.out.println("Class: " + className);
         System.out.println("Stats: ");
-        System.out.println(baseStats); // Calls the overridden toString() method of Stats
+        System.out.println(getStats()); // Calls the overridden toString() method of Stats
         System.out.println("Skills: ");
         skills.forEach(skill -> System.out.println("- " + skill.getName()));
     }

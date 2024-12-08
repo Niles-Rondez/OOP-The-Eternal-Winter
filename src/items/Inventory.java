@@ -83,4 +83,18 @@ public class Inventory {
         System.out.println("You don't have any " + itemName + " left!");
         return false;
     }
+
+    public Item retrieveItem(String itemName) {
+        for (Item item : items) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                items.remove(item);
+                return item;
+            }
+        }
+        return null; // Item not found
+    }
+
+    public void addUnequippedItem(Item item) {
+        items.add(item);
+    }
 }
