@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
-    </list>
+    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,12 +114,24 @@
       <workItem from="1733584407544" duration="1580000" />
       <workItem from="1733625833164" duration="3687000" />
       <workItem from="1733672795538" duration="596000" />
-      <workItem from="1733675073884" duration="1521000" />
+      <workItem from="1733675073884" duration="478000" />
+      <workItem from="1733675951761" duration="914000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ui/GameUI.java</url>
+          <line>308</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/OOP_The_Eternal_Winter$Game.ic" NAME="Game Coverage Results" MODIFIED="1729742384050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

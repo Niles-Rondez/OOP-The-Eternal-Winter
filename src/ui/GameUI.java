@@ -301,7 +301,8 @@ public class GameUI {
         interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
-// Text Label (Top Part of Interaction Panel)
+
+        // Text Label (Top Part of Interaction Panel)
         textLabel = new JLabel("Wandering the town's cold roads.", SwingConstants.CENTER);
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
@@ -309,6 +310,23 @@ public class GameUI {
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+// Typing effect for the existing text
+        new Thread(() -> {
+            String textToType = "Wandering the town's cold roads."; // Original text
+            StringBuilder displayedText = new StringBuilder();
+
+            try {
+                for (char c : textToType.toCharArray()) {
+                    displayedText.append(c);
+                    SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                    Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
