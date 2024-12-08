@@ -87,11 +87,23 @@ public class Stats {
         );
     }
 
+    // Method to calculate health ratio
+    public double getHealthRatio() {
+        double maxHealth = calculateHealth();  // Maximum health based on constitution
+        return (double) health / maxHealth;
+    }
+
+    // Method to calculate mana ratio
+    public double getManaRatio() {
+        double maxMana = calculateMana();  // Maximum mana based on wisdom
+        return (double) mana / maxMana;
+    }
+
     // Override the toString() method for custom string representation
     @Override
     public String toString() {
-        return "Health: " + health + "\n" +
-                "Mana: " + mana + "\n" +
+        return "Health: " + health + " / " + calculateHealth() + "\n" +
+                "Mana: " + mana + " / " + calculateMana() + "\n" +
                 "Constitution: " + constitution + "\n" +
                 "Strength: " + strength + "\n" +
                 "Agility: " + agility + "\n" +

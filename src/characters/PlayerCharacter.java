@@ -3,12 +3,12 @@ package characters;
 import stats.Stats;
 import items.Inventory;
 import items.Item;
-import items.ItemType;
 import java.util.Scanner;
 
 public class PlayerCharacter {
     private static final String DEFAULT_NAME = "Simon";
     private String name;
+    private String className; // Store the class name
     private CharacterClass characterClass;
     private Stats baseStats;
     private Stats equipmentStats;
@@ -18,6 +18,7 @@ public class PlayerCharacter {
     public PlayerCharacter() {
         this.name = DEFAULT_NAME;
         this.characterClass = chooseClass();  // Get the character class first
+        this.className = characterClass.toString(); // Set className from the characterClass
         this.baseStats = initializeStats();  // Initialize stats based on the class
         this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);  // Equipment stats
         this.inventory = new Inventory();  // Empty inventory initially
@@ -27,6 +28,7 @@ public class PlayerCharacter {
     private CharacterClass chooseClass() {
         Scanner scanner = new Scanner(System.in);
         CharacterClass chosenClass = null;
+        String className = ""; // Variable to store the name of the chosen class
 
         // Add the class selection dialogue
         System.out.println("Choose your character class:");
@@ -40,14 +42,32 @@ public class PlayerCharacter {
             System.out.print("Enter the number corresponding to your choice: ");
             int choice = scanner.nextInt();
             switch (choice) {
-                case 1 -> chosenClass = CharacterClass.WARRIOR;
-                case 2 -> chosenClass = CharacterClass.MAGE;
-                case 3 -> chosenClass = CharacterClass.RANGER;
-                case 4 -> chosenClass = CharacterClass.ASSASSIN;
-                case 5 -> chosenClass = CharacterClass.MONK;
+                case 1 -> {
+                    chosenClass = CharacterClass.WARRIOR;
+                    className = "Warrior"; // Set the class name
+                }
+                case 2 -> {
+                    chosenClass = CharacterClass.MAGE;
+                    className = "Mage"; // Set the class name
+                }
+                case 3 -> {
+                    chosenClass = CharacterClass.RANGER;
+                    className = "Ranger"; // Set the class name
+                }
+                case 4 -> {
+                    chosenClass = CharacterClass.ASSASSIN;
+                    className = "Assassin"; // Set the class name
+                }
+                case 5 -> {
+                    chosenClass = CharacterClass.MONK;
+                    className = "Monk"; // Set the class name
+                }
                 default -> System.out.println("Invalid choice, please choose a valid class.");
             }
         }
+
+        // Print the chosen class name
+        System.out.println("You have chosen the " + className + " class.");
         return chosenClass;
     }
 
@@ -96,5 +116,13 @@ public class PlayerCharacter {
         } else {
             System.out.println("Inventory is full! Couldn't add " + item.getName() + ".");
         }
+    }
+
+    // Method to display character's stats including name and class
+    public void displayStats() {
+        System.out.println("Character Name: " + name);
+        System.out.println("Class: " + className);
+        System.out.println("Stats: ");
+        System.out.println(baseStats); // Calls the overridden toString() method of Stats
     }
 }

@@ -31,7 +31,7 @@ public class TerminalGame {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1 -> checkStats();
+                case 1 -> player.displayStats();
                 case 2 -> checkInventory();
                 case 3 -> goOnAdventure();
                 case 4 -> {
