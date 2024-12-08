@@ -1,35 +1,199 @@
 {
-  "tutorial": {
-    "text": "Welcome to The Eternal Winter.",
+  "act0scene1": {
+    "text": "Starting a New Journey....",
     "choices": [
-      { "text": "Continue", "nextNode": "tutorial2" }
+      { "text": "Begin", "nextNode": "strangerIntro" },
+      { "text": "Begin", "nextNode": "strangerIntro" },{ "text": "Begin", "nextNode": "strangerIntro" },
+      { "text": "Begin", "nextNode": "strangerIntro" },
+      { "text": "Begin", "nextNode": "strangerIntro" }
     ]
   },
-  "tutorial2": {
-    "text": "What is your name traveller?",
+  "strangerIntro": {
+    "text": "Stranger: 'Hey, you. You’re finally awake. You were trying to cross the border, right? Walked right into that monster ambush wreckage, same as me, and that thief over there.'",
     "choices": [
-      { "text": "Continue", "nextNode": "class" }
+      { "text": "Continue", "nextNode": "thiefIntro" }
     ]
   },
-  "class": {
-    "text": "Do you remember your profession?",
+  "thiefIntro": {
+    "text": "Thief: 'Damn you, lady. If you just let me go, I’ll pay you back.'",
     "choices": [
-      { "text": "Warrior", "nextNode": "end" },
-      { "text": "Ranger", "nextNode": "end" },
-      { "text": "Mage", "nextNode": "end" },
-      { "text": "Next", "nextNode": "class2" }
+      { "text": "Continue", "nextNode": "strangerReply1" }
     ]
   },
-  "class2": {
-    "text": "Maybe you were one of these instead?",
+  "strangerReply1": {
+    "text": "Mercina: 'Yeah, yeah, like you didn’t just try to steal from me.'",
     "choices": [
-      { "text": "Monk", "nextNode": "end" },
-      { "text": "I dont know", "nextNode": "end" },
-      { "text": "Back", "nextNode": "class" }
+      { "text": "Continue", "nextNode": "thiefReply1" }
     ]
   },
-  "end": {
-    "text": "I see, May your travels be blessed by the Gods traveller.",
+  "thiefReply1": {
+    "text": "Thief: 'Well, next time, don’t leave your wagon unattended.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "strangerReply2" }
+    ]
+  },
+  "strangerReply2": {
+    "text": "Mercina: 'You’re lucky I picked you up in that wreckage. You were just lying there—who knows for how long? Near enough to that monster ambush to freeze solid. Honestly, it’s a miracle you’re alive.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "playerStruggles" }
+    ]
+  },
+  "playerStruggles": {
+    "text": "Player struggles to speak.",
+    "choices": [
+      { "text": "Continue", "nextNode": "strangerReply3" }
+    ]
+  },
+  "strangerReply3": {
+    "text": "Mercina: 'You should rest for now. You looked like you were going to die of cold when I found you.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "playerQuestion" }
+    ]
+  },
+  "playerQuestion": {
+    "text": "Simon: '...W… Who… Who are you?'",
+    "choices": [
+      { "text": "Continue", "nextNode": "strangerIntroName" }
+    ]
+  },
+  "strangerIntroName": {
+    "text": "Mercina: 'Oh, how could I forget? I’m Mercina. I’m a merchant on my way to town, and that’s how I found you.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "playerNameReply" }
+    ]
+  },
+  "playerNameReply": {
+    "text": "Simon: 'I… I don’t know… I don’t remember anything.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "strangerNameSuggestion" }
+    ]
+  },
+  "strangerNameSuggestion": {
+    "text": "Mercina: 'Well, I can’t call you without a name. Just give me something to call you in the meantime.'",
+    "choices": [
+      { "text": "Simon", "nextNode": "playerNameChosen" }
+    ]
+  },
+  "playerNameChosen": {
+    "text": "Simon: 'You can call me Simon.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "thiefChimesIn" }
+    ]
+  },
+  "thiefChimesIn": {
+    "text": "Thief: 'You seriously don’t know about this?'",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantCurseTalk" }
+    ]
+  },
+  "merchantCurseTalk": {
+    "text": "Mercina: 'Well, during the war, a lot of people got mutated or cursed, you know. You’re lucky if it’s just your hand like mine. Others… well, others got turned into something much worse.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "thiefComment1" }
+    ]
+  },
+  "thiefComment1": {
+    "text": "Thief: 'You’re not cursed or mutated, are you? You’d fetch a high price in the market, heh.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantReplyToThief" }
+    ]
+  },
+  "merchantReplyToThief": {
+    "text": "Mercina: 'Quiet, thief! Or I might sell you myself.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "wolfHowl" }
+    ]
+  },
+  "wolfHowl": {
+    "text": "- Wolf Howls -",
+    "choices": [
+      { "text": "Continue", "nextNode": "thiefWarnsWolves" }
+    ]
+  },
+  "thiefWarnsWolves": {
+    "text": "Thief: 'Wolves! At this time?'",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantRepliesWolves" }
+    ]
+  },
+  "merchantRepliesWolves": {
+    "text": "Mercina: 'Ugh, what terrible luck.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "thiefPleaUnbind" }
+    ]
+  },
+  "thiefPleaUnbind": {
+    "text": "Thief: 'You gotta unbind me, lady, or we’re all going to die!'",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantUnbindsThief" }
+    ]
+  },
+  "merchantUnbindsThief": {
+    "text": "Mercina: 'Don’t make me regret this.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "playerOpensCrates" }
+    ]
+  },
+  "playerOpensCrates": {
+    "text": "Mercina: 'Hey, Simon! Do me a favor and open those crates. It’s not much, but take what you need.'",
+    "choices": [
+      { "text": "Warrior", "nextNode": "classChosen" },
+      { "text": "Mage", "nextNode": "classChosen" },
+      { "text": "Ranger", "nextNode": "classChosen" },
+      { "text": "Assassin", "nextNode": "classChosen" },
+      { "text": "Monk", "nextNode": "classChosen" }
+    ]
+  },
+  "classChosen": {
+    "text": "Mercina: 'A [weapon name], huh? You might just be a [class].'",
+    "choices": [
+      { "text": "Continue", "nextNode": "fightTutorial" }
+    ]
+  },
+  "fightTutorial": {
+    "text": "- FIGHT TUTORIAL -",
+    "choices": [
+      { "text": "Begin Battle", "nextNode": "afterWolfBattle" }
+    ]
+  },
+  "afterWolfBattle": {
+    "text": "Thief: 'Well, I’ll be damned. You can fight.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantThanks" }
+    ]
+  },
+  "merchantThanks": {
+    "text": "Mercina: 'Thank the Gods we made it. I thought all hope was lost.'",
+    "choices": [
+      { "text": "Continue", "nextNode": "bossWolfAppears" }
+    ]
+  },
+  "bossWolfAppears": {
+    "text": "- BOSS WOLF APPEARS -",
+    "choices": [
+      { "text": "Prepare for battle", "nextNode": "bossWolfBattle" }
+    ]
+  },
+  "bossWolfBattle": {
+    "text": "- BOSS WOLF BATTLE -",
+    "choices": [
+      { "text": "Fight!", "nextNode": "scriptedWolfDeath" }
+    ]
+  },
+  "scriptedWolfDeath": {
+    "text": "- SCRIPTED WOLF DEATH -",
+    "choices": [
+      { "text": "Continue", "nextNode": "merchantEscape" }
+    ]
+  },
+  "merchantEscape": {
+    "text": "Mercina: 'This is our chance! Come on, Simon! Get up!'",
+    "choices": [
+      { "text": "Escape", "nextNode": "endScene" }
+    ]
+  },
+  "endScene": {
+    "text": "Mercina drags Simon to the wagon and flees.",
     "choices": []
   }
 }

@@ -9,15 +9,17 @@ import java.awt.event.ActionListener;
 
 public class GameUI {
     private JFrame window;
-    private JPanel titlePanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel, imagePanel, mainTextPanel, choicePanel;
+    private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel, imagePanel, mainTextPanel, choicePanel;
     private JLabel titleLabel, areaLabel, textLabel, pauseLabel;
     private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton, clinicButton,
-            chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton, sellButton, townButton, choice1, choice2, choice3, choice4;
+            chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton, sellButton, townButton, choice1, choice2, choice3, choice4, choice5;
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
+    private boolean isTyping = false;
+    private String playerClass;
 
     private Game game;
 
@@ -815,7 +817,7 @@ public class GameUI {
     private void handleButtonAction(String action) {
         switch (action) {
             case "New Game":
-                mainArea();
+                game.startGame();
                 break;
             case "Load Game":
                 loadGameScreen();
@@ -844,24 +846,80 @@ public class GameUI {
         }
     }
 
-    private void createChoiceButtons() {
-        choice1 = new JButton();
-        choice2 = new JButton();
-        choice3 = new JButton();
-        choice4 = new JButton();
-        JButton skipButton = new JButton("Skip");
+    public void prologueGameScreen() {
+        // Set up the window layout for better alignment
+        window.setLayout(new BorderLayout());
 
-        JButton[] choices = {choice1, choice2, choice3, choice4, skipButton};
+        // Create main text panel
+        mainTextPanel = new JPanel();
+        mainTextPanel.setBackground(Color.BLACK); // Set background to black for contrast
+        mainTextPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for centering
+
+        // Configure JTextArea
+        mainTextArea = new JTextArea();
+        mainTextArea.setEditable(false);
+        mainTextArea.setForeground(Color.WHITE); // Set text color to white
+        mainTextArea.setBackground(Color.BLACK); // Set background to black
+        mainTextArea.setFont(textFont); // Use your custom font
+        mainTextArea.setLineWrap(true);
+        mainTextArea.setWrapStyleWord(true);
+        mainTextArea.setPreferredSize(new Dimension(580, 250));
+        mainTextArea.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20)); // Add padding for centering effect
+
+        // Add JTextArea to JScrollPane
+        JScrollPane scrollPane = new JScrollPane(mainTextArea);
+        scrollPane.setPreferredSize(new Dimension(580, 250));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // No border for cleaner look
+        mainTextPanel.add(scrollPane);
+
+        // Create and configure the choice panel
+        choicePanel = new JPanel();
+        choicePanel.setBackground(Color.BLACK);
+        choicePanel.setLayout(new BoxLayout(choicePanel, BoxLayout.Y_AXIS)); // Align choices vertically
+        choicePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center choices horizontally
+        createChoiceButtons();
+
+        // Clear the current content and add the new layout
+        window.getContentPane().removeAll(); // Remove any previous content
+        window.add(mainTextPanel, BorderLayout.CENTER); // Center the main text panel
+        window.add(choicePanel, BorderLayout.SOUTH); // Place choice panel at the bottom
+        window.revalidate();
+        window.repaint();
+    }
+
+    private void createChoiceButtons() {
+        // Use BoxLayout for vertical alignment
+        choicePanel.setLayout(new BoxLayout(choicePanel, BoxLayout.Y_AXIS));
+
+        // Align the panel to the top
+        choicePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        // Initialize buttons
+        choice1 = new JButton("Choice 1");
+        choice2 = new JButton("Choice 2");
+        choice3 = new JButton("Choice 3");
+        choice4 = new JButton("Choice 4");
+        choice5 = new JButton("Choice 5"); // Add the 5th button
+
+        // Add all buttons to an array for easier handling
+        JButton[] choices = {choice1, choice2, choice3, choice4, choice5};
         for (JButton button : choices) {
-            button.setBackground(Color.white);
-            button.setForeground(new Color(0x123456));
-            button.setFont(buttonFont);
-            button.setFocusPainted(false);
+            button.setBackground(Color.black);  // Set background to black
+            button.setForeground(Color.white);  // Set text color to white
+            button.setFont(buttonFont);         // Apply the desired font
+            button.setFocusPainted(false);      // Remove focus border for aesthetic
+            button.setPreferredSize(new Dimension(350, 50)); // Wider buttons
+            button.setMaximumSize(new Dimension(350, 50));   // Prevent buttons from expanding
+            button.setBorder(BorderFactory.createLineBorder(Color.white, 2)); // Add white border
+            button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center buttons horizontally
             button.addActionListener(new ChoiceButtonHandler());
-            choicePanel.add(button);
+            button.setVisible(false); // Hide the button by default
+            choicePanel.add(button); // Add button to the panel
+            choicePanel.add(Box.createVerticalStrut(10)); // Add spacing between buttons
         }
 
-        skipButton.setVisible(false);
+        // Remove unnecessary spacing at the end
+        choicePanel.add(Box.createVerticalGlue());
     }
 
     public void updateMainText(String text) {
@@ -869,18 +927,25 @@ public class GameUI {
     }
 
     public void updateMainTextWithTypingEffect(String text) {
+        if (isTyping) {
+            return;  // Skip if typing is already in progress
+        }
+
         mainTextArea.setText(""); // Clear previous text
+        isTyping = true;  // Set the flag to true to indicate typing is in progress
+
         new Thread(() -> {
             StringBuilder displayedText = new StringBuilder();
             for (char character : text.toCharArray()) {
                 displayedText.append(character);
                 mainTextArea.setText(displayedText.toString());
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(50);  // Delay for typing effect
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
             }
+            isTyping = false;  // Reset the flag when typing is finished
         }).start();
     }
 
@@ -898,8 +963,18 @@ public class GameUI {
 
     private class ChoiceButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            JButton source = (JButton) e.getSource();
-            game.handleChoice(source.getText());
+            if (!isTyping) {  // Only proceed if no typing effect is running
+                JButton source = (JButton) e.getSource();
+                String choiceText = source.getText();
+                // Check if the choice is a class selection
+                if (choiceText.equals("Warrior") || choiceText.equals("Mage") ||
+                        choiceText.equals("Ranger") || choiceText.equals("Assassin") || choiceText.equals("Monk")) {
+                    // Set the player's class based on their choice
+                    playerClass = choiceText;
+                }
+                game.handleChoice(source.getText());
+            }
         }
     }
+
 }

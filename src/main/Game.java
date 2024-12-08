@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Game {
     private GameState gameState;
     private Storyline storyline;
+    private GameUI gameUI;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -32,10 +33,16 @@ public class Game {
             new TerminalGame(); // Game starts automatically
         } else {
             // GUI Mode: Initialize GUI-specific game
-            GameUI gameUI = new GameUI(this);
+            gameUI = new GameUI(this);  // Assign to the class-level variable
             storyline = new Storyline(this, gameUI, gameState);
             gameUI.showTitleScreen(); // Start the GUI game
         }
+    }
+
+    public void startGame() {
+        // When "New Game" is clicked, show the prologue
+        gameUI.prologueGameScreen(); // Show the prologue screen
+        storyline.startDialogue("act0scene1"); // Start the prologue dia1logue
     }
 
     public void handleChoice(String choice) {
