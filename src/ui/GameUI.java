@@ -1,6 +1,8 @@
 package ui;
 
 import main.Game;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -19,10 +21,18 @@ public class GameUI {
     private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
 
+    /*
+    Code to add BGM to stuff:
+    audioPlayer.stopMusic(); // Stop previous music
+    audioPlayer.playMusic("./resources/music/[nameOfBgm].wav"); // Adjust the file path. This can only take in .wav files so convert.
+    */
+
     private Game game;
+    private AudioPlayer audioPlayer = new AudioPlayer();
 
     public GameUI(Game game) {
         this.game = game;
+        this.audioPlayer.playMusic("./resources/music/titleScreen.wav");
         mainMenuBackground = new ImageIcon("./resources/MainMenuBackground.png").getImage();
         loadGameBackground = new ImageIcon("./resources/LoadGameBackground.png").getImage();
         mainAreaBackground = new ImageIcon("./resources/TownBackground.png").getImage();
@@ -71,6 +81,9 @@ public class GameUI {
 
     public void showTitleScreen() {
         // Background panel with image
+//        audioPlayer.stopMusic();
+//        audioPlayer.playMusic("./resources/music/titleScreen.wav");
+
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -827,6 +840,8 @@ public class GameUI {
                 showTitleScreen();
                 break;
             case "Town":
+                audioPlayer.stopMusic();
+                audioPlayer.playMusic("./resources/music/townScreen.wav");
                 mainArea();
                 break;
             case "Clinic":
