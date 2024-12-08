@@ -167,26 +167,49 @@ public class PlayerCharacter {
 
     private Stats initializeStats() {
         return switch (characterClass) {
-            case WARRIOR -> new Stats(100, 100, 100, 100, 100, 100, 100);
-            case MAGE -> new Stats(2, 0, 1, 1, 3, 30, 0);
-            case RANGER -> new Stats(3, 2, 2, 2, 0, 30, 1);
-            case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 30, 0);
-            case MONK -> new Stats(3, 2, 1, 1, 2, 30, 0);
+            case WARRIOR -> new Stats(20, 15, 10, 8, 5, 5, 10);  // High Constitution and Strength, decent Luck
+            case MAGE -> new Stats(10, 5, 8, 6, 20, 18, 8);       // High Intelligence and Wisdom
+            case RANGER -> new Stats(12, 8, 15, 12, 8, 10, 15);   // High Agility, decent Dexterity and Luck
+            case ASSASSIN -> new Stats(10, 12, 18, 15, 6, 8, 12); // High Dexterity and Agility, decent Luck
+            case MONK -> new Stats(15, 10, 10, 10, 10, 15, 10);   // Balanced with higher Constitution and Wisdom
         };
     }
+
 
     private List<Skill> initializeSkills() {
         List<Skill> startingSkills = new ArrayList<>();
         switch (characterClass) {
-            case WARRIOR -> startingSkills.add(SkillsRegistry.POISON_STING);
-            case MAGE -> startingSkills.add(SkillsRegistry.FIREBALL);
-            case RANGER -> startingSkills.add(SkillsRegistry.POISON_STING);
-            case ASSASSIN -> startingSkills.add(SkillsRegistry.POISON_STING);
-            case MONK -> startingSkills.add(SkillsRegistry.HEAL);
+            case WARRIOR -> {
+                startingSkills.add(SkillsRegistry.BASIC_ATTACK_WARRIOR);
+                startingSkills.add(SkillsRegistry.SLAM);
+                startingSkills.add(SkillsRegistry.TAUNT);
+            }
+            case MAGE -> {
+                startingSkills.add(SkillsRegistry.BASIC_ATTACK_MAGE);
+                startingSkills.add(SkillsRegistry.FIREBALL);
+                startingSkills.add(SkillsRegistry.ICE_SHARD);
+
+            }
+            case RANGER -> {
+                startingSkills.add(SkillsRegistry.BASIC_ATTACK_RANGER);
+                startingSkills.add(SkillsRegistry.MULTI_SHOT);
+                startingSkills.add(SkillsRegistry.EVASION);
+            }
+            case ASSASSIN -> {
+                startingSkills.add(SkillsRegistry.BASIC_ATTACK_ASSASSIN);
+                startingSkills.add(SkillsRegistry.POISON_STING);
+                startingSkills.add(SkillsRegistry.SHADOW_STRIKE);
+            }
+            case MONK -> {
+                startingSkills.add(SkillsRegistry.BASIC_ATTACK_MONK);
+                startingSkills.add(SkillsRegistry.HEAL);
+                startingSkills.add(SkillsRegistry.HARMONIZE);
+            }
         }
-        System.out.println("Starting skill acquired: " + startingSkills.get(0).getName());
+        startingSkills.forEach(skill -> System.out.println("Starting skill acquired: " + skill.getName()));
         return startingSkills;
     }
+
 
     public Stats getStats() {
         return Stats.combine(baseStats, equipmentStats);
@@ -235,6 +258,7 @@ public class PlayerCharacter {
         System.out.println("Class: " + className);
         System.out.println("Stats: ");
         System.out.println(getStats()); // Calls the overridden toString() method of Stats
+        System.out.println("Money: $" + getGold());
         System.out.println("Skills: ");
         skills.forEach(skill -> System.out.println("- " + skill.getName()));
     }
@@ -242,5 +266,15 @@ public class PlayerCharacter {
 
     public void restoreMana(int amount) {
         getStats().setMana(getStats().getMana() + amount);
+    }
+
+    public int getMaxHealth() {
+        Stats combinedStats = getStats();
+        return combinedStats.getConstitution() * 5;
+    }
+
+    public int getMaxMana() {
+        Stats combinedStats = getStats();
+        return combinedStats.getWisdom() * 3;
     }
 }

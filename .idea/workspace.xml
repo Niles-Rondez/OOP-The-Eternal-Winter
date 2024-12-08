@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/npcs/ClericNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/NPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/QuestBoardNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/ShopNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/Objective.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/Quest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/QuestRegistry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adventure/AdventureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adventure/AdventureManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/TerminalGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/TerminalGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enemies/EnemyRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enemies/EnemyRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/ItemRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/skills/SkillsRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/skills/SkillsRegistry.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

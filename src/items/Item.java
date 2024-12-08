@@ -68,29 +68,44 @@ public class Item implements Cloneable {
      * @param enemy  the enemy's stats, if applicable (null for non-combat effects).
      */
     public void applyEffect(PlayerCharacter player, Enemy enemy) {
-        switch (type) {
-            case CONSUMABLE -> {
-                if (name.equalsIgnoreCase("Health Potion")) {
-                    player.heal(20); // Example: Heal player by 20 HP
-                    System.out.println("You used a Health Potion! Restored 20 HP.");
-                } else if (name.equalsIgnoreCase("Mana Potion")) {
-                    player.restoreMana(15); // Example: Restore 15 Mana
-                    System.out.println("You used a Mana Potion! Restored 15 Mana.");
-                } else if (name.equalsIgnoreCase("Bomb")) {
-                    if (enemy != null) {
-                        enemy.takeDamage(30); // Example: Deal 30 damage to the enemy
-                        System.out.println("You used a Bomb! Dealt 30 damage to the enemy.");
-                    }
+        if (type == ItemType.CONSUMABLE) {
+            switch (name.toLowerCase()) {
+                case "health potion" -> {
+                    player.heal(50); // Restores 50 HP
+                    System.out.println("You used a Health Potion! Restored 50 HP.");
+                }
+                case "small health potion" -> {
+                    player.heal(20); // Restores 20 HP
+                    System.out.println("You used a Small Health Potion! Restored 20 HP.");
+                }
+                case "large health potion" -> {
+                    player.heal(100); // Restores 100 HP
+                    System.out.println("You used a Large Health Potion! Restored 100 HP.");
+                }
+                case "apple" -> {
+                    player.heal(10); // Restores 10 HP
+                    System.out.println("You ate an Apple! Restored 10 HP.");
+                }
+                case "elixir" -> {
+                    player.heal(player.getMaxHealth()); // Fully restores health
+                    player.restoreMana(player.getMaxMana()); // Fully restores mana
+                    System.out.println("You used an Elixir! Fully restored health and mana.");
+                }
+                case "meat" -> {
+                    player.heal(30); // Restores 30 HP
+                    System.out.println("You ate Meat! Restored 30 HP.");
+                }
+                default -> {
+                    System.out.println("This consumable has no specific effect.");
                 }
             }
-            case EQUIPMENT -> {
-                System.out.println("Equipment items cannot be used mid-fight.");
-            }
-            default -> {
-                System.out.println("This item has no effect.");
-            }
+        } else if (type == ItemType.EQUIPMENT) {
+            System.out.println("Equipment items cannot be used mid-fight.");
+        } else {
+            System.out.println("This item has no effect.");
         }
     }
+
 
     // Override clone method
     @Override

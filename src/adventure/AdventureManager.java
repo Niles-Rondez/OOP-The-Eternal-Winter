@@ -5,6 +5,7 @@ import enemies.Enemy;
 import enemies.EnemyRegistry;
 import items.Item;
 import skills.Skill;
+import stats.Stats;
 
 import java.util.List;
 import java.util.Random;
