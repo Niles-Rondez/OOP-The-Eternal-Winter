@@ -23,11 +23,25 @@ public class AdventureManager {
         this.scanner = new Scanner(System.in);
     }
 
+
+
     public void startAdventure() {
         System.out.println("Starting your adventure, " + player.getStats().getHealth() + " health!");
+        Scanner scanner = new Scanner(System.in); // Create a Scanner object to read player input
 
         while (currentStep <= MAX_ADVENTURES) {
             System.out.println("\nAdventure Step: " + currentStep);
+
+            // Option to quit or continue after each step
+            System.out.print("Press Enter to continue or type 'stop' to quit: ");
+            String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equals("stop")) {
+                System.out.println("You decided to quit the adventure. Goodbye!");
+                break; // Exit the loop and end the adventure
+            }
+
+            // Adventure logic
             if (currentStep == MAX_ADVENTURES) {
                 encounterFinalBoss();
             } else if (currentStep == 10 || currentStep == 20) {
@@ -35,8 +49,10 @@ public class AdventureManager {
             } else {
                 randomEncounter();
             }
+
             currentStep++;
         }
+
         System.out.println("Congratulations! You completed the adventure!");
     }
 
