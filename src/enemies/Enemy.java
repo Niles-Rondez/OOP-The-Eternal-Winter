@@ -1,6 +1,7 @@
 package enemies;
 
 import items.Item;
+import skills.Skill;
 import stats.Stats;
 
 import java.util.List;
@@ -12,11 +13,18 @@ public class Enemy {
     private final List<ItemDrop> possibleDrops;
     private final int maxHealth;
 
-    public Enemy(String name, Stats stats, List<ItemDrop> possibleDrops) {
+    private List<Skill> skills;
+
+    public Enemy(String name, Stats stats, List<ItemDrop> possibleDrops, List<Skill> skills) {
         this.name = name;
         this.stats = stats;
         this.possibleDrops = possibleDrops;
         this.maxHealth = stats.getHealth();
+        this.skills = skills;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
     }
 
     public String getName() {

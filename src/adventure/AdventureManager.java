@@ -4,6 +4,7 @@ import characters.PlayerCharacter;
 import enemies.Enemy;
 import enemies.EnemyRegistry;
 import items.Item;
+import skills.Skill;
 
 import java.util.List;
 import java.util.Random;
@@ -23,11 +24,8 @@ public class AdventureManager {
         this.scanner = new Scanner(System.in);
     }
 
-
-
     public void startAdventure() {
         System.out.println("Starting your adventure, " + player.getStats().getHealth() + " health!");
-        Scanner scanner = new Scanner(System.in); // Create a Scanner object to read player input
 
         while (currentStep <= MAX_ADVENTURES) {
             System.out.println("\nAdventure Step: " + currentStep);
@@ -90,8 +88,9 @@ public class AdventureManager {
     private void combat(Enemy enemy) {
         System.out.println("Combat starts with " + enemy.getName() + "!");
         while (!enemy.isDefeated() && !player.isDefeated()) {
-            System.out.println("\nChoose an action: \n1. Attack \n2. Use Health Potion");
+            System.out.println("\nChoose an action: \n1. Attack \n2. Use Health Potion \n3. Use Skill");
             int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
             switch (choice) {
                 case 1 -> {
                     int playerDamage = random.nextInt(10) + player.getStats().getStrength();
@@ -106,6 +105,7 @@ public class AdventureManager {
                         System.out.println("You don't have any Health Potions!");
                     }
                 }
+                case 3 -> useSkill(enemy);
                 default -> System.out.println("Invalid action!");
             }
 
@@ -124,6 +124,36 @@ public class AdventureManager {
             System.out.println("You were defeated by " + enemy.getName() + "! Game over.");
             System.exit(0);
         }
+    }
+
+    private void useSkill(Enemy enemy) {
+        List<Skill> skills = player.getSkills();
+        if (skills.isEmpty()) {
+            System.out.println("You have no skills to use!");
+            return;
+        }
+
+        System.out.println("Choose a skill to use:");
+        for (int i = 0; i < skills.size(); i++) {
+            System.out.println((i + 1) + ". " + skills.get(i).getName() + ": " + skills.get(i).getDescription());
+        }
+
+        int skillChoice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        if (skillChoice < 1 || skillChoice > skills.size()) {
+            System.out.println("Invalid choice!");
+            return;
+        }
+
+        Skill selectedSkill = skills.get(skillChoice - 1);
+        if (player.getStats().getMana() < selectedSkill.getManaCost()) {
+            System.out.println("Not enough mana to use " + selectedSkill.getName() + "!");
+            return;
+        }
+
+        System.out.println("You used " + selectedSkill.getName() + "!");
+        selectedSkill.apply(player.getStats(), enemy.getStats());
     }
 
     private void handleEnemyDrops(Enemy enemy) {

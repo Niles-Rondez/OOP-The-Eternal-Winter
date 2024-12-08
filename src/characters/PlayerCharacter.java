@@ -1,8 +1,13 @@
 package characters;
 
+import skills.Skill;
+import skills.SkillsRegistry;
 import stats.Stats;
 import items.Inventory;
 import items.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PlayerCharacter {
@@ -15,6 +20,8 @@ public class PlayerCharacter {
     private Inventory inventory;
     private int gold;
 
+    private List<Skill> skills;
+
     public PlayerCharacter() {
         this.name = DEFAULT_NAME;
         this.characterClass = chooseClass();  // Get the character class first
@@ -23,6 +30,15 @@ public class PlayerCharacter {
         this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);  // Equipment stats
         this.inventory = new Inventory();  // Empty inventory initially
         this.gold = 0;  // Start with 0 gold
+        this.skills = initializeSkills(); // Initialize starting skills
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void addSkill(Skill skill) {
+        skills.add(skill);
     }
 
     private CharacterClass chooseClass() {
@@ -73,12 +89,25 @@ public class PlayerCharacter {
 
     private Stats initializeStats() {
         return switch (characterClass) {
-            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 0, 1);
-            case MAGE -> new Stats(2, 0, 1, 1, 3, 3, 0);
-            case RANGER -> new Stats(3, 2, 2, 2, 0, 0, 1);
-            case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 0, 0);
-            case MONK -> new Stats(3, 2, 1, 1, 2, 1, 0);
+            case WARRIOR -> new Stats(4, 3, 1, 1, 0, 30, 1);
+            case MAGE -> new Stats(2, 0, 1, 1, 3, 30, 0);
+            case RANGER -> new Stats(3, 2, 2, 2, 0, 30, 1);
+            case ASSASSIN -> new Stats(2, 3, 3, 2, 0, 30, 0);
+            case MONK -> new Stats(3, 2, 1, 1, 2, 30, 0);
         };
+    }
+
+    private List<Skill> initializeSkills() {
+        List<Skill> startingSkills = new ArrayList<>();
+        switch (characterClass) {
+            case WARRIOR -> startingSkills.add(SkillsRegistry.POISON_STING);
+            case MAGE -> startingSkills.add(SkillsRegistry.FIREBALL);
+            case RANGER -> startingSkills.add(SkillsRegistry.POISON_STING);
+            case ASSASSIN -> startingSkills.add(SkillsRegistry.POISON_STING);
+            case MONK -> startingSkills.add(SkillsRegistry.HEAL);
+        }
+        System.out.println("Starting skill acquired: " + startingSkills.get(0).getName());
+        return startingSkills;
     }
 
     public Stats getStats() {
@@ -124,5 +153,7 @@ public class PlayerCharacter {
         System.out.println("Class: " + className);
         System.out.println("Stats: ");
         System.out.println(baseStats); // Calls the overridden toString() method of Stats
+        System.out.println("Skills: ");
+        skills.forEach(skill -> System.out.println("- " + skill.getName()));
     }
 }

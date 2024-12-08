@@ -1,9 +1,8 @@
 package skills;
 
-import characters.PlayerCharacter;
-import enemies.Enemy;
+import stats.Stats;
 
+@FunctionalInterface
 public interface SkillEffect {
-    void apply(PlayerCharacter player, Enemy enemy);
-    void apply(Enemy enemy, PlayerCharacter player);
+    void apply(Stats userStats, Stats targetStats);
 }
