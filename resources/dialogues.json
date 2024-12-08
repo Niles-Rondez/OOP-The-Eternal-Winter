@@ -3,7 +3,7 @@
     "text": "Starting a New Journey....",
     "choices": [
       { "text": "Begin", "nextNode": "strangerIntro" },
-      { "text": "Begin", "nextNode": "strangerIntro" },{ "text": "Begin", "nextNode": "strangerIntro" },
+      { "text": "skip prologue", "nextNode": "merchantEscape" },{ "text": "Begin", "nextNode": "strangerIntro" },
       { "text": "Begin", "nextNode": "strangerIntro" },
       { "text": "Begin", "nextNode": "strangerIntro" }
     ]
@@ -189,11 +189,11 @@
   "merchantEscape": {
     "text": "Mercina: 'This is our chance! Come on, Simon! Get up!'",
     "choices": [
-      { "text": "Escape", "nextNode": "endScene" }
+      {
+        "text": "Escape",
+        "nextNode": "mainArea"
+      }
     ]
-  },
-  "endScene": {
-    "text": "Mercina drags Simon to the wagon and flees.",
-    "choices": []
   }
+
 }
