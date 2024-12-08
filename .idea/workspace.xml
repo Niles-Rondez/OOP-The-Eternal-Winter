@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adventure/AdventureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/adventure/AdventureManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enemies/EnemyRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/enemies/EnemyRegistry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/ItemRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemRegistry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/skills/SkillsRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/skills/SkillsRegistry.java" afterDir="false" />
-    </list>
+    <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
