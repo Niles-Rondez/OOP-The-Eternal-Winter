@@ -63,6 +63,7 @@ public class AdventureManager {
         } else if (roll < 85) {
             System.out.println("A wild monster appears!");
             Enemy enemy = generateRandomEnemy();
+            enemy.resetStats();
             combat(enemy);
         } else {
             System.out.println("You found treasure!");
@@ -75,12 +76,14 @@ public class AdventureManager {
     private void encounterMiniBoss() {
         System.out.println("A Mini-boss blocks your path!");
         Enemy miniBoss = generateEnemy("MINI_BOSS");
+        miniBoss.resetStats();
         combat(miniBoss);
     }
 
     private void encounterFinalBoss() {
         System.out.println("The Final Boss awaits!");
         Enemy finalBoss = generateEnemy("FINAL_BOSS");
+        finalBoss.resetStats();
         combat(finalBoss);
     }
 

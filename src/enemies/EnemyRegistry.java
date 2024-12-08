@@ -9,7 +9,7 @@ import java.util.List;
 public class EnemyRegistry {
     public static final Enemy GOBLIN = new Enemy(
             "Goblin",
-            new Stats(10, 2, 1, 1, 0, 0, 1),
+            new Stats(1, 2, 1, 1, 0, 0, 1),
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.GOLD_COIN.createItem(1), 0.8), // 80% chance
                     new Enemy.ItemDrop(ItemRegistry.SMALL_HEALTH_POTION.createItem(1), 0.4) // 40% chance
@@ -18,7 +18,7 @@ public class EnemyRegistry {
 
     public static final Enemy WOLF = new Enemy(
             "Wolf",
-            new Stats(15, 3, 2, 1, 0, 0, 1),
+            new Stats(1, 3, 2, 1, 0, 0, 1),
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.MEAT.createItem(1), 0.7), // 70% chance
                     new Enemy.ItemDrop(ItemRegistry.FANG.createItem(1), 0.5) // 50% chance
@@ -27,7 +27,7 @@ public class EnemyRegistry {
 
     public static final Enemy SKELETON = new Enemy(
             "Skeleton",
-            new Stats(12, 3, 2, 1, 0, 0, 2),
+            new Stats(1, 3, 2, 1, 0, 0, 2),
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.BONE.createItem(1), 0.6), // 60% chance
                     new Enemy.ItemDrop(ItemRegistry.SHIELD.createItem(1), 0.3) // 30% chance
@@ -36,7 +36,7 @@ public class EnemyRegistry {
 
     public static final Enemy MINI_BOSS = new Enemy(
             "Mini-Boss",
-            new Stats(25, 5, 3, 3, 2, 2, 2),
+            new Stats(1, 5, 3, 3, 2, 2, 2),
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.SWORD.createItem(1), 0.5),
                     new Enemy.ItemDrop(ItemRegistry.LARGE_HEALTH_POTION.createItem(1), 0.8)
@@ -45,7 +45,7 @@ public class EnemyRegistry {
 
     public static final Enemy FINAL_BOSS = new Enemy(
             "Final Boss",
-            new Stats(50, 8, 5, 4, 4, 3, 3),
+            new Stats(1, 8, 5, 4, 4, 3, 3),
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.LEGENDARY_SWORD.createItem(1), 1.0), // Guaranteed drop
                     new Enemy.ItemDrop(ItemRegistry.ELIXIR.createItem(1), 0.7) // 70% chance

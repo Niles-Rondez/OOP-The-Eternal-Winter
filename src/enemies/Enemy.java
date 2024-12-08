@@ -10,11 +10,13 @@ public class Enemy {
     private final String name;
     private final Stats stats;
     private final List<ItemDrop> possibleDrops;
+    private final int maxHealth;
 
     public Enemy(String name, Stats stats, List<ItemDrop> possibleDrops) {
         this.name = name;
         this.stats = stats;
         this.possibleDrops = possibleDrops;
+        this.maxHealth = stats.getHealth();
     }
 
     public String getName() {
@@ -23,6 +25,10 @@ public class Enemy {
 
     public Stats getStats() {
         return stats;
+    }
+
+    public void resetStats(){
+       stats.setHealth(maxHealth);
     }
 
     public boolean isDefeated() {
