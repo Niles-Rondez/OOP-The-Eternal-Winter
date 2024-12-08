@@ -220,4 +220,9 @@ public class PlayerCharacter {
         System.out.println("Skills: ");
         skills.forEach(skill -> System.out.println("- " + skill.getName()));
     }
+
+
+    public void restoreMana(int amount) {
+        getStats().setMana(getStats().getMana() + amount);
+    }
 }

@@ -88,7 +88,7 @@ public class AdventureManager {
     private void combat(Enemy enemy) {
         System.out.println("Combat starts with " + enemy.getName() + "!");
         while (!enemy.isDefeated() && !player.isDefeated()) {
-            System.out.println("\nChoose an action: \n1. Attack \n2. Use Health Potion \n3. Use Skill");
+            System.out.println("\nChoose an action: \n1. Attack \n2. Use Skill \n3. Use Item \n4. Run Away");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
             switch (choice) {
@@ -97,15 +97,35 @@ public class AdventureManager {
                     enemy.takeDamage(playerDamage);
                     System.out.println("You dealt " + playerDamage + " damage to " + enemy.getName());
                 }
-                case 2 -> {
-                    if (player.getInventory().useItem("Health Potion")) {
-                        player.heal(20); // Heal by 20 health
-                        System.out.println("You used a Health Potion! Your health is now: " + player.getStats().getHealth());
+                case 2 -> useSkill(enemy);
+                case 3 -> {
+                    System.out.println("Available items in your inventory:");
+                    player.getInventory().displayInventory(); // Display items to the player
+                    System.out.print("Enter the name of the item to use or 'back' to cancel: ");
+                    String itemName = scanner.nextLine().trim();
+
+                    if (itemName.equalsIgnoreCase("back")) {
+                        System.out.println("You chose not to use any item.");
                     } else {
-                        System.out.println("You don't have any Health Potions!");
+                        boolean itemUsed = player.getInventory().useItem(itemName);
+                        if (itemUsed) {
+                            Item usedItem = player.getInventory().retrieveItem(itemName);
+                            if (usedItem != null) {
+                                usedItem.applyEffect(player, enemy);
+                            }
+                        } else {
+                            System.out.println("Failed to use item: Either it's not available or invalid.");
+                        }
                     }
                 }
-                case 3 -> useSkill(enemy);
+                case 4 -> {
+                    if (attemptEscape(enemy)) {
+                        System.out.println("You successfully ran away!");
+                        return; // Exit combat if the player successfully escapes
+                    } else {
+                        System.out.println("Failed to escape! The enemy blocks your path.");
+                    }
+                }
                 default -> System.out.println("Invalid action!");
             }
 
@@ -125,6 +145,15 @@ public class AdventureManager {
             System.exit(0);
         }
     }
+
+    private boolean attemptEscape(Enemy enemy) {
+        // Escape chance is 50% (you can adjust this logic)
+        int escapeChance = random.nextInt(100);
+        int difficultyFactor = enemy.getStats().getAgility(); // Example: Use enemy agility to affect escape difficulty
+
+        return escapeChance > difficultyFactor;
+    }
+
 
     private void useSkill(Enemy enemy) {
         List<Skill> skills = player.getSkills();

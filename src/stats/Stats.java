@@ -74,6 +74,10 @@ public class Stats {
         this.health = health;
     }
 
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
     // Method to combine base and equipment stats
     public static Stats combine(Stats base, Stats equipment) {
         return new Stats(
