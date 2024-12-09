@@ -8,12 +8,13 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class GameUI {
     private JFrame window;
     private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel,
             statsPanel, health_manaPanel, questPanel, imagePanel, mainTextPanel, choicePanel;
-    private JLabel titleLabel, areaLabel, textLabel, pauseLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel,
+    private JLabel titleLabel, areaLabel, textLabel, dialogueLabel, pauseLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel,
             wisLabel, luckLabel, agiLabel;
     private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton,
             clinicButton, chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton,
@@ -24,7 +25,7 @@ public class GameUI {
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground,
-            merchantBackground, tavernBackground;
+            merchantBackground, tavernBackground, area1Background;
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
@@ -48,12 +49,13 @@ public class GameUI {
         chapelBackground = new ImageIcon("./resources/Chapel.png").getImage();
         merchantBackground = new ImageIcon("./resources/Merchant.png").getImage();
         tavernBackground = new ImageIcon("./resources/Tavern.png").getImage();
+        area1Background = new ImageIcon("./resources/Area1.png").getImage();
         createWindow();
     }
 
     private void createWindow() {
         window = new JFrame();
-        window.setSize(800, 600);
+        window.setSize(1280,960);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
         window.setVisible(true);
@@ -208,6 +210,170 @@ public class GameUI {
         // Add title and button panels to background
         backgroundPanel.add(titlePanel, BorderLayout.NORTH);
         backgroundPanel.add(buttonPanel, BorderLayout.CENTER);
+
+        // Set background as the content pane
+        window.setContentPane(backgroundPanel);
+        window.revalidate();
+    }
+
+    public void adventureScreen() {
+        // Background panel with image
+        backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(area1Background, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+
+        // Title Panel
+        headerPanel = new JPanel();
+        headerPanel.setOpaque(false);
+        headerPanel.setLayout(new BorderLayout());
+
+        // Load the pause icon
+        ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png"); // Replace with your image path
+        Image scaledPauseIcon = pauseIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH); // Resize if needed
+        pauseIcon = new ImageIcon(scaledPauseIcon);
+
+        // Create the pause button with the icon
+        pauseButton = new JButton();
+        pauseButton.setIcon(pauseIcon); // Set the icon
+        pauseButton.setBackground(Color.BLACK);
+        pauseButton.setBorderPainted(false); // Optional: Remove button border
+        pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
+        pauseButton.setFocusPainted(false); // Optional: Remove focus border
+        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+
+        areaLabel = new JLabel("Adventuring...", SwingConstants.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                // Enable anti-aliasing for smoother text rendering
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Draw the outline
+                g2d.setFont(getFont());
+                g2d.setColor(Color.BLACK); // Outline color
+                String text = getText();
+                FontMetrics metrics = g2d.getFontMetrics(getFont());
+                int x = (getWidth() - metrics.stringWidth(text)) / 2;
+                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        if (dx != 0 || dy != 0) {
+                            g2d.drawString(text, x + dx, y + dy);
+                        }
+                    }
+                }
+
+                // Draw the main text
+                g2d.setColor(Color.WHITE); // Main text color
+                g2d.drawString(text, x, y);
+
+                g2d.dispose();
+            }
+        };
+        areaLabel.setFont(titleFont); // Apply your font
+        areaLabel.setOpaque(false); // Transparent background
+        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
+
+
+        headerButtons = new JPanel();
+        headerButtons.setOpaque(false);
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+
+// Map Button
+        mapButton = createHeaderButton(
+                "./resources/map.png", 40, 40,
+                e -> System.out.println("Map button clicked")
+        );
+        mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.add(mapButton);
+
+// Bag Button
+        bagButton = createHeaderButton(
+                "./resources/Bag.png", 40, 40,
+                e -> inventoryScreen()
+        );
+        headerButtons.add(bagButton);
+
+// Character Button
+        characterButton = createHeaderButton(
+                "./resources/Character.png", 40, 40,
+                e -> characterScreen()
+        );
+        characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        headerButtons.add(characterButton);
+
+        headerPanel.add(pauseButton, BorderLayout.WEST);
+        headerPanel.add(headerButtons, BorderLayout.EAST);
+
+        // Create an array of all area backgrounds
+        Image[] areaBackgrounds = {
+                new ImageIcon("./resources/Area1.png").getImage(),
+                new ImageIcon("./resources/Area2.png").getImage(),
+                new ImageIcon("./resources/Area3.png").getImage(),
+                new ImageIcon("./resources/Area4.png").getImage()
+        };
+
+        // Background panel with image
+        backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(area1Background, 0, 0, getWidth(), getHeight(), this); // Default Area1 background
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+
+        // Button Panel (Center the buttons)
+        buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new GridBagLayout());  // Use GridBagLayout to center the buttons
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;  // Set horizontal position
+        gbc.gridy = 0;  // Set vertical position
+        gbc.insets = new Insets(5, 0, 10, 0);  // Reduced vertical spacing to move the buttons up
+
+        // Create buttons
+        Dimension buttonSize = new Dimension(250, 50);
+        JButton contAdventureButton = createButton("Continue Adventuring", buttonSize);
+        JButton backtoTownButton = createButton("Back to Town", buttonSize);
+
+        // Add buttons to the panel using GridBagLayout
+        buttonPanel.add(contAdventureButton, gbc);
+
+        gbc.gridy++;  // Move to the next row
+        buttonPanel.add(backtoTownButton, gbc);
+
+        // Add title and button panels to background
+        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
+        backgroundPanel.add(areaLabel, BorderLayout.CENTER);
+        backgroundPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Action listener for continue adventure button to randomize the background
+        contAdventureButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Randomly select a background, excluding the current one
+                Random rand = new Random();
+                Image newBackground;
+                do {
+                    // Pick a random background from the array
+                    newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
+                } while (newBackground == area1Background);  // Exclude the current background (area1Background)
+
+                // Update the background and revalidate the panel
+                area1Background = newBackground;
+                backgroundPanel.repaint();  // Trigger the background update
+            }
+        });
 
         // Set background as the content pane
         window.setContentPane(backgroundPanel);
@@ -552,13 +718,11 @@ public class GameUI {
         JButton bodyArmorButton = createChoiceButton("Body Armor", new Dimension(200, 30));
         JButton legArmorButton = createChoiceButton("Leg Armor", new Dimension(200, 30));
         JButton mainHandButton = createChoiceButton("Main Hand", new Dimension(200, 30));
-        JButton offhandButton = createChoiceButton("Off-Hand", new Dimension(200, 30));
 
         headArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         bodyArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         legArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainHandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        offhandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         armoryButtonPanel.add(headArmorButton);
         armoryButtonPanel.add(Box.createVerticalStrut(10));
@@ -568,7 +732,6 @@ public class GameUI {
         armoryButtonPanel.add(Box.createVerticalStrut(10));
         armoryButtonPanel.add(mainHandButton);
         armoryButtonPanel.add(Box.createVerticalStrut(10));
-        armoryButtonPanel.add(offhandButton);
 
         JLabel cashText = new JLabel("Cash: $99999999");
         cashText.setForeground(Color.WHITE);
@@ -616,51 +779,45 @@ public class GameUI {
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
         pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
 
-//        areaLabel = new JLabel("Town");
-//        areaLabel.setForeground(Color.WHITE);
-//        areaLabel.setFont(titleFont);
+//        areaLabel = new JLabel("Town", SwingConstants.CENTER) {
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                Graphics2D g2d = (Graphics2D) g.create();
+//
+//                // Enable anti-aliasing for smoother text rendering
+//                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//
+//                // Draw the outline
+//                g2d.setFont(getFont());
+//                g2d.setColor(Color.BLACK); // Outline color
+//                String text = getText();
+//                FontMetrics metrics = g2d.getFontMetrics(getFont());
+//                int x = (getWidth() - metrics.stringWidth(text)) / 2;
+//                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
+//                for (int dx = -1; dx <= 1; dx++) {
+//                    for (int dy = -1; dy <= 1; dy++) {
+//                        if (dx != 0 || dy != 0) {
+//                            g2d.drawString(text, x + dx, y + dy);
+//                        }
+//                    }
+//                }
+//
+//                // Draw the main text
+//                g2d.setColor(Color.WHITE); // Main text color
+//                g2d.drawString(text, x, y);
+//
+//                g2d.dispose();
+//            }
+//        };
+//        areaLabel.setFont(titleFont); // Apply your font
+//        areaLabel.setOpaque(false); // Transparent background
 //        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 //        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
-        areaLabel = new JLabel("Town", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                // Enable anti-aliasing for smoother text rendering
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Draw the outline
-                g2d.setFont(getFont());
-                g2d.setColor(Color.BLACK); // Outline color
-                String text = getText();
-                FontMetrics metrics = g2d.getFontMetrics(getFont());
-                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            g2d.drawString(text, x + dx, y + dy);
-                        }
-                    }
-                }
-
-                // Draw the main text
-                g2d.setColor(Color.WHITE); // Main text color
-                g2d.drawString(text, x, y);
-
-                g2d.dispose();
-            }
-        };
-        areaLabel.setFont(titleFont); // Apply your font
-        areaLabel.setOpaque(false); // Transparent background
-        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
 
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
@@ -687,7 +844,7 @@ public class GameUI {
         headerButtons.add(characterButton);
 
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(areaLabel, BorderLayout.CENTER);
+//        headerPanel.add(areaLabel, BorderLayout.CENTER);
         headerPanel.add(headerButtons, BorderLayout.EAST);
 
         interactionPanel = new JPanel();
@@ -854,7 +1011,7 @@ public class GameUI {
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
@@ -1202,7 +1359,7 @@ public class GameUI {
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
@@ -1277,8 +1434,6 @@ public class GameUI {
             }
         }).start();
 
-
-
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
@@ -1288,8 +1443,8 @@ public class GameUI {
 // Adjust button size
         Dimension choicebuttonSize = new Dimension(150, 30); // Make buttons smaller to match the image
 
-        buyButton = createChoiceButton("Heal", choicebuttonSize);
-        sellButton = createChoiceButton("Shop", choicebuttonSize);
+        buyButton = createChoiceButton("Pray", choicebuttonSize);
+        sellButton = createChoiceButton("Heal", choicebuttonSize);
         townButton = createChoiceButton("Town", choicebuttonSize);
 
         buttonPanel.add(buyButton);
@@ -1340,45 +1495,45 @@ public class GameUI {
 //        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 //        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
 
-        areaLabel = new JLabel("Merchant", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                // Enable anti-aliasing for smoother text rendering
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Draw the outline
-                g2d.setFont(getFont());
-                g2d.setColor(Color.BLACK); // Outline color
-                String text = getText();
-                FontMetrics metrics = g2d.getFontMetrics(getFont());
-                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            g2d.drawString(text, x + dx, y + dy);
-                        }
-                    }
-                }
-
-                // Draw the main text
-                g2d.setColor(Color.WHITE); // Main text color
-                g2d.drawString(text, x, y);
-
-                g2d.dispose();
-            }
-        };
-        areaLabel.setFont(titleFont); // Apply your font
-        areaLabel.setOpaque(false); // Transparent background
-        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
+//        areaLabel = new JLabel("Merchant", SwingConstants.CENTER) {
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                Graphics2D g2d = (Graphics2D) g.create();
+//
+//                // Enable anti-aliasing for smoother text rendering
+//                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//
+//                // Draw the outline
+//                g2d.setFont(getFont());
+//                g2d.setColor(Color.BLACK); // Outline color
+//                String text = getText();
+//                FontMetrics metrics = g2d.getFontMetrics(getFont());
+//                int x = (getWidth() - metrics.stringWidth(text)) / 2;
+//                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
+//                for (int dx = -1; dx <= 1; dx++) {
+//                    for (int dy = -1; dy <= 1; dy++) {
+//                        if (dx != 0 || dy != 0) {
+//                            g2d.drawString(text, x + dx, y + dy);
+//                        }
+//                    }
+//                }
+//
+//                // Draw the main text
+//                g2d.setColor(Color.WHITE); // Main text color
+//                g2d.drawString(text, x, y);
+//
+//                g2d.dispose();
+//            }
+//        };
+//        areaLabel.setFont(titleFont); // Apply your font
+//        areaLabel.setOpaque(false); // Transparent background
+//        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
 
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
@@ -1426,7 +1581,7 @@ public class GameUI {
         headerButtons.add(characterButton);
 
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(areaLabel, BorderLayout.CENTER);
+//        headerPanel.add(areaLabel, BorderLayout.CENTER);
         headerPanel.add(headerButtons, BorderLayout.EAST);
 
         interactionPanel = new JPanel();
@@ -1539,51 +1694,9 @@ public class GameUI {
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
         pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
 
-//        areaLabel = new JLabel("Town");
-//        areaLabel.setForeground(Color.WHITE);
-//        areaLabel.setFont(titleFont);
-//        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
-        areaLabel = new JLabel("Tavern", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                // Enable anti-aliasing for smoother text rendering
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Draw the outline
-                g2d.setFont(getFont());
-                g2d.setColor(Color.BLACK); // Outline color
-                String text = getText();
-                FontMetrics metrics = g2d.getFontMetrics(getFont());
-                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            g2d.drawString(text, x + dx, y + dy);
-                        }
-                    }
-                }
-
-                // Draw the main text
-                g2d.setColor(Color.WHITE); // Main text color
-                g2d.drawString(text, x, y);
-
-                g2d.dispose();
-            }
-        };
-        areaLabel.setFont(titleFont); // Apply your font
-        areaLabel.setOpaque(false); // Transparent background
-        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
-
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
@@ -1610,7 +1723,7 @@ public class GameUI {
         headerButtons.add(characterButton);
 
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(areaLabel, BorderLayout.CENTER);
+//        headerPanel.add(areaLabel, BorderLayout.CENTER);
         headerPanel.add(headerButtons, BorderLayout.EAST);
 
         interactionPanel = new JPanel();
@@ -1639,7 +1752,7 @@ public class GameUI {
 
         sleepButton = createChoiceButton("Sleep", choicebuttonSize);
         chestButton = createChoiceButton("Chest", choicebuttonSize);
-        innKeeperButton = createChoiceButton("Talk To InnKeeper", choicebuttonSize);
+        innKeeperButton = createChoiceButton("Talk To Tavern Keeper", choicebuttonSize);
         eatButton = createChoiceButton("Eat", choicebuttonSize);
         questButton = createChoiceButton("Quests", choicebuttonSize);
         townButton = createChoiceButton("Town", choicebuttonSize);
@@ -1652,6 +1765,122 @@ public class GameUI {
         buttonPanel.add(townButton);
 
         interactionPanel.add(buttonPanel);
+
+        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
+        backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
+
+        window.setContentPane(backgroundPanel);
+        window.revalidate();
+    }
+
+    public void tavernDialogueScreen() {
+        backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(tavernBackground, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+
+        headerPanel = new JPanel();
+        headerPanel.setOpaque(false);
+        headerPanel.setLayout(new BorderLayout());
+
+        // Load the pause icon
+        ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png"); // Replace with your image path
+        Image scaledPauseIcon = pauseIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH); // Resize if needed
+        pauseIcon = new ImageIcon(scaledPauseIcon);
+
+        // Create the pause button with the icon
+        pauseButton = new JButton();
+        pauseButton.setIcon(pauseIcon); // Set the icon
+        pauseButton.setBackground(Color.BLACK);
+        pauseButton.setBorderPainted(false); // Optional: Remove button border
+        pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
+        pauseButton.setFocusPainted(false); // Optional: Remove focus border
+        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+
+        headerButtons = new JPanel();
+        headerButtons.setOpaque(false);
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+
+        // Map Button
+        mapButton = createHeaderButton(
+                "./resources/map.png", 40, 40,
+                e -> System.out.println("Map button clicked")
+        );
+        mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.add(mapButton);
+
+        // Bag Button
+        bagButton = createHeaderButton(
+                "./resources/Bag.png", 40, 40,
+                e -> inventoryScreen()
+        );
+        headerButtons.add(bagButton);
+
+        // Character Button
+        characterButton = createHeaderButton(
+                "./resources/Character.png", 40, 40,
+                e -> characterScreen()
+        );
+        characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        headerButtons.add(characterButton);
+
+        headerPanel.add(pauseButton, BorderLayout.WEST);
+        headerPanel.add(headerButtons, BorderLayout.EAST);
+
+        interactionPanel = new JPanel();
+        interactionPanel.setOpaque(false);
+        interactionPanel.setLayout(new BorderLayout());
+        interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
+        interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 300)); // Set a fixed height for the interaction panel
+
+        // Text Label (Top Part of Interaction Panel)
+        textLabel = new JLabel("Tavern Keeper", SwingConstants.LEFT);
+        textLabel.setOpaque(false); // Make the background visible
+        textLabel.setBackground(Color.BLACK); // Set background to black
+        textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
+        textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
+        textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+        dialogueLabel = new JLabel("Tavern Dialogue", SwingConstants.LEFT);
+        dialogueLabel.setOpaque(true); // Make the background visible
+        dialogueLabel.setForeground(Color.WHITE); // Set text color to white for contrast
+        dialogueLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
+        dialogueLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        dialogueLabel.setPreferredSize(new Dimension(window.getWidth() - 300, 40)); // Set width to 100 less than window's width, height to 40
+
+        // Set the background color with reduced opacity (RGBA color)
+        dialogueLabel.setBackground(new Color(0, 0, 0, 200)); // RGBA where A is the alpha (opacity)
+
+
+        interactionPanel.add(dialogueLabel, BorderLayout.WEST);
+
+        // Button Panel (Bottom Part of Interaction Panel)
+        buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new GridLayout(4, 1, 5, 5)); // Add spacing between buttons
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button panel
+
+        // Adjust button size
+        Dimension choicebuttonSize = new Dimension(150, 50); // Make buttons smaller to match the image
+
+        choice1 = createChoiceButton("Choice 1", choicebuttonSize);
+        choice2 = createChoiceButton("Choice 2", choicebuttonSize);
+        choice3 = createChoiceButton("Choice 3", choicebuttonSize);
+        JButton backtoTavernButton = createChoiceButton("Back", choicebuttonSize);
+        backtoTavernButton.addActionListener(e -> tavernScreen());
+
+        buttonPanel.add(choice1);
+        buttonPanel.add(choice2);
+        buttonPanel.add(choice3);
+        buttonPanel.add(backtoTavernButton);
+
+        interactionPanel.add(buttonPanel, BorderLayout.EAST);
 
         backgroundPanel.add(headerPanel, BorderLayout.NORTH);
         backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
@@ -1960,11 +2189,17 @@ public class GameUI {
             case "Settings":
 //                game.openSettings(); // Replace with actual logic
                 break;
-            case "Back":
-                showTitleScreen();
-                break;
             case "Town":
                 mainArea();
+                break;
+            case "Back to Town":
+                mainArea();
+                break;
+            case "Adventure":
+                adventureScreen();
+                break;
+            case "Notice Board":
+                questBoard();
                 break;
             case "Clinic":
                 clinicScreen();
@@ -1978,11 +2213,14 @@ public class GameUI {
             case "Merchant":
                 merchantScreen();
                 break;
+            case "Buy Weapons":
+                weaponsShopScreen();
+                break;
             case "Tavern":
                 tavernScreen();
                 break;
-            case "Buy Weapons":
-                weaponsShopScreen();
+            case "Talk To Tavern Keeper":
+                tavernDialogueScreen();
                 break;
             case "Quests":
                 questBoard();

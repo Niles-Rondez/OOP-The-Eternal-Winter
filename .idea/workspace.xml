@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/npcs/ClericNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/NPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/QuestBoardNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/npcs/ShopNPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/Objective.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/Quest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/quests/QuestRegistry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< Updated upstream
-      <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/TerminalGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/TerminalGame.java" afterDir="false" />
-=======
->>>>>>> Stashed changes
+      <change beforePath="$PROJECT_DIR$/resources/Merchant.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Merchant.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Tavern.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Tavern.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/TownBackground.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/TownBackground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,9 +48,9 @@
     &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;UI-testing2&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/USC/2ND YEAR/1ST SEM/OOP/OOP-The-Eternal-Winter&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/USC/2ND YEAR/1ST SEM/OOP/test&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -128,6 +119,7 @@
       <workItem from="1733552826360" duration="5030000" />
       <workItem from="1733584407544" duration="1580000" />
       <workItem from="1733625833164" duration="3687000" />
+      <workItem from="1733718920316" duration="440000" />
     </task>
     <servers />
   </component>
