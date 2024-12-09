@@ -38,8 +38,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "Merging prologueBranch",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "Application.Game.executor": "Run",
+    "git-widget-placeholder": "prologueBranch",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
@@ -62,10 +68,18 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="" />
+      <changelist id="8e4156c4-0ddb-4685-a2cf-2eeb072f0b93" name="Changes" comment="" />
       <created>1729738742318</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -92,6 +106,7 @@
       <workItem from="1733625833164" duration="3687000" />
       <workItem from="1733672795538" duration="596000" />
       <workItem from="1733699529048" duration="3032000" />
+      <workItem from="1733710437753" duration="807000" />
     </task>
     <servers />
   </component>
