@@ -5,14 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/audio/AudioPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Merchant.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Merchant.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Tavern.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Tavern.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/TownBackground.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/TownBackground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.base/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.controls/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.fxml/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/jpeg_fx.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/jpeg_fx.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/mesa3d.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/mesa3d.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/pipewire.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.graphics/pipewire.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/directshow.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/directshow.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/glib.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/glib.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/gstreamer.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/gstreamer.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/libffi.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.media/libffi.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.swing/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/ADDITIONAL_LICENSE_INFO" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/ASSEMBLY_EXCEPTION" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/icu_web.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/icu_web.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/libxml2.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/libxml2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/libxslt.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/libxslt.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/webkit.md" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/legal/javafx.web/webkit.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/lib/javafx.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lib/javafx-sdk-23.0.1/lib/javafx.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +80,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;UI-testing2&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/USC/2ND YEAR/1ST SEM/OOP/test&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/USC/2ND YEAR/1ST SEM/OOP/OOP-The-Eternal-Winter&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -65,31 +91,8 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }</component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Game.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "UI-testing2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/USC/2ND YEAR/1ST SEM/OOP/OOP-The-Eternal-Winter",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Elijah\Desktop\Codes\GITHUB\OOP-The-Eternal-Winter\lib" />
@@ -153,6 +156,9 @@
       <workItem from="1733584407544" duration="1580000" />
       <workItem from="1733625833164" duration="3687000" />
       <workItem from="1733718920316" duration="440000" />
+      <workItem from="1733747635904" duration="48000" />
+      <workItem from="1733754397611" duration="15000" />
+      <workItem from="1733768657533" duration="4499000" />
     </task>
     <servers />
   </component>

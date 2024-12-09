@@ -13,22 +13,24 @@ public class GameUI {
     private JFrame window;
     private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel,
             statsPanel, health_manaPanel, questPanel, imagePanel, mainTextPanel, choicePanel;
-    private JLabel titleLabel, areaLabel, textLabel, dialogueLabel, pauseLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel,
+    private JLabel titleLabel, areaLabel, textLabel, dialogueLabel, enemyLabel, pauseLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel,
             wisLabel, luckLabel, agiLabel;
     private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton,
             clinicButton, chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton,
             sellButton, townButton, choice1, choice2, choice3, choice4, choice5, sleepButton, chestButton,
-            innKeeperButton, eatButton, questButton;
+            innKeeperButton, eatButton, questButton, attackButton, skillButton, itemButton, runButton;
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground,
-            merchantBackground, tavernBackground, area1Background;
+            merchantBackground, tavernBackground, area1Background, direWolfBackground;
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
     private String currentBGM = "TitleScreenBGM";
+    private String[] enemies = {"A Direwolf", "A Skeleton", "A Goblin", "A Vampire", "A Bandit"};
+    private String currentEnemy;
 
     /*
     Code to add BGM to stuff:
@@ -51,6 +53,7 @@ public class GameUI {
         merchantBackground = new ImageIcon("./resources/Merchant.png").getImage();
         tavernBackground = new ImageIcon("./resources/Tavern.png").getImage();
         area1Background = new ImageIcon("./resources/Area1.png").getImage();
+        direWolfBackground = new ImageIcon("./resources/DireWolfBattle.png").getImage();
         createWindow();
     }
 
@@ -250,6 +253,11 @@ public class GameUI {
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
         pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
 
+
+        JPanel adventurePanel = new JPanel();
+        adventurePanel.setOpaque(false);
+        adventurePanel.setLayout(new GridLayout(3,1));
+
         areaLabel = new JLabel("Adventuring...", SwingConstants.CENTER) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -284,6 +292,57 @@ public class GameUI {
         areaLabel.setOpaque(false); // Transparent background
         areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
         areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
+
+        enemyLabel = new JLabel("", SwingConstants.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                // Enable anti-aliasing for smoother text rendering
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Draw the outline
+                g2d.setFont(getFont());
+                g2d.setColor(Color.BLACK); // Outline color
+                String text = getText();
+                FontMetrics metrics = g2d.getFontMetrics(getFont());
+                int x = (getWidth() - metrics.stringWidth(text)) / 2;
+                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        if (dx != 0 || dy != 0) {
+                            g2d.drawString(text, x + dx, y + dy);
+                        }
+                    }
+                }
+
+                // Draw the main text
+                g2d.setColor(Color.WHITE); // Main text color
+                g2d.drawString(text, x, y);
+
+                g2d.dispose();
+            }
+        };
+        enemyLabel.setFont(titleFont); // Apply your font
+        enemyLabel.setOpaque(false); // Transparent background
+        enemyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        enemyLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
+
+        JPanel adventureButtons = new JPanel();
+        adventureButtons.setOpaque(false);
+        adventureButtons.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        Dimension adventurebuttonSize = new Dimension(250, 50);
+        JButton fightButton = createButton("Fight", adventurebuttonSize);
+        fightButton.addActionListener(e -> handleFight());
+        JButton runButton = createButton("Run", adventurebuttonSize);
+
+        adventureButtons.add(fightButton);
+        adventureButtons.add(runButton);
+
+        adventurePanel.add(areaLabel);
+        adventurePanel.add(enemyLabel);
+        adventurePanel.add(adventureButtons);
 
 
         headerButtons = new JPanel();
@@ -358,7 +417,7 @@ public class GameUI {
 
         // Add title and button panels to background
         backgroundPanel.add(headerPanel, BorderLayout.NORTH);
-        backgroundPanel.add(areaLabel, BorderLayout.CENTER);
+        backgroundPanel.add(adventurePanel, BorderLayout.CENTER);
         backgroundPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Action listener for continue adventure button to randomize the background
@@ -367,21 +426,190 @@ public class GameUI {
             public void actionPerformed(ActionEvent e) {
                 // Randomly select a background, excluding the current one
                 Random rand = new Random();
-                Image newBackground;
-                do {
-                    // Pick a random background from the array
-                    newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
-                } while (newBackground == area1Background);  // Exclude the current background (area1Background)
+// Randomly select a new background and enemy
+                Image newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
+                String newEnemy = enemies[rand.nextInt(enemies.length)];
 
-                // Update the background and revalidate the panel
+// Update background and enemy label
                 area1Background = newBackground;
-                backgroundPanel.repaint();  // Trigger the background update
+                currentEnemy = newEnemy;
+                enemyLabel.setText(newEnemy + " has appeared!");
+                backgroundPanel.repaint();
+
+            }
+        });
+
+        runButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Randomly select a background, excluding the current one
+                Random rand = new Random();
+// Randomly select a new background and enemy
+                Image newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
+                String newEnemy = enemies[rand.nextInt(enemies.length)];
+
+// Update background and enemy label
+                area1Background = newBackground;
+                currentEnemy = newEnemy;
+                enemyLabel.setText(newEnemy + " has appeared!");
+                backgroundPanel.repaint();
+
             }
         });
 
         // Set background as the content pane
         window.setContentPane(backgroundPanel);
         window.revalidate();
+    }
+
+    public void direwolfFightScreen() {
+        backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(direWolfBackground, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+
+        headerPanel = new JPanel();
+        headerPanel.setOpaque(false);
+        headerPanel.setLayout(new BorderLayout());
+
+        // Load the pause icon
+        ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png"); // Replace with your image path
+        Image scaledPauseIcon = pauseIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH); // Resize if needed
+        pauseIcon = new ImageIcon(scaledPauseIcon);
+
+        // Create the pause button with the icon
+        pauseButton = new JButton();
+        pauseButton.setIcon(pauseIcon); // Set the icon
+        pauseButton.setBackground(Color.BLACK);
+        pauseButton.setBorderPainted(false); // Optional: Remove button border
+        pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
+        pauseButton.setFocusPainted(false); // Optional: Remove focus border
+        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+
+        headerButtons = new JPanel();
+        headerButtons.setOpaque(false);
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+
+        // Map Button
+        mapButton = createHeaderButton(
+                "./resources/map.png", 40, 40,
+                e -> System.out.println("Map button clicked")
+        );
+        mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        headerButtons.add(mapButton);
+
+        // Bag Button
+        bagButton = createHeaderButton(
+                "./resources/Bag.png", 40, 40,
+                e -> inventoryScreen()
+        );
+        headerButtons.add(bagButton);
+
+        // Character Button
+        characterButton = createHeaderButton(
+                "./resources/Character.png", 40, 40,
+                e -> characterScreen()
+        );
+        characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        headerButtons.add(characterButton);
+
+        headerPanel.add(pauseButton, BorderLayout.WEST);
+        headerPanel.add(headerButtons, BorderLayout.EAST);
+
+        interactionPanel = new JPanel();
+        interactionPanel.setOpaque(false);
+        interactionPanel.setLayout(new BorderLayout());
+        interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
+        interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 300)); // Set a fixed height for the interaction panel
+
+        // Text Label (Top Part of Interaction Panel)
+        textLabel = new JLabel("Dire Wolf", SwingConstants.LEFT);
+        textLabel.setOpaque(false); // Make the background visible
+        textLabel.setBackground(Color.BLACK); // Set background to black
+        textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
+        textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
+        textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+        dialogueLabel = new JLabel("Woof Woof Woof", SwingConstants.LEFT);
+        dialogueLabel.setOpaque(true); // Make the background visible
+        dialogueLabel.setForeground(Color.WHITE); // Set text color to white for contrast
+        dialogueLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
+        dialogueLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        dialogueLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        dialogueLabel.setPreferredSize(new Dimension(window.getWidth() - 300, 40)); // Set width to 100 less than window's width, height to 40
+
+        // Set the background color with reduced opacity (RGBA color)
+        dialogueLabel.setBackground(new Color(0, 0, 0, 200)); // RGBA where A is the alpha (opacity)
+
+
+        interactionPanel.add(dialogueLabel, BorderLayout.WEST);
+
+        // Button Panel (Bottom Part of Interaction Panel)
+        buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new GridLayout(4, 1, 5, 5)); // Add spacing between buttons
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button panel
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+
+        // Adjust button size
+        Dimension choicebuttonSize = new Dimension(150, 50); // Make buttons smaller to match the image
+
+        attackButton = createChoiceButton("Attack", choicebuttonSize);
+        skillButton = createChoiceButton("Use Skill", choicebuttonSize);
+        itemButton = createChoiceButton("Use Item", choicebuttonSize);
+        runButton = createChoiceButton("Run", choicebuttonSize);
+        runButton.addActionListener(e -> adventureScreen());
+
+        buttonPanel.add(attackButton);
+        buttonPanel.add(skillButton);
+        buttonPanel.add(itemButton);
+        buttonPanel.add(runButton);
+
+        interactionPanel.add(buttonPanel, BorderLayout.EAST);
+
+        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
+        backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
+
+        window.setContentPane(backgroundPanel);
+        window.revalidate();
+    }
+
+    private void handleFight() {
+        if (currentEnemy == null) {
+            JOptionPane.showMessageDialog(window, "No enemy to fight!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Example fight logic
+        switch (currentEnemy) {
+            case "A Direwolf":
+                direwolfFightScreen();
+                break;
+            case "A Skeleton":
+                JOptionPane.showMessageDialog(window, "You fought a Skeleton and lost!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "A Goblin":
+                JOptionPane.showMessageDialog(window, "You fought a Goblin and it ran away!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "A Vampire":
+                JOptionPane.showMessageDialog(window, "You fought a Vampire and it turned into mist!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "A Bandit":
+                JOptionPane.showMessageDialog(window, "You fought a Bandit and captured their loot!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            default:
+                JOptionPane.showMessageDialog(window, "The fight ended in a draw!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        // Reset current enemy after the fight
+        currentEnemy = null;
+        enemyLabel.setText("");
     }
 
     public void inventoryScreen() {
