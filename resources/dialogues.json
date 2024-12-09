@@ -2,198 +2,254 @@
   "act0scene1": {
     "text": "Starting a New Journey....",
     "choices": [
-      { "text": "Begin", "nextNode": "strangerIntro" },
-      { "text": "Begin", "nextNode": "strangerIntro" },{ "text": "Begin", "nextNode": "strangerIntro" },
-      { "text": "Begin", "nextNode": "strangerIntro" },
-      { "text": "Begin", "nextNode": "strangerIntro" }
+      { "text": "Push forward into the unknown.", "nextNode": "strangerIntro" },
+      { "text": "Hesitate, then step forward.", "nextNode": "strangerIntro" },
+      { "text": "Skip Prologue", "nextNode": "mainArea", "action":  true}
     ]
   },
   "strangerIntro": {
     "text": "Stranger: 'Hey, you. You’re finally awake. You were trying to cross the border, right? Walked right into that monster ambush wreckage, same as me, and that thief over there.'",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefIntro" }
+      { "text": "Take in your surroundings.", "nextNode": "thiefIntro" },
+      { "text": "Nod silently.", "nextNode": "thiefIntro" }
     ]
   },
   "thiefIntro": {
     "text": "Thief: 'Damn you, lady. If you just let me go, I’ll pay you back.'",
     "choices": [
-      { "text": "Continue", "nextNode": "strangerReply1" }
+      { "text": "Say nothing.", "nextNode": "strangerReply1" },
+      { "text": "Glance at the thief warily.", "nextNode": "strangerReply1" }
     ]
   },
   "strangerReply1": {
     "text": "Mercina: 'Yeah, yeah, like you didn’t just try to steal from me.'",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefReply1" }
+      { "text": "Remain quiet.", "nextNode": "thiefReply1" },
+      { "text": "Raise an eyebrow at Mercina.", "nextNode": "thiefReply1" }
     ]
   },
   "thiefReply1": {
     "text": "Thief: 'Well, next time, don’t leave your wagon unattended.'",
     "choices": [
-      { "text": "Continue", "nextNode": "strangerReply2" }
+      { "text": "Grit your teeth.", "nextNode": "strangerReply2" },
+      { "text": "Look away, uneasy.", "nextNode": "strangerReply2" }
     ]
   },
   "strangerReply2": {
     "text": "Mercina: 'You’re lucky I picked you up in that wreckage. You were just lying there—who knows for how long? Near enough to that monster ambush to freeze solid. Honestly, it’s a miracle you’re alive.'",
     "choices": [
-      { "text": "Continue", "nextNode": "playerStruggles" }
+      { "text": "Attempt to speak.", "nextNode": "playerStruggles" },
+      { "text": "Nod weakly.", "nextNode": "playerStruggles" }
     ]
   },
   "playerStruggles": {
     "text": "Player struggles to speak.",
     "choices": [
-      { "text": "Continue", "nextNode": "strangerReply3" }
+      { "text": "Mutter incomprehensibly.", "nextNode": "strangerReply3" },
+      { "text": "Clench your fists, frustrated.", "nextNode": "strangerReply3" }
     ]
   },
   "strangerReply3": {
     "text": "Mercina: 'You should rest for now. You looked like you were going to die of cold when I found you.'",
     "choices": [
-      { "text": "Continue", "nextNode": "playerQuestion" }
+      { "text": "Reluctantly agree.", "nextNode": "playerQuestion" },
+      { "text": "Stare into the distance.", "nextNode": "playerQuestion" }
     ]
   },
   "playerQuestion": {
     "text": "Simon: '...W… Who… Who are you?'",
     "choices": [
-      { "text": "Continue", "nextNode": "strangerIntroName" }
+      { "text": "Barely manage the words.", "nextNode": "strangerIntroName" },
+      { "text": "Cough, struggling to ask.", "nextNode": "strangerIntroName" }
     ]
   },
   "strangerIntroName": {
     "text": "Mercina: 'Oh, how could I forget? I’m Mercina. I’m a merchant on my way to town, and that’s how I found you.'",
     "choices": [
-      { "text": "Continue", "nextNode": "playerNameReply" }
+      { "text": "Nod faintly.", "nextNode": "playerNameReply" },
+      { "text": "Whisper a soft thank you.", "nextNode": "playerNameReply" }
     ]
   },
   "playerNameReply": {
     "text": "Simon: 'I… I don’t know… I don’t remember anything.'",
     "choices": [
-      { "text": "Continue", "nextNode": "strangerNameSuggestion" }
+      { "text": "Look at the ground, ashamed.", "nextNode": "strangerNameSuggestion" },
+      { "text": "Shake your head slowly.", "nextNode": "strangerNameSuggestion" }
     ]
   },
   "strangerNameSuggestion": {
     "text": "Mercina: 'Well, I can’t call you without a name. Just give me something to call you in the meantime.'",
     "choices": [
-      { "text": "Simon", "nextNode": "playerNameChosen" }
+      { "text": "Offer the name Simon.", "nextNode": "playerNameChosen" },
+      { "text": "After a pause, whisper 'Simon.'", "nextNode": "playerNameChosen" }
     ]
   },
   "playerNameChosen": {
     "text": "Simon: 'You can call me Simon.'",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefChimesIn" }
+      { "text": "Steady your voice.", "nextNode": "thiefChimesIn" },
+      { "text": "Say it quietly.", "nextNode": "thiefChimesIn" }
     ]
-  },
-  "thiefChimesIn": {
-    "text": "Thief: 'You seriously don’t know about this?'",
-    "choices": [
-      { "text": "Continue", "nextNode": "merchantCurseTalk" }
-    ]
-  },
+  },"thiefChimesIn": {
+  "text": "Thief: 'You seriously don’t know about this?'",
+  "choices": [
+    { "text": "Stay silent.", "nextNode": "merchantCurseTalk" },
+    { "text": "'Know about what?'", "nextNode": "merchantCurseTalk" },
+    { "text": "'Explain yourself.'", "nextNode": "merchantCurseTalk" }
+  ]
+},
   "merchantCurseTalk": {
     "text": "Mercina: 'Well, during the war, a lot of people got mutated or cursed, you know. You’re lucky if it’s just your hand like mine. Others… well, others got turned into something much worse.'",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefComment1" }
+      { "text": "'What happened to your hand?'", "nextNode": "merchantHandExplanation" },
+      { "text": "'Worse how?'", "nextNode": "merchantHandExplanation" },
+      { "text": "Stay silent.", "nextNode": "merchantHandExplanation" }
+    ]
+  },
+  "merchantHandExplanation": {
+    "text": "Mercina: 'My hand? Oh, it’s nothing. Just a little reminder of what happens when you wander too far from safety. I call it my cursed blessing. Lets me carry more, but I don’t think it’ll ever feel warm again.'",
+    "choices": [
+      { "text": "'That’s terrible...'", "nextNode": "thiefComment1" },
+      { "text": "'A cursed blessing? That’s an odd way to put it.'", "nextNode": "thiefComment1" },
+      { "text": "Stay silent.", "nextNode": "thiefComment1" }
     ]
   },
   "thiefComment1": {
     "text": "Thief: 'You’re not cursed or mutated, are you? You’d fetch a high price in the market, heh.'",
     "choices": [
-      { "text": "Continue", "nextNode": "merchantReplyToThief" }
+      { "text": "'Market? What market?'", "nextNode": "merchantReplyToThief" },
+      { "text": "'Excuse me?'", "nextNode": "merchantReplyToThief" },
+      { "text": "Glare silently.", "nextNode": "merchantReplyToThief" }
     ]
   },
   "merchantReplyToThief": {
     "text": "Mercina: 'Quiet, thief! Or I might sell you myself.'",
     "choices": [
-      { "text": "Continue", "nextNode": "wolfHowl" }
+      { "text": "'I think I’d like to see that.'", "nextNode": "wolfHowl" },
+      { "text": "'You two argue like siblings.'", "nextNode": "wolfHowl" },
+      { "text": "Stay silent.", "nextNode": "wolfHowl" }
     ]
   },
   "wolfHowl": {
-    "text": "- Wolf Howls -",
+    "text": "- A distant wolf howl echoes through the frozen wilderness. -",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefWarnsWolves" }
+      { "text": "'Did you hear that?'", "nextNode": "thiefWarnsWolves" },
+      { "text": "'Wolves?'", "nextNode": "thiefWarnsWolves" },
+      { "text": "Look around nervously.", "nextNode": "thiefWarnsWolves" }
     ]
   },
   "thiefWarnsWolves": {
-    "text": "Thief: 'Wolves! At this time?'",
+    "text": "Thief: 'Wolves! At this time? They’re hungrier than usual in this endless winter.'",
     "choices": [
-      { "text": "Continue", "nextNode": "merchantRepliesWolves" }
+      { "text": "'How do you know?'", "nextNode": "merchantRepliesWolves" },
+      { "text": "'Why are they out now?'", "nextNode": "merchantRepliesWolves" },
+      { "text": "'Great...'", "nextNode": "merchantRepliesWolves" }
     ]
   },
   "merchantRepliesWolves": {
-    "text": "Mercina: 'Ugh, what terrible luck.'",
+    "text": "Mercina: 'Ugh, what terrible luck. They must have caught our scent.'",
     "choices": [
-      { "text": "Continue", "nextNode": "thiefPleaUnbind" }
+      { "text": "'What do we do now?'", "nextNode": "thiefPleaUnbind" },
+      { "text": "'We need to prepare.'", "nextNode": "thiefPleaUnbind" },
+      { "text": "'Stay calm.'", "nextNode": "thiefPleaUnbind" }
     ]
   },
   "thiefPleaUnbind": {
     "text": "Thief: 'You gotta unbind me, lady, or we’re all going to die!'",
     "choices": [
-      { "text": "Continue", "nextNode": "merchantUnbindsThief" }
+      { "text": "'He’s right.'", "nextNode": "merchantUnbindsThief" },
+      { "text": "'That’s risky.'", "nextNode": "merchantUnbindsThief" },
+      { "text": "Stay silent.", "nextNode": "merchantUnbindsThief" }
     ]
   },
   "merchantUnbindsThief": {
     "text": "Mercina: 'Don’t make me regret this.'",
     "choices": [
-      { "text": "Continue", "nextNode": "playerOpensCrates" }
+      { "text": "'Let’s hope this works.'", "nextNode": "playerOpensCrates" },
+      { "text": "'You’d better pull your weight.'", "nextNode": "playerOpensCrates" },
+      { "text": "Stay silent.", "nextNode": "playerOpensCrates" }
     ]
   },
   "playerOpensCrates": {
     "text": "Mercina: 'Hey, Simon! Do me a favor and open those crates. It’s not much, but take what you need.'",
     "choices": [
-      { "text": "Warrior", "nextNode": "classChosen" },
-      { "text": "Mage", "nextNode": "classChosen" },
-      { "text": "Ranger", "nextNode": "classChosen" },
-      { "text": "Assassin", "nextNode": "classChosen" },
-      { "text": "Monk", "nextNode": "classChosen" }
+      { "text": "'A sword. I’ll fight as a Warrior.'", "nextNode": "classChosen" },
+      { "text": "'A staff. I’ll become a Mage.'", "nextNode": "classChosen" },
+      { "text": "'A bow. I’ll take the path of a Ranger.'", "nextNode": "classChosen" },
+      { "text": "'Daggers. I’ll be an Assassin.'", "nextNode": "classChosen" },
+      { "text": "'Bare hands. I’ll fight as a Monk.'", "nextNode": "classChosen" }
     ]
   },
   "classChosen": {
-    "text": "Mercina: 'A [weapon name], huh? You might just be a [class].'",
+    "text": "- You feel the weight of your chosen weapon, a sense of purpose coursing through you. -",
     "choices": [
-      { "text": "Continue", "nextNode": "fightTutorial" }
+      { "text": "Prepare for the fight.", "nextNode": "wolvesAttack" }
     ]
   },
-  "fightTutorial": {
-    "text": "- FIGHT TUTORIAL -",
+  "wolvesAttack": {
+    "text": "- The wolves emerge from the shadows, their eyes gleaming with hunger. The air feels sharper, colder, as their growls echo around you. -",
     "choices": [
-      { "text": "Begin Battle", "nextNode": "afterWolfBattle" }
+      { "text": "Enter combat.", "nextNode": "combatSystemCall" }
     ]
   },
-  "afterWolfBattle": {
-    "text": "Thief: 'Well, I’ll be damned. You can fight.'",
+  "combatSystemCall": {
+    "text": "- The battle begins! (Combat system initiated.) -",
     "choices": [
-      { "text": "Continue", "nextNode": "merchantThanks" }
+      { "text": "Continue.", "nextNode": "wolvesDefeated" }
     ]
   },
-  "merchantThanks": {
-    "text": "Mercina: 'Thank the Gods we made it. I thought all hope was lost.'",
+  "wolvesDefeated": {
+    "text": "- The wolves lie motionless, their once-menacing forms now just shadows in the snow. The chill in the air begins to feel less hostile. -",
     "choices": [
-      { "text": "Continue", "nextNode": "bossWolfAppears" }
+      { "text": "'That was close.'", "nextNode": "mercinaPostBattle" },
+      { "text": "'Is everyone alright?'", "nextNode": "mercinaPostBattle" },
+      { "text": "Stay silent.", "nextNode": "mercinaPostBattle" }
     ]
   },
-  "bossWolfAppears": {
-    "text": "- BOSS WOLF APPEARS -",
+  "mercinaPostBattle": {
+    "text": "Mercina: 'We wouldn’t have made it without you. Maybe you’re more capable than I thought.'",
     "choices": [
-      { "text": "Prepare for battle", "nextNode": "bossWolfBattle" }
+      { "text": "'Thanks, I guess.'", "nextNode": "thiefPostBattle" },
+      { "text": "'It wasn’t just me. We all fought.'", "nextNode": "thiefPostBattle" },
+      { "text": "'Let’s just move on.'", "nextNode": "thiefPostBattle" }
     ]
   },
-  "bossWolfBattle": {
-    "text": "- BOSS WOLF BATTLE -",
+  "thiefPostBattle": {
+    "text": "Thief: 'Nice moves back there. I’d almost trust you to watch my back. Almost.'",
     "choices": [
-      { "text": "Fight!", "nextNode": "scriptedWolfDeath" }
+      { "text": "'Don’t push it.'", "nextNode": "wolfCorpseDiscovery" },
+      { "text": "'I’ll take that as a compliment.'", "nextNode": "wolfCorpseDiscovery" },
+      { "text": "Say nothing.", "nextNode": "wolfCorpseDiscovery" }
     ]
   },
-  "scriptedWolfDeath": {
-    "text": "- SCRIPTED WOLF DEATH -",
+  "wolfCorpseDiscovery": {
+    "text": "- Mercina kneels by one of the wolves, inspecting its wounds. Her expression darkens. -\nMercina: 'These weren’t ordinary wolves... Look at this.'",
     "choices": [
-      { "text": "Continue", "nextNode": "merchantEscape" }
+      { "text": "'What do you mean?'", "nextNode": "mutatedWolfExplanation" },
+      { "text": "'It’s just a wolf, right?'", "nextNode": "mutatedWolfExplanation" },
+      { "text": "Examine the wolf silently.", "nextNode": "mutatedWolfExplanation" }
     ]
   },
-  "merchantEscape": {
-    "text": "Mercina: 'This is our chance! Come on, Simon! Get up!'",
+  "mutatedWolfExplanation": {
+    "text": "Mercina: 'The scars, the extra eyes… This is no accident. Someone’s been tampering with these creatures.'",
     "choices": [
-      { "text": "Escape", "nextNode": "endScene" }
+      { "text": "'Tampering? Like how?'", "nextNode": "thiefInterjectsMutation" },
+      { "text": "'Who would do this?'", "nextNode": "thiefInterjectsMutation" },
+      { "text": "'We need to leave now.'", "nextNode": "thiefInterjectsMutation" }
     ]
   },
-  "endScene": {
-    "text": "Mercina drags Simon to the wagon and flees.",
-    "choices": []
+  "thiefInterjectsMutation": {
+    "text": "Thief: 'Whoever’s behind this, I don’t want to meet them. We should move. Fast.'",
+    "choices": [
+      { "text": "'Agreed. Let’s go.'", "nextNode": "roadContinues" },
+      { "text": "'Not until we know more.'", "nextNode": "roadContinues" },
+      { "text": "Stay silent.", "nextNode": "roadContinues" }
+    ]
+  },
+  "roadContinues": {
+    "text": "- You gather your supplies and press on, the snow crunching beneath your boots. The unsettling silence returns, broken only by the occasional howl of the wind. -",
+    "choices": [
+      { "text": "Continue onward.", "nextNode": "mysteriousEncampment" }
+    ]
   }
 }

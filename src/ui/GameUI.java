@@ -16,7 +16,7 @@ public class GameUI {
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
+    private Font textFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
     private boolean isTyping = false;
     private String playerClass;
@@ -757,7 +757,7 @@ public class GameUI {
         Image scaledCharacter = characterIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         characterIcon = new ImageIcon(scaledCharacter);
         characterButton = new JButton();
-        characterButton.setIcon(characterIcon); // Set the icon
+        characterButton.setIcon(characterIcon); // Set the icon1
         characterButton.setBackground(Color.BLACK);
         characterButton.setBorderPainted(false); // Optional: Remove button border
         characterButton.setContentAreaFilled(false); // Optional: Make button background transparent
@@ -940,7 +940,7 @@ public class GameUI {
                 displayedText.append(character);
                 mainTextArea.setText(displayedText.toString());
                 try {
-                    Thread.sleep(50);  // Delay for typing effect
+                    Thread.sleep(25);  // Delay for typing effect
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

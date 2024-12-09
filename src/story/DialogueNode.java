@@ -36,13 +36,15 @@ public class DialogueNode {
     public static class Choice {
         private String text;
         private String nextNode;
+        private boolean action;
 
         public Choice() {
         }
 
-        public Choice(String text, String nextNode) {
+        public Choice(String text, String nextNode, boolean action) {
             this.text = text;
             this.nextNode = nextNode;
+            this.action = action;
         }
 
         public String getText() {
@@ -59,6 +61,14 @@ public class DialogueNode {
 
         public void setNextNode(String nextNode) {
             this.nextNode = nextNode;
+        }
+
+        public boolean isAction() {
+            return action;
+        }
+
+        public void setAction(boolean action) {
+            this.action = action;
         }
     }
 }

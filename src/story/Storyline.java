@@ -30,11 +30,32 @@ public class Storyline {
 
     public void processChoice(String choiceText) {
         DialogueNode currentNode = dialogueManager.getDialogue(gameState.getPosition());
+
         for (DialogueNode.Choice choice : currentNode.getChoices()) {
             if (choice.getText().equals(choiceText)) {
-                startDialogue(choice.getNextNode());
+                if (choice.isAction()) { // Check if the choice is an action
+                    handleAction(choice.getNextNode());
+                } else {
+                    startDialogue(choice.getNextNode());
+                }
                 return;
             }
         }
+
+        // If no match is found
+        gameUI.updateMainText("Invalid choice. Please try again.");
     }
+
+    private void handleAction(String action) {
+        switch (action) {
+            case "mainArea":
+                gameUI.mainArea(); // Call the external method
+                break;
+            // Add more actions as needed
+            default:
+                gameUI.updateMainText("Unknown action: " + action);
+        }
+    }
+
+
 }
