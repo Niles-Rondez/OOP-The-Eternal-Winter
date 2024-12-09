@@ -233,7 +233,7 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Item Name");
+        JLabel nameLabel = new JLabel("ItemName");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -547,13 +547,13 @@ public class GameUI {
         JButton bodyArmorButton = createChoiceButton("Body Armor", new Dimension(200, 30));
         JButton legArmorButton = createChoiceButton("Leg Armor", new Dimension(200, 30));
         JButton mainHandButton = createChoiceButton("Main Hand", new Dimension(200, 30));
-//        JButton offhandButton = createChoiceButton("Off-Hand", new Dimension(200, 30));
+        JButton offhandButton = createChoiceButton("Off-Hand", new Dimension(200, 30));
 
         headArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         bodyArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         legArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainHandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        offhandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        offhandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         armoryButtonPanel.add(headArmorButton);
         armoryButtonPanel.add(Box.createVerticalStrut(10));
@@ -563,7 +563,7 @@ public class GameUI {
         armoryButtonPanel.add(Box.createVerticalStrut(10));
         armoryButtonPanel.add(mainHandButton);
         armoryButtonPanel.add(Box.createVerticalStrut(10));
-//        armoryButtonPanel.add(offhandButton);
+        armoryButtonPanel.add(offhandButton);
 
         JLabel cashText = new JLabel("Cash: $99999999");
         cashText.setForeground(Color.WHITE);
@@ -878,7 +878,7 @@ public class GameUI {
 // Adjust button size
         Dimension choicebuttonSize = new Dimension(150, 30); // Make buttons smaller to match the image
 
-        buyButton = createChoiceButton("Buy Potions", choicebuttonSize);
+        buyButton = createChoiceButton("Buy", choicebuttonSize);
         sellButton = createChoiceButton("Sell", choicebuttonSize);
         townButton = createChoiceButton("Town", choicebuttonSize);
 
@@ -1021,8 +1021,8 @@ public class GameUI {
 // Adjust button size
         Dimension choicebuttonSize = new Dimension(150, 30); // Make buttons smaller to match the image
 
-        buyButton = createChoiceButton("Free Heal", choicebuttonSize);
-        sellButton = createChoiceButton("Buy Full Heal", choicebuttonSize);
+        buyButton = createChoiceButton("Heal", choicebuttonSize);
+        sellButton = createChoiceButton("Shop", choicebuttonSize);
         townButton = createChoiceButton("Town", choicebuttonSize);
 
         buttonPanel.add(buyButton);
@@ -1036,173 +1036,6 @@ public class GameUI {
 
         window.setContentPane(backgroundPanel);
         window.revalidate();
-    }
-
-    public void buyPotionsScreen() {
-        // Create the dialog
-        JDialog characterDialog = new JDialog(window, "Inventory", true);
-        characterDialog.setSize(600, 400);
-        characterDialog.setLocationRelativeTo(window);
-        characterDialog.setUndecorated(true); // Remove default window decorations
-
-        // Create the main panel for the dialog
-        JPanel characterPanel = new JPanel();
-        characterPanel.setLayout(new BorderLayout());
-        characterPanel.setBackground(Color.BLACK);
-        characterPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Add a white border
-
-        // Left panel for quest details
-        JPanel leftCharacterPanel = new JPanel();
-        leftCharacterPanel.setLayout(new BoxLayout(leftCharacterPanel, BoxLayout.Y_AXIS));
-        leftCharacterPanel.setBackground(Color.BLACK);
-        leftCharacterPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        JPanel characterInfoPanel = new JPanel();
-        characterInfoPanel.setLayout(new GridLayout(4,1));
-        characterInfoPanel.setBackground(Color.BLACK);
-
-        // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Item Name");
-        nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        characterInfoPanel.add(nameLabel);
-
-        JLabel itemTypeLabel = new JLabel("Limitations/Item Type");
-        itemTypeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        itemTypeLabel.setForeground(Color.WHITE);
-        itemTypeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        characterInfoPanel.add(itemTypeLabel);
-
-        JLabel descriptionLabel = new JLabel("Item Description");
-        descriptionLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        descriptionLabel.setForeground(Color.WHITE);
-        descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        characterInfoPanel.add(descriptionLabel);
-
-        JPanel statusPanel = new JPanel();
-        statusPanel.setLayout(new GridLayout(3,1));
-        statusPanel.setBackground(Color.BLACK);
-        statusPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
-
-        JLabel statsLabel = new JLabel("Stats:");
-        statsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        statsLabel.setForeground(Color.WHITE);
-
-        statsPanel = new JPanel();
-        statsPanel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        statsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        statsPanel.setBackground(Color.BLACK);
-        statsPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        statsPanel.setLayout(new GridLayout(3,3));
-
-        strLabel = new JLabel("Str: (+10)");
-        strLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        strLabel.setForeground(Color.WHITE);
-//        strLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        intLabel = new JLabel("Int: (0)");
-        intLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        intLabel.setForeground(Color.WHITE);
-
-        dexLabel = new JLabel("Dex: (0)");
-        dexLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        dexLabel.setForeground(Color.WHITE);
-
-        conLabel = new JLabel("Con: (-10)");
-        conLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        conLabel.setForeground(Color.WHITE);
-
-        wisLabel = new JLabel("Wis: (0)");
-        wisLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        wisLabel.setForeground(Color.WHITE);
-
-        luckLabel = new JLabel("Luck: (0)");
-        luckLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        luckLabel.setForeground(Color.WHITE);
-
-        agiLabel = new JLabel("Agi: (+10)");
-        agiLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        agiLabel.setForeground(Color.WHITE);
-
-        statsPanel.add(strLabel);
-        statsPanel.add(intLabel);
-        statsPanel.add(dexLabel);
-        statsPanel.add(conLabel);
-        statsPanel.add(wisLabel);
-        statsPanel.add(luckLabel);
-        statsPanel.add(agiLabel);
-
-        statusPanel.add(statsLabel);
-        statusPanel.add(statsPanel);
-
-        leftCharacterPanel.add(characterInfoPanel);
-        leftCharacterPanel.add(Box.createVerticalStrut(10));
-        leftCharacterPanel.add(statusPanel);
-
-        // Buttons for accepting or dropping quests
-        JPanel pointsPanel = new JPanel();
-        pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        pointsPanel.setBackground(Color.BLACK);
-
-        JButton dropButton = createChoiceButton("Buy Item", new Dimension(150, 30));
-//        JButton acceptButton = createChoiceButton("Equip", new Dimension(150, 30));
-
-        pointsPanel.add(dropButton);
-//        pointsPanel.add(acceptButton);
-
-        leftCharacterPanel.add(Box.createVerticalGlue()); // Push the buttons to the bottom
-        leftCharacterPanel.add(pointsPanel);
-
-        // Right panel for quest list
-        JPanel questListPanel = new JPanel();
-        questListPanel.setLayout(new BorderLayout());
-        questListPanel.setBackground(Color.BLACK);
-        questListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // Top-right corner panel for the close button
-        JPanel closeButtonPanel = new JPanel();
-        closeButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        closeButtonPanel.setBackground(Color.BLACK);
-
-        JButton closeButton = new JButton("X");
-        closeButton.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        closeButton.setBackground(Color.BLACK);
-        closeButton.setForeground(Color.WHITE);
-        closeButton.setFocusPainted(false);
-        closeButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        closeButton.addActionListener(e -> characterDialog.dispose());
-
-        closeButtonPanel.add(closeButton);
-
-        // Center panel for quest buttons
-        JPanel questButtonListPanel = new JPanel();
-        questButtonListPanel.setLayout(new BoxLayout(questButtonListPanel, BoxLayout.Y_AXIS));
-        questButtonListPanel.setBackground(Color.BLACK);
-
-        JButton quest1Button = createChoiceButton("Item Name 1", new Dimension(200, 30));
-        JButton quest2Button = createChoiceButton("Item Name 2", new Dimension(200, 30));
-        JButton quest3Button = createChoiceButton("Item Name 3", new Dimension(200, 30));
-
-        quest1Button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quest2Button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quest3Button.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        questButtonListPanel.add(quest1Button);
-        questButtonListPanel.add(Box.createVerticalStrut(10));
-        questButtonListPanel.add(quest2Button);
-        questButtonListPanel.add(Box.createVerticalStrut(10));
-        questButtonListPanel.add(quest3Button);
-
-        questListPanel.add(closeButtonPanel, BorderLayout.NORTH); // Add close button at the top
-        questListPanel.add(questButtonListPanel, BorderLayout.CENTER); // Add quest buttons in the center
-
-        // Add panels to the main quest panel
-        characterPanel.add(leftCharacterPanel, BorderLayout.CENTER);
-        characterPanel.add(questListPanel, BorderLayout.EAST);
-
-        characterDialog.add(characterPanel);
-        characterDialog.setVisible(true);
     }
 
     public void merchantScreen() {
@@ -1637,7 +1470,7 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Item Name");
+        JLabel nameLabel = new JLabel("ItemName");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
