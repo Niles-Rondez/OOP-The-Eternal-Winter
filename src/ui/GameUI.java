@@ -301,7 +301,8 @@ public class GameUI {
         interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
-// Text Label (Top Part of Interaction Panel)
+
+        // Text Label (Top Part of Interaction Panel)
         textLabel = new JLabel("Wandering the town's cold roads.", SwingConstants.CENTER);
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
@@ -309,6 +310,23 @@ public class GameUI {
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+// Typing effect for the existing text
+        new Thread(() -> {
+            String textToType = "Wandering the town's cold roads."; // Original text
+            StringBuilder displayedText = new StringBuilder();
+
+            try {
+                for (char c : textToType.toCharArray()) {
+                    displayedText.append(c);
+                    SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                    Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
@@ -464,14 +482,39 @@ public class GameUI {
         interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
-// Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("Tabang Nurse.", SwingConstants.CENTER);
+        // Text Label (Top Part of Interaction Panel)
+        textLabel = new JLabel("", SwingConstants.CENTER); // Start with an empty label
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
         textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+// Array of NPC dialogue lines
+        String[] npcLines = {
+                "Welcome to the Chuchu Healing Center.",
+                "This is a place of rest and recovery.",
+                "We offer remedies for your wounds and fatigue.",
+                "How may I assist you today?"
+        };
+
+// Typing effect for multiple lines
+        new Thread(() -> {
+            try {
+                for (String line : npcLines) {
+                    StringBuilder displayedText = new StringBuilder();
+                    for (char c : line.toCharArray()) {
+                        displayedText.append(c);
+                        SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                    }
+                    Thread.sleep(2000); // Pause between lines
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
@@ -622,13 +665,39 @@ public class GameUI {
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
 // Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("May the Lord be with you.", SwingConstants.CENTER);
+        // Text Label (Top Part of Interaction Panel)
+        textLabel = new JLabel("", SwingConstants.CENTER); // Start with an empty label
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
         textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+// Array of priest's dialogue lines
+        String[] npcLines = {
+                "May the Lord be with you, traveler.",
+                "The path of righteousness is not always easy.",
+                "But with faith, you will overcome all trials."
+        };
+
+// Typing effect for priest's dialogue
+        new Thread(() -> {
+            try {
+                for (String line : npcLines) {
+                    StringBuilder displayedText = new StringBuilder();
+                    for (char c : line.toCharArray()) {
+                        displayedText.append(c);
+                        SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                    }
+                    Thread.sleep(2000); // Pause between lines
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
@@ -779,13 +848,37 @@ public class GameUI {
         interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200)); // Set a fixed height for the interaction panel
 
 // Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("Merchant Shakoy.", SwingConstants.CENTER);
+        textLabel = new JLabel("", SwingConstants.CENTER); // Start with an empty label
         textLabel.setOpaque(true); // Make the background visible
         textLabel.setBackground(Color.BLACK); // Set background to black
         textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+// Array of merchant's dialogue lines
+        String[] npcLines = {
+                "Welcome, traveler. What can I do for you today?",
+                "I have fine wares from all corners of the land.",
+                "Feel free to browse and make an offer, if you wish."
+        };
+
+// Typing effect for merchant's dialogue
+        new Thread(() -> {
+            try {
+                for (String line : npcLines) {
+                    StringBuilder displayedText = new StringBuilder();
+                    for (char c : line.toCharArray()) {
+                        displayedText.append(c);
+                        SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                    }
+                    Thread.sleep(2000); // Pause between lines
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
@@ -950,7 +1043,7 @@ public class GameUI {
     }
 
     public void updateChoices(String[] options) {
-        JButton[] choices = {choice1, choice2, choice3, choice4};
+        JButton[] choices = {choice1, choice2, choice3, choice4, choice5};
         for (int i = 0; i < choices.length; i++) {
             if (i < options.length) {
                 choices[i].setText(options[i]);
@@ -966,15 +1059,24 @@ public class GameUI {
             if (!isTyping) {  // Only proceed if no typing effect is running
                 JButton source = (JButton) e.getSource();
                 String choiceText = source.getText();
+
                 // Check if the choice is a class selection
                 if (choiceText.equals("Warrior") || choiceText.equals("Mage") ||
                         choiceText.equals("Ranger") || choiceText.equals("Assassin") || choiceText.equals("Monk")) {
                     // Set the player's class based on their choice
                     playerClass = choiceText;
                 }
-                game.handleChoice(source.getText());
+                // Check if the choice is "Escape"
+                else if (choiceText.equals("Escape")) {
+                    // Transition to the main area when "Escape" is selected
+                    mainArea();
+                }
+
+                // Handle the choice as usual (for other dialogues/choices)
+                game.handleChoice(choiceText);
             }
         }
     }
+
 
 }
