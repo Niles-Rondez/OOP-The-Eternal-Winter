@@ -12,12 +12,12 @@ public class GameUI {
     private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel, imagePanel, mainTextPanel, choicePanel;
     private JLabel titleLabel, areaLabel, textLabel, pauseLabel;
     private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton, clinicButton,
-            chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton, sellButton, townButton, choice1, choice2, choice3, choice4, choice5;
+            chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton, sleepButton, chestButton, talkToInKeeperButton, eatButton, questsButton, sellButton, townButton, choice1, choice2, choice3, choice4, choice5;
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
+    private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground, tavernBackground;
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
@@ -33,6 +33,7 @@ public class GameUI {
         clinicBackground = new ImageIcon("./resources/Clinic.png").getImage();
         chapelBackground = new ImageIcon("./resources/Chapel.png").getImage();
         merchantBackground = new ImageIcon("./resources/Merchant.png").getImage();
+        tavernBackground = new ImageIcon("./resources/Tavern.png").getImage();
         createWindow();
     }
 
@@ -956,6 +957,197 @@ public class GameUI {
         window.revalidate();
     }
 
+    public void tavernScreen() {
+        activeScreen = "tavern";
+        backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(tavernBackground, 0, 0, getWidth(), getHeight(), this); // Tavern-specific background
+            }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+
+        headerPanel = new JPanel();
+        headerPanel.setOpaque(false);
+        headerPanel.setLayout(new BorderLayout());
+
+        // Load the pause icon
+        ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png");
+        Image scaledPauseIcon = pauseIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        pauseIcon = new ImageIcon(scaledPauseIcon);
+
+        // Pause button setup
+        pauseButton = new JButton();
+        pauseButton.setIcon(pauseIcon);
+        pauseButton.setBackground(Color.BLACK);
+        pauseButton.setBorderPainted(false);
+        pauseButton.setContentAreaFilled(false);
+        pauseButton.setFocusPainted(false);
+        pauseButton.addActionListener(e -> System.out.println("Paused!"));
+
+        // Tavern label setup
+        areaLabel = new JLabel("Tavern", SwingConstants.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                g2d.setFont(getFont());
+                g2d.setColor(Color.BLACK);
+                String text = getText();
+                FontMetrics metrics = g2d.getFontMetrics(getFont());
+                int x = (getWidth() - metrics.stringWidth(text)) / 2;
+                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        if (dx != 0 || dy != 0) {
+                            g2d.drawString(text, x + dx, y + dy);
+                        }
+                    }
+                }
+                g2d.setColor(Color.WHITE);
+                g2d.drawString(text, x, y);
+                g2d.dispose();
+            }
+        };
+        areaLabel.setFont(titleFont);
+        areaLabel.setOpaque(false);
+        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0));
+
+        // Header buttons setup
+        headerButtons = new JPanel();
+        headerButtons.setOpaque(false);
+        headerButtons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
+
+        // Map button setup
+        ImageIcon mapIcon = new ImageIcon("./resources/map.png");
+        Image scaledMap = mapIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        mapIcon = new ImageIcon(scaledMap);
+        mapButton = new JButton();
+        mapButton.setIcon(mapIcon);
+        mapButton.setBackground(Color.BLACK);
+        mapButton.setBorderPainted(false);
+        mapButton.setContentAreaFilled(false);
+        mapButton.setFocusPainted(false);
+        mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        // Bag button setup
+        ImageIcon bagIcon = new ImageIcon("./resources/Bag.png");
+        Image scaledBag = bagIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        bagIcon = new ImageIcon(scaledBag);
+        bagButton = new JButton();
+        bagButton.setIcon(bagIcon);
+        bagButton.setBackground(Color.BLACK);
+        bagButton.setBorderPainted(false);
+        bagButton.setContentAreaFilled(false);
+        bagButton.setFocusPainted(false);
+
+        // Character button setup
+        ImageIcon characterIcon = new ImageIcon("./resources/Character.png");
+        Image scaledCharacter = characterIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        characterIcon = new ImageIcon(scaledCharacter);
+        characterButton = new JButton();
+        characterButton.setIcon(characterIcon);
+        characterButton.setBackground(Color.BLACK);
+        characterButton.setBorderPainted(false);
+        characterButton.setContentAreaFilled(false);
+        characterButton.setFocusPainted(false);
+        characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+
+        headerButtons.add(mapButton);
+        headerButtons.add(bagButton);
+        headerButtons.add(characterButton);
+
+        headerPanel.add(pauseButton, BorderLayout.WEST);
+        headerPanel.add(areaLabel, BorderLayout.CENTER);
+        headerPanel.add(headerButtons, BorderLayout.EAST);
+
+        // Interaction panel setup
+        interactionPanel = new JPanel();
+        interactionPanel.setOpaque(false);
+        interactionPanel.setLayout(new BorderLayout());
+        interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 200));
+
+        // Text Label
+        textLabel = new JLabel("", SwingConstants.CENTER);
+        textLabel.setOpaque(true);
+        textLabel.setBackground(Color.BLACK);
+        textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+        // Typing effect
+        new Thread(() -> {
+            String[] npcLines = {
+                    "Welcome, adventurer!",
+                    "Relax, enjoy a drink.",
+                    "Have you heard any tales lately?"
+            };
+
+            try {
+                for (String line : npcLines) {
+                    if (!"tavern".equals(activeScreen)) {
+                        return;
+                    }
+                    StringBuilder displayedText = new StringBuilder();
+                    for (char c : line.toCharArray()) {
+                        if (!"tavern".equals(activeScreen)) {
+                            return;
+                        }
+                        displayedText.append(c);
+                        SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                        Thread.sleep(35);
+                    }
+                    Thread.sleep(1500);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
+        // Button Panel
+        // Button Panel for Tavern with 6 buttons
+        buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new GridLayout(2, 3, 5, 5)); // 2 rows and 3 columns for six buttons
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+// Button dimensions
+        Dimension buttonSize = new Dimension(150, 30);
+
+// Create buttons with appropriate labels
+        sleepButton = createChoiceButton("Sleep", buttonSize);
+        chestButton = createChoiceButton("Chest", buttonSize);
+        talkToInKeeperButton = createChoiceButton("Talk to InKeeper", buttonSize);
+        eatButton = createChoiceButton("Eat", buttonSize);
+        questsButton = createChoiceButton("Quests", buttonSize);
+        townButton = createChoiceButton("Town", buttonSize);
+
+// Add buttons to the panel
+        buttonPanel.add(sleepButton);
+        buttonPanel.add(chestButton);
+        buttonPanel.add(talkToInKeeperButton);
+        buttonPanel.add(eatButton);
+        buttonPanel.add(questsButton);
+        buttonPanel.add(townButton);
+
+// Add button panel to the interaction panel
+        interactionPanel.add(buttonPanel);
+
+        interactionPanel.add(buttonPanel);
+
+        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
+        backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
+
+        window.setContentPane(backgroundPanel);
+        window.revalidate();
+    }
+
 
     private void handleButtonAction(String action) {
         switch (action) {
@@ -966,7 +1158,7 @@ public class GameUI {
                 loadGameScreen();
                 break;
             case "Settings":
-//                game.openSettings(); // Replace with actual logic
+//            game.openSettings(); // Replace with actual logic
                 break;
             case "Back":
                 showTitleScreen();
@@ -983,11 +1175,15 @@ public class GameUI {
             case "Merchant":
                 merchantScreen();
                 break;
+            case "Tavern": // Added Tavern case
+                tavernScreen();
+                break;
             case "Exit":
                 System.exit(0);
                 break;
         }
     }
+
 
     public void prologueGameScreen() {
         // Set up the window layout for better alignment
