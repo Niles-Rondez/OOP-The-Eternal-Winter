@@ -1,10 +1,9 @@
 package ui;
 
 import main.Game;
+import audio.AudioPlayer;
 
-import javax.sound.sampled.Clip;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,19 +28,21 @@ public class GameUI {
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
+    private String currentBGM = "TitleScreenBGM";
 
     /*
     Code to add BGM to stuff:
     audioPlayer.stopMusic(); // Stop previous music
-    audioPlayer.playMusic("./resources/music/[nameOfBgm].wav"); // Adjust the file path. This can only take in .wav files so convert.
+    audioPlayer.playMusic("./resources/music/[nameOfBgm].mp3"); // Adjust the file path.
+    currentBGM = [nameOfBgm]; // used for if statements
     */
 
     private Game game;
-//    private AudioPlayer audioPlayer = new AudioPlayer();
+    private AudioPlayer audioPlayer = new AudioPlayer();
 
     public GameUI(Game game) {
         this.game = game;
-//        this.audioPlayer.playMusic("./resources/music/titleScreen.wav");
+        this.audioPlayer.playMusic("./resources/music/TitleScreenBGM.mp3");
         mainMenuBackground = new ImageIcon("./resources/MainMenuBackground.png").getImage();
         loadGameBackground = new ImageIcon("./resources/LoadGameBackground.png").getImage();
         mainAreaBackground = new ImageIcon("./resources/TownBackground.png").getImage();
@@ -59,6 +60,7 @@ public class GameUI {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
         window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 
     private JButton createButton(String text, Dimension size) {
@@ -106,10 +108,12 @@ public class GameUI {
     }
 
     public void showTitleScreen() {
+        if (currentBGM != "TitleScreenBGM"){
+            audioPlayer.stopMusic();
+            audioPlayer.playMusic("./resources/music/TitleScreenBGM.mp3");
+            currentBGM = "TitleScreenBGM";
+        }
         // Background panel with image
-//        audioPlayer.stopMusic();
-//        audioPlayer.playMusic("./resources/music/titleScreen.wav");
-
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -751,6 +755,11 @@ public class GameUI {
     }
 
     public void mainArea() {
+        if (currentBGM != "TownBGM"){
+            audioPlayer.stopMusic();
+            audioPlayer.playMusic("./resources/music/TownBGM.mp3");
+            currentBGM = "TownBGM";
+        }
         activeScreen = "town";
         backgroundPanel = new JPanel() {
             @Override

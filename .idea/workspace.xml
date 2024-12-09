@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ee154af-e085-47ca-8504-8c154cfa4b8f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/audio/AudioPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OOP-The-Eternal-Winter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/GameUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/Merchant.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Merchant.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/Tavern.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Tavern.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/TownBackground.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/TownBackground.png" afterDir="false" />
@@ -61,12 +65,40 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Game.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "UI-testing2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/USC/2ND YEAR/1ST SEM/OOP/OOP-The-Eternal-Winter",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Elijah\Desktop\Codes\GITHUB\OOP-The-Eternal-Winter\lib" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Game" />
       <module name="OOP-The-Eternal-Winter" />
+      <option name="VM_PARAMETERS" value="--module-path lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.media " />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.*" />
