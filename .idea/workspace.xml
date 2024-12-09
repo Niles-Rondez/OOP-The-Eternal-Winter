@@ -13,12 +13,9 @@
       <change afterPath="$PROJECT_DIR$/src/quests/Quest.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/quests/QuestRegistry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/characters/PlayerCharacter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ui/TerminalGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/TerminalGame.java" afterDir="false" />
-=======
->>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
