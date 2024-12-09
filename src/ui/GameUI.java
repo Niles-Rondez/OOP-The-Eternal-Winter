@@ -20,6 +20,8 @@ public class GameUI {
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
     private boolean isTyping = false;
     private String playerClass;
+    private volatile String activeScreen = "";
+
 
     private Game game;
 
@@ -180,6 +182,7 @@ public class GameUI {
     }
 
     public void mainArea() {
+        activeScreen = "town";
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -318,6 +321,11 @@ public class GameUI {
 
             try {
                 for (char c : textToType.toCharArray()) {
+                    // Stop if the active screen changes
+                    if (!"town".equals(activeScreen)) {
+                        return;
+                    }
+
                     displayedText.append(c);
                     SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
                     Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
@@ -361,6 +369,7 @@ public class GameUI {
     }
 
     public void clinicScreen() {
+        activeScreen = "clinic";
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -491,23 +500,37 @@ public class GameUI {
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
 
-// Array of NPC dialogue lines
+        // Array of clinic's dialogue lines
         String[] npcLines = {
-                "Welcome to the Chuchu Healing Center.",
-                "This is a place of rest and recovery.",
-                "We offer remedies for your wounds and fatigue.",
-                "How may I assist you today?"
+                "Welcome to the clinic, weary traveler.",
+                "Let me tend to your wounds and ease your pain.",
+                "Health is the greatest treasure, after all."
         };
 
-// Typing effect for multiple lines
+// Typing effect for clinic's dialogue with activeScreen check
         new Thread(() -> {
             try {
                 for (String line : npcLines) {
+                    // Stop if the active screen changes
+                    if (!"clinic".equals(activeScreen)) {
+                        return;
+                    }
+
                     StringBuilder displayedText = new StringBuilder();
                     for (char c : line.toCharArray()) {
+                        // Stop if the active screen changes during typing
+                        if (!"clinic".equals(activeScreen)) {
+                            return;
+                        }
+
                         displayedText.append(c);
                         SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
-                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                        Thread.sleep(50); // Typing effect delay (adjust speed if needed)
+                    }
+
+                    // Pause between lines
+                    if (!"clinic".equals(activeScreen)) {
+                        return; // Stop if the active screen changes during the pause
                     }
                     Thread.sleep(2000); // Pause between lines
                 }
@@ -543,6 +566,7 @@ public class GameUI {
     }
 
     public void chapelScreen() {
+        activeScreen = "chapel";
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -675,21 +699,26 @@ public class GameUI {
         interactionPanel.add(textLabel, BorderLayout.NORTH);
 
 // Array of priest's dialogue lines
-        String[] npcLines = {
-                "May the Lord be with you, traveler.",
-                "The path of righteousness is not always easy.",
-                "But with faith, you will overcome all trials."
-        };
-
-// Typing effect for priest's dialogue
         new Thread(() -> {
+            String[] npcLines = {
+                    "May the Lord be with you.",
+                    "These walls have stood for centuries.",
+                    "Pray, and your faith will be rewarded."
+            };
+
             try {
                 for (String line : npcLines) {
+                    if (!"chapel".equals(activeScreen)) {
+                        return; // Stop if the active screen changes
+                    }
                     StringBuilder displayedText = new StringBuilder();
                     for (char c : line.toCharArray()) {
+                        if (!"chapel".equals(activeScreen)) {
+                            return; // Stop if the active screen changes
+                        }
                         displayedText.append(c);
                         SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
-                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                        Thread.sleep(50); // Typing effect delay
                     }
                     Thread.sleep(2000); // Pause between lines
                 }
@@ -697,6 +726,7 @@ public class GameUI {
                 Thread.currentThread().interrupt();
             }
         }).start();
+
 
 
 // Button Panel (Bottom Part of Interaction Panel)
@@ -726,6 +756,7 @@ public class GameUI {
     }
 
     public void merchantScreen() {
+        activeScreen = "merchant";
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -857,21 +888,38 @@ public class GameUI {
         interactionPanel.add(textLabel, BorderLayout.NORTH);
 
 // Array of merchant's dialogue lines
+
+        // Array of merchant's dialogue lines
         String[] npcLines = {
-                "Welcome, traveler. What can I do for you today?",
-                "I have fine wares from all corners of the land.",
-                "Feel free to browse and make an offer, if you wish."
+                "Welcome, traveler. Care to see my wares?",
+                "I offer treasures both common and rare.",
+                "Take your time, and let me know what catches your eye."
         };
 
-// Typing effect for merchant's dialogue
+// Typing effect for merchant's dialogue with activeScreen check
         new Thread(() -> {
             try {
                 for (String line : npcLines) {
+                    // Stop if the active screen changes
+                    if (!"merchant".equals(activeScreen)) {
+                        return;
+                    }
+
                     StringBuilder displayedText = new StringBuilder();
                     for (char c : line.toCharArray()) {
+                        // Stop if the active screen changes during typing
+                        if (!"merchant".equals(activeScreen)) {
+                            return;
+                        }
+
                         displayedText.append(c);
                         SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
-                        Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                        Thread.sleep(50); // Typing effect delay (adjust speed if needed)
+                    }
+
+                    // Pause between lines
+                    if (!"merchant".equals(activeScreen)) {
+                        return; // Stop if the active screen changes during the pause
                     }
                     Thread.sleep(2000); // Pause between lines
                 }
