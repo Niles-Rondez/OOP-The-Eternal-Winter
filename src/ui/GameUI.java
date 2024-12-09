@@ -11,26 +11,24 @@ import java.awt.event.ActionListener;
 
 public class GameUI {
     private JFrame window;
-    private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel, imagePanel, mainTextPanel, choicePanel;
-    private JLabel titleLabel, areaLabel, textLabel, pauseLabel;
-    private JPanel titlePanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel, statsPanel, health_manaPanel, questPanel, imagePanel, mainTextPanel, choicePanel;
-    private JLabel titleLabel, areaLabel, textLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel, wisLabel, luckLabel, agiLabel, pauseLabel;
-    private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton, clinicButton,
-            chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton, sellButton, townButton, choice1, choice2, choice3, choice4, choice5, sleepButton, chestButton, innKeeperButton, eatButton, questButton;
+    private JPanel titlePanel, startButtonPanel, backgroundPanel, buttonPanel, headerPanel, headerButtons, interactionPanel,
+            statsPanel, health_manaPanel, questPanel, imagePanel, mainTextPanel, choicePanel;
+    private JLabel titleLabel, areaLabel, textLabel, pauseLabel, healthLabel, manaLabel, strLabel, intLabel, dexLabel, conLabel,
+            wisLabel, luckLabel, agiLabel;
+    private JButton newGameButton, loadGameButton, settingsButton, exitButton, adventureButton, noticeboardButton, merchantButton,
+            clinicButton, chapelButton, tavernButton, pauseButton, mapButton, bagButton, characterButton, buyButton,
+            sellButton, townButton, choice1, choice2, choice3, choice4, choice5, sleepButton, chestButton,
+            innKeeperButton, eatButton, questButton;
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private Font textFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground;
+    private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
+    private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground,
+            merchantBackground, tavernBackground;
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
 
-    private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
-    private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground, tavernBackground;
-    private boolean isTyping = false;
-    private String playerClass;
-    private volatile String activeScreen = "";
     /*
     Code to add BGM to stuff:
     audioPlayer.stopMusic(); // Stop previous music
