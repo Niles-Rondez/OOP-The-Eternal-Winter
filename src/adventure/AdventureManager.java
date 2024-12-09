@@ -81,7 +81,7 @@ public class AdventureManager {
 
     private void encounterFinalBoss() {
         System.out.println("The Final Boss awaits!");
-        Enemy finalBoss = generateEnemy("FINAL_BOSS");
+        Enemy finalBoss = generateEnemy("DRAGON");
         finalBoss.resetStats();
         combat(finalBoss);
     }
@@ -200,7 +200,7 @@ public class AdventureManager {
         List<Enemy> allEnemies = EnemyRegistry.getAllEnemies();
         // Exclude bosses from random encounters
         List<Enemy> nonBossEnemies = allEnemies.stream()
-                .filter(enemy -> !enemy.getName().equals("Mini-Boss") && !enemy.getName().equals("Final Boss"))
+                .filter(enemy -> !enemy.getName().equals("Mini-Boss") && !enemy.getName().equals("Final Boss") && !enemy.getName().equals("Dragon"))
                 .toList();
         return nonBossEnemies.get(random.nextInt(nonBossEnemies.size()));
     }
@@ -210,6 +210,7 @@ public class AdventureManager {
         return switch (enemyName) {
             case "MINI_BOSS" -> EnemyRegistry.MINI_BOSS;
             case "FINAL_BOSS" -> EnemyRegistry.FINAL_BOSS;
+            case "DRAGON" -> EnemyRegistry.DRAGON;
             default -> throw new IllegalArgumentException("Invalid enemy name: " + enemyName);
         };
     }
