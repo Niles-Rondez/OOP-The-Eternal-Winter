@@ -21,7 +21,9 @@ public class GameUI {
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground, merchantBackground, tavernBackground;
-
+    private boolean isTyping = false;
+    private String playerClass;
+    private volatile String activeScreen = "";
     /*
     Code to add BGM to stuff:
     audioPlayer.stopMusic(); // Stop previous music
@@ -696,6 +698,27 @@ public class GameUI {
         textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
+
+        // Typing effect for the existing text
+        new Thread(() -> {
+            String textToType = "Wandering the town's cold roads."; // Original text
+            StringBuilder displayedText = new StringBuilder();
+
+            try {
+                for (char c : textToType.toCharArray()) {
+                    // Stop if the active screen changes
+                    if (!"town".equals(activeScreen)) {
+                        return;
+                    }
+
+                    displayedText.append(c);
+                    SwingUtilities.invokeLater(() -> textLabel.setText(displayedText.toString()));
+                    Thread.sleep(50); // Delay for typing effect (adjust speed if needed)
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
 
 // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
@@ -1640,6 +1663,47 @@ public class GameUI {
                 System.exit(0);
                 break;
         }
+    }
+
+    public void prologueGameScreen() {
+        // Set up the window layout for better alignment
+        window.setLayout(new BorderLayout());
+
+        // Create main text panel
+        mainTextPanel = new JPanel();
+        mainTextPanel.setBackground(Color.BLACK); // Set background to black for contrast
+        mainTextPanel.setLayout(new GridBagLayout()); // Use GridBagLayout for centering
+
+        // Configure JTextArea
+        mainTextArea = new JTextArea();
+        mainTextArea.setEditable(false);
+        mainTextArea.setForeground(Color.WHITE); // Set text color to white
+        mainTextArea.setBackground(Color.BLACK); // Set background to black
+        mainTextArea.setFont(textFont); // Use your custom font
+        mainTextArea.setLineWrap(true);
+        mainTextArea.setWrapStyleWord(true);
+        mainTextArea.setPreferredSize(new Dimension(580, 250));
+        mainTextArea.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20)); // Add padding for centering effect
+
+        // Add JTextArea to JScrollPane
+        JScrollPane scrollPane = new JScrollPane(mainTextArea);
+        scrollPane.setPreferredSize(new Dimension(580, 250));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // No border for cleaner look
+        mainTextPanel.add(scrollPane);
+
+        // Create and configure the choice panel
+        choicePanel = new JPanel();
+        choicePanel.setBackground(Color.BLACK);
+        choicePanel.setLayout(new BoxLayout(choicePanel, BoxLayout.Y_AXIS)); // Align choices vertically
+        choicePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center choices horizontally
+        createChoiceButtons();
+
+        // Clear the current content and add the new layout
+        window.getContentPane().removeAll(); // Remove any previous content
+        window.add(mainTextPanel, BorderLayout.CENTER); // Center the main text panel
+        window.add(choicePanel, BorderLayout.SOUTH); // Place choice panel at the bottom
+        window.revalidate();
+        window.repaint();
     }
 
     private void createChoiceButtons() {
