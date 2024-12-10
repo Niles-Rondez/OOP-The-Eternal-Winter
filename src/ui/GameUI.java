@@ -229,6 +229,10 @@ public class GameUI {
         loadGameButton = createButton("Act II", buttonSize);
         settingsButton = createButton("Empty", buttonSize);
         exitButton = createButton("Back", buttonSize);
+        exitButton.addActionListener(e -> {
+            window.getGlassPane().setVisible(false);
+            showTitleScreen(); // Switch to the main menu
+        });
 
         buttonPanel.add(Box.createVerticalGlue());
         buttonPanel.add(newGameButton);
