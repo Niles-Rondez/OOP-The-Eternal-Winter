@@ -1,5 +1,6 @@
 package ui;
 
+import characters.PlayerCharacter;
 import main.Game;
 import audio.AudioPlayer;
 
@@ -32,6 +33,16 @@ public class GameUI {
     private String[] enemies = {"A Direwolf", "A Skeleton", "A Goblin", "A Vampire", "A Bandit"};
     private String currentEnemy;
 
+    private static boolean guiMode = true; // Set to true if running in GUI mode
+
+    public static boolean isGuiMode() {
+        return guiMode;
+    }
+
+    public static void setGuiMode(boolean mode) {
+        guiMode = mode;
+    }
+
     /*
     Code to add BGM to stuff:
     audioPlayer.stopMusic(); // Stop previous music
@@ -41,8 +52,12 @@ public class GameUI {
 
     private Game game;
     private AudioPlayer audioPlayer = new AudioPlayer();
+    private PlayerCharacter player;
+
+
 
     public GameUI(Game game) {
+        this.player = new PlayerCharacter();
         this.game = game;
         this.audioPlayer.playMusic("./resources/music/TitleScreenBGM.mp3");
         mainMenuBackground = new ImageIcon("./resources/MainMenuBackground.png").getImage();
@@ -2583,29 +2598,33 @@ public class GameUI {
         }
     }
 
+
     private class ChoiceButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (!isTyping) {  // Only proceed if no typing effect is running
+            if (!isTyping) {
                 JButton source = (JButton) e.getSource();
                 String choiceText = source.getText();
 
-                // Check if the choice is a class selection
-                if (choiceText.equals("Warrior") || choiceText.equals("Mage") ||
-                        choiceText.equals("Ranger") || choiceText.equals("Assassin") || choiceText.equals("Monk")) {
-                    // Set the player's class based on their choice
-                    playerClass = choiceText;
-                }
-                // Check if the choice is "Escape"
-                else if (choiceText.equals("Escape")) {
-                    // Transition to the main area when "Escape" is selected
-                    mainArea();
+                // Handle class selection based on the choice text
+                if (choiceText.contains("Warrior")) {
+                    player.finalizeCharacter("Warrior"); // Finalize as Warrior
+                } else if (choiceText.contains("Mage")) {
+                    player.finalizeCharacter("Mage"); // Finalize as Mage
+                } else if (choiceText.contains("Ranger")) {
+                    player.finalizeCharacter("Ranger"); // Finalize as Ranger
+                } else if (choiceText.contains("Assassin")) {
+                    player.finalizeCharacter("Assassin"); // Finalize as Assassin
+                } else if (choiceText.contains("Monk")) {
+                    player.finalizeCharacter("Monk"); // Finalize as Monk
+                } else if (choiceText.equals("Escape")) {
+                    mainArea(); // Handle escape choice
                 }
 
-                // Handle the choice as usual (for other dialogues/choices)
                 game.handleChoice(choiceText);
+                // Print class info after selection
+                System.out.println("Class set to: " + player.getCharacterClass());
             }
         }
     }
-
 
 }

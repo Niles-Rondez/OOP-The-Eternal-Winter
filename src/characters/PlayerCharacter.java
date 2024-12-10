@@ -7,6 +7,7 @@ import skills.SkillsRegistry;
 import stats.Stats;
 import items.Inventory;
 import items.Item;
+import ui.GameUI;
 
 import java.util.*;
 
@@ -25,20 +26,32 @@ public class PlayerCharacter {
 
     public PlayerCharacter() {
         this.name = DEFAULT_NAME;
-        this.characterClass = chooseClass();  // Get the character class first
-        this.className = characterClass.toString(); // Set className from the characterClass
-        this.baseStats = initializeStats();  // Initialize stats based on the class
-        this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);  // Equipment stats
-        this.inventory = new Inventory();  // Empty inventory initially
-        this.gold = 0;  // Start with 0 gold
-        this.skills = initializeSkills(); // Initialize starting skills
-        this.equipmentSlots = new HashMap<>(); // Initialize slots with null values, no equipment in any slot at first
+        this.characterClass = null; // Start with no class selected
+        this.className = "Unselected"; // Placeholder until the class is chosen
+        this.baseStats = null; // Initialize later
+        this.equipmentStats = new Stats(0, 0, 0, 0, 0, 0, 0);
+        this.inventory = new Inventory();
+        this.gold = 0;
+        this.skills = new ArrayList<>(); // Empty skills initially
+        this.equipmentSlots = new HashMap<>();
         this.equipmentSlots.put("Head", null);
         this.equipmentSlots.put("Body", null);
         this.equipmentSlots.put("Legs", null);
         this.equipmentSlots.put("Weapon", null);
         this.activeQuests = new ArrayList<>();
     }
+
+    // Add a method to finalize character creation
+    public void finalizeCharacter(String className) {
+        this.characterClass = chooseClass(className);
+        if (this.characterClass == null) {
+            throw new IllegalArgumentException("Invalid character class: " + className);
+        }
+        this.className = this.characterClass.toString();
+        this.baseStats = initializeStats(); // Initialize stats after the class is set
+        this.skills = initializeSkills(); // Initialize skills after the class is set
+    }
+
 
     public void addQuest(Quest quest) {
         activeQuests.add(quest);
@@ -119,12 +132,21 @@ public class PlayerCharacter {
         skills.add(skill);
     }
 
+    public CharacterClass chooseClass(String className) {
+        // Use the updated chooseClass method logic here
+        return switch (className) {
+            case "Warrior" -> CharacterClass.WARRIOR;
+            case "Mage" -> CharacterClass.MAGE;
+            case "Ranger" -> CharacterClass.RANGER;
+            case "Assassin" -> CharacterClass.ASSASSIN;
+            case "Monk" -> CharacterClass.MONK;
+            default -> null;
+        };
+    }
+
+    // Overloaded version for console input
     private CharacterClass chooseClass() {
         Scanner scanner = new Scanner(System.in);
-        CharacterClass chosenClass = null;
-        String className = ""; // Variable to store the name of the chosen class
-
-        // Add the class selection dialogue
         System.out.println("Choose your character class:");
         System.out.println("1. Warrior");
         System.out.println("2. Mage");
@@ -132,38 +154,24 @@ public class PlayerCharacter {
         System.out.println("4. Assassin");
         System.out.println("5. Monk");
 
-        while (chosenClass == null) {
+        while (true) {
             System.out.print("Enter the number corresponding to your choice: ");
             int choice = scanner.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    chosenClass = CharacterClass.WARRIOR;
-                    className = "Warrior"; // Set the class name
-                }
-                case 2 -> {
-                    chosenClass = CharacterClass.MAGE;
-                    className = "Mage"; // Set the class name
-                }
-                case 3 -> {
-                    chosenClass = CharacterClass.RANGER;
-                    className = "Ranger"; // Set the class name
-                }
-                case 4 -> {
-                    chosenClass = CharacterClass.ASSASSIN;
-                    className = "Assassin"; // Set the class name
-                }
-                case 5 -> {
-                    chosenClass = CharacterClass.MONK;
-                    className = "Monk"; // Set the class name
-                }
-                default -> System.out.println("Invalid choice, please choose a valid class.");
+            String className = switch (choice) {
+                case 1 -> "Warrior";
+                case 2 -> "Mage";
+                case 3 -> "Ranger";
+                case 4 -> "Assassin";
+                case 5 -> "Monk";
+                default -> null;
+            };
+            if (className != null) {
+                return chooseClass(className); // Reuse the string-based method
             }
+            System.out.println("Invalid choice, please try again.");
         }
-
-        // Print the chosen class name
-        System.out.println("You have chosen the " + className + " class.");
-        return chosenClass;
     }
+
 
     private Stats initializeStats() {
         return switch (characterClass) {
@@ -276,5 +284,13 @@ public class PlayerCharacter {
     public int getMaxMana() {
         Stats combinedStats = getStats();
         return combinedStats.getWisdom() * 3;
+    }
+
+    public CharacterClass getCharacterClass() {
+        return characterClass;
+    }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        this.characterClass = characterClass;
     }
 }
