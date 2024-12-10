@@ -27,13 +27,15 @@ public class GameUI {
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
     private Font textFont = new Font("Times New Roman", Font.PLAIN, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground,
-            merchantBackground, tavernBackground, area1Background, direWolfBackground;
+            merchantBackground, tavernBackground, area1Background, direWolfBackground, skeletonBackground, goblinBackground, dragonBackground;
     private boolean isTyping = false;
     private String playerClass;
     private volatile String activeScreen = "";
     private String currentBGM = "TitleScreenBGM";
-    private String[] enemies = {"A Direwolf", "A Skeleton", "A Goblin", "A Vampire", "A Bandit"};
+    private String[] enemies = {"A Direwolf", "A Skeleton", "A Goblin", "A Dragon"};
     private String currentEnemy;
+    private String lastScreen; // To track the previous screen
+    private String lastActiveScreen; // To store the last active screen
     private Map<String, String> attackDetails;
     private Map<String, String> skillDetails;
     private Map<String, String> itemDetails;
@@ -75,6 +77,9 @@ public class GameUI {
         tavernBackground = new ImageIcon("./resources/Tavern.png").getImage();
         area1Background = new ImageIcon("./resources/Area1.png").getImage();
         direWolfBackground = new ImageIcon("./resources/DireWolfBattle.png").getImage();
+        skeletonBackground = new ImageIcon("./resources/SkeletonBattle.png").getImage();
+        goblinBackground = new ImageIcon("./resources/GoblinBattle.png").getImage();
+        dragonBackground = new ImageIcon("./resources/DragonBattle.png").getImage();
         createWindow();
     }
 
@@ -244,8 +249,87 @@ public class GameUI {
         window.revalidate();
     }
 
+    public void pauseGame() {
+        // Save the current screen as the last active screen
+        lastActiveScreen = activeScreen;
+
+        JPanel pauseOverlay = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+                g2d.setColor(Color.BLACK);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+                g2d.dispose();
+            }
+        };
+        pauseOverlay.setLayout(new BoxLayout(pauseOverlay, BoxLayout.Y_AXIS));
+        pauseOverlay.setOpaque(false);
+
+        JButton resumeButton = createButton("Resume", new Dimension(200, 50));
+        resumeButton.addActionListener(e -> {
+            window.getGlassPane().setVisible(false);
+            switchToLastScreen(); // Restore the last active screen
+        });
+
+        JButton mainMenuButton = createButton("Main Menu", new Dimension(200, 50));
+        mainMenuButton.addActionListener(e -> {
+            window.getGlassPane().setVisible(false);
+            showTitleScreen(); // Switch to the main menu
+        });
+
+        JButton exitButton = createButton("Exit", new Dimension(200, 50));
+        exitButton.addActionListener(e -> System.exit(0));
+
+        pauseOverlay.add(Box.createVerticalGlue());
+        pauseOverlay.add(resumeButton);
+        pauseOverlay.add(Box.createVerticalStrut(20));
+        pauseOverlay.add(mainMenuButton);
+        pauseOverlay.add(Box.createVerticalStrut(20));
+        pauseOverlay.add(exitButton);
+        pauseOverlay.add(Box.createVerticalGlue());
+
+        window.setGlassPane(pauseOverlay);
+        pauseOverlay.setVisible(true);
+    }
+
+    private void switchToLastScreen() {
+        if (lastActiveScreen == null) {
+            System.out.println("No previous screen to return to!");
+            return;
+        }
+
+        switch (lastActiveScreen) {
+            case "town":
+                mainArea();
+                break;
+            case "adventure":
+                adventureScreen();
+                break;
+            case "clinic":
+                clinicScreen();
+                break;
+            case "chapel":
+                chapelScreen();
+                break;
+            case "merchant":
+                merchantScreen();
+                break;
+            case "tavern":
+                tavernScreen();
+                break;
+            default:
+                System.out.println("Unknown screen: " + lastActiveScreen);
+        }
+
+        // Clear the lastActiveScreen to avoid reloading incorrect screens in the future
+        lastActiveScreen = null;
+    }
+
     public void adventureScreen() {
         // Background panel with image
+        activeScreen = "Adventure";
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -272,8 +356,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
-
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
         JPanel adventurePanel = new JPanel();
         adventurePanel.setOpaque(false);
@@ -372,12 +455,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
 // Bag Button
         bagButton = createHeaderButton(
@@ -484,78 +567,89 @@ public class GameUI {
     }
 
     public void direwolfFightScreen() {
-        // Set up the background panel
+        lastScreen = "Dire Wolf";
+        currentEnemy = "Dire Wolf";
+        setupFightScreen(direWolfBackground);
+    }
+
+    public void skeletonFightScreen() {
+        lastScreen = "Skeleton";
+        currentEnemy = "Skeleton";
+        setupFightScreen(skeletonBackground);
+    }
+
+    public void goblinFightScreen() {
+        lastScreen = "Goblin";
+        currentEnemy = "Goblin";
+        setupFightScreen(goblinBackground);
+    }
+
+    public void dragonFightScreen() {
+        lastScreen = "Dragon";
+        currentEnemy = "Dragon";
+        setupFightScreen(dragonBackground);
+    }
+
+    private void setupFightScreen(Image backgroundImage) {
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(direWolfBackground, 0, 0, getWidth(), getHeight(), this); // Use direWolfBackground
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
         backgroundPanel.setLayout(new BorderLayout());
 
-        // Create the header panel
         headerPanel = new JPanel();
         headerPanel.setOpaque(false);
         headerPanel.setLayout(new BorderLayout());
 
-        // Add a pause button to the header panel
         pauseButton = createHeaderButton("./resources/pause_icon.png", 40, 40, e -> System.out.println("Game Paused"));
         headerPanel.add(pauseButton, BorderLayout.WEST);
 
-        // Set up the interaction panel with the initial state
         setupInitialInteractionPanel();
 
-        // Add the header and interaction panels to the background
         backgroundPanel.add(headerPanel, BorderLayout.NORTH);
         backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
 
-        // Set the content pane
         window.setContentPane(backgroundPanel);
         window.revalidate();
     }
 
-    // Method to set up the initial interaction panel
     private void setupInitialInteractionPanel() {
-        // Interaction panel
         interactionPanel = new JPanel();
         interactionPanel.setOpaque(false);
         interactionPanel.setLayout(new BorderLayout());
-        interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50)); // Add margins around the panel
-        interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 300)); // Set a fixed height for the interaction panel
+        interactionPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        interactionPanel.setPreferredSize(new Dimension(window.getWidth(), 300));
 
-        // Text Label (Top Part of Interaction Panel)
-        textLabel = new JLabel("Dire Wolf", SwingConstants.LEFT);
-        textLabel.setOpaque(false); // Make the background visible
-        textLabel.setBackground(Color.BLACK); // Set background to black
-        textLabel.setForeground(Color.WHITE); // Set text color to white for contrast
-        textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
-        textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        // Update textLabel based on the current enemy
+        textLabel = new JLabel(currentEnemy != null ? currentEnemy : "Enemy", SwingConstants.LEFT);
+        textLabel.setOpaque(false);
+        textLabel.setBackground(Color.BLACK);
+        textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         interactionPanel.add(textLabel, BorderLayout.NORTH);
 
-        // Dialogue Label (Middle of Interaction Panel)
-        dialogueLabel = new JLabel("Woof Woof Woof", SwingConstants.LEFT);
-        dialogueLabel.setOpaque(true); // Make the background visible
-        dialogueLabel.setForeground(Color.WHITE); // Set text color to white for contrast
-        dialogueLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
-        dialogueLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
+        dialogueLabel = new JLabel("Prepare for battle!", SwingConstants.LEFT);
+        dialogueLabel.setOpaque(true);
+        dialogueLabel.setForeground(Color.WHITE);
+        dialogueLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        dialogueLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         dialogueLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        dialogueLabel.setPreferredSize(new Dimension(window.getWidth() - 300, 40)); // Set width to 100 less than window's width, height to 40
-
-        // Set the background color with reduced opacity (RGBA color)
-        dialogueLabel.setBackground(new Color(0, 0, 0, 200)); // RGBA where A is the alpha (opacity)
+        dialogueLabel.setPreferredSize(new Dimension(window.getWidth() - 300, 40));
+        dialogueLabel.setBackground(new Color(0, 0, 0, 200));
 
         interactionPanel.add(dialogueLabel, BorderLayout.WEST);
 
-        // Button Panel (Bottom Part of Interaction Panel)
         buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new GridLayout(4, 1, 5, 5)); // Add spacing between buttons
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button panel
+        buttonPanel.setLayout(new GridLayout(4, 1, 5, 5));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
-        // Adjust button size
-        Dimension choiceButtonSize = new Dimension(150, 50); // Make buttons smaller to match the image
+        Dimension choiceButtonSize = new Dimension(150, 50);
 
         attackButton = createChoiceButton("Attack", choiceButtonSize);
         skillButton = createChoiceButton("Use Skill", choiceButtonSize);
@@ -564,21 +658,46 @@ public class GameUI {
 
         initializeAttackDetails();
         initializeSkillAndItemDetails();
-        // Add action listener to the "Attack" button
+
         attackButton.addActionListener(e -> showAttackOptions());
         skillButton.addActionListener(e -> showSkillOptions());
         itemButton.addActionListener(e -> showItemOptions());
 
-        // Add action listener to the "Run" button
+        // Update run button to go back to the appropriate fight screen
         runButton.addActionListener(e -> adventureScreen());
 
-        // Add buttons to the button panel
         buttonPanel.add(attackButton);
         buttonPanel.add(skillButton);
         buttonPanel.add(itemButton);
         buttonPanel.add(runButton);
 
         interactionPanel.add(buttonPanel, BorderLayout.EAST);
+    }
+
+    private void goToEnemyFightScreen() {
+        if (lastScreen == null) {
+            System.out.println("Error: lastScreen is null. Cannot navigate back.");
+            JOptionPane.showMessageDialog(window, "No previous screen to go back to!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        switch (lastScreen) {
+            case "Dire Wolf":
+                direwolfFightScreen();
+                break;
+            case "Skeleton":
+                skeletonFightScreen();
+                break;
+            case "Goblin":
+                goblinFightScreen();
+                break;
+            case "Dragon":
+                dragonFightScreen();
+                break;
+            default:
+                System.out.println("Error: Unknown last screen - " + lastScreen);
+                JOptionPane.showMessageDialog(window, "Unknown screen: " + lastScreen, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void initializeAttackDetails() {
@@ -605,18 +724,12 @@ public class GameUI {
 
     // Method to show the attack options
     private void showAttackOptions() {
-        // Update the text label
         textLabel.setText("Choose your attack!");
+        dialogueLabel.setText("What will be your next move?");
 
-        // Update the dialogue label
-        dialogueLabel.setText("The Direwolf waits for your next move.");
-
-        // Clear the button panel and set up the layout
         buttonPanel.removeAll();
-        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Grid layout for attack buttons (5 rows for 4 attacks + 1 back button)
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding around the buttons
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Grid layout for 4 attacks + 1 back button
 
-        // Create buttons for attacks
         String[] attacks = {"Attack 1", "Attack 2", "Attack 3", "Attack 4"};
         for (String attack : attacks) {
             JButton attackButton = createChoiceButton(attack, new Dimension(150, 30));
@@ -624,12 +737,11 @@ public class GameUI {
             buttonPanel.add(attackButton);
         }
 
-        // Add the "Back" button
+        // Dynamic "Back" button
         JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
-        backButton.addActionListener(e -> direwolfFightScreen());
+        backButton.addActionListener(e -> goToEnemyFightScreen());
         buttonPanel.add(backButton);
 
-        // Revalidate and repaint the panel
         interactionPanel.revalidate();
         interactionPanel.repaint();
     }
@@ -639,7 +751,7 @@ public class GameUI {
         dialogueLabel.setText("Select a skill to use.");
 
         buttonPanel.removeAll();
-        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // 4 skill buttons + 1 back button
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Grid layout for 4 skills + 1 back button
 
         String[] skills = {"Skill 1", "Skill 2", "Skill 3", "Skill 4"};
         for (String skill : skills) {
@@ -648,8 +760,9 @@ public class GameUI {
             buttonPanel.add(skillButton);
         }
 
+        // Dynamic "Back" button
         JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
-        backButton.addActionListener(e -> direwolfFightScreen());
+        backButton.addActionListener(e -> goToEnemyFightScreen());
         buttonPanel.add(backButton);
 
         interactionPanel.revalidate();
@@ -661,7 +774,7 @@ public class GameUI {
         dialogueLabel.setText("Select an item to use.");
 
         buttonPanel.removeAll();
-        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // 4 item buttons + 1 back button
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Grid layout for 4 items + 1 back button
 
         String[] items = {"Item 1", "Item 2", "Item 3", "Item 4"};
         for (String item : items) {
@@ -670,14 +783,14 @@ public class GameUI {
             buttonPanel.add(itemButton);
         }
 
+        // Dynamic "Back" button
         JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
-        backButton.addActionListener(e -> direwolfFightScreen());
+        backButton.addActionListener(e -> goToEnemyFightScreen());
         buttonPanel.add(backButton);
 
         interactionPanel.revalidate();
         interactionPanel.repaint();
     }
-
 
     // Method to update attack details dynamically
     private void updateAttackDetails(String attack) {
@@ -721,16 +834,13 @@ public class GameUI {
                 direwolfFightScreen();
                 break;
             case "A Skeleton":
-                JOptionPane.showMessageDialog(window, "You fought a Skeleton and lost!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                skeletonFightScreen();
                 break;
             case "A Goblin":
-                JOptionPane.showMessageDialog(window, "You fought a Goblin and it ran away!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+                goblinFightScreen();
                 break;
-            case "A Vampire":
-                JOptionPane.showMessageDialog(window, "You fought a Vampire and it turned into mist!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case "A Bandit":
-                JOptionPane.showMessageDialog(window, "You fought a Bandit and captured their loot!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
+            case "A Dragon":
+                dragonFightScreen();
                 break;
             default:
                 JOptionPane.showMessageDialog(window, "The fight ended in a draw!", "Fight Result", JOptionPane.INFORMATION_MESSAGE);
@@ -1143,43 +1253,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
-
-//        areaLabel = new JLabel("Town", SwingConstants.CENTER) {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                Graphics2D g2d = (Graphics2D) g.create();
-//
-//                // Enable anti-aliasing for smoother text rendering
-//                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//
-//                // Draw the outline
-//                g2d.setFont(getFont());
-//                g2d.setColor(Color.BLACK); // Outline color
-//                String text = getText();
-//                FontMetrics metrics = g2d.getFontMetrics(getFont());
-//                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-//                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-//                for (int dx = -1; dx <= 1; dx++) {
-//                    for (int dy = -1; dy <= 1; dy++) {
-//                        if (dx != 0 || dy != 0) {
-//                            g2d.drawString(text, x + dx, y + dy);
-//                        }
-//                    }
-//                }
-//
-//                // Draw the main text
-//                g2d.setColor(Color.WHITE); // Main text color
-//                g2d.drawString(text, x, y);
-//
-//                g2d.dispose();
-//            }
-//        };
-//        areaLabel.setFont(titleFont); // Apply your font
-//        areaLabel.setOpaque(false); // Transparent background
-//        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
@@ -1187,12 +1261,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
 // Bag Button
         bagButton = createHeaderButton(
@@ -1288,6 +1362,7 @@ public class GameUI {
         chapelButton = createChoiceButton("Chapel", choicebuttonSize);
         tavernButton = createChoiceButton("Tavern", choicebuttonSize);
 
+
         buttonPanel.add(adventureButton);
         buttonPanel.add(noticeboardButton);
         buttonPanel.add(merchantButton);
@@ -1331,49 +1406,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
-
-//        areaLabel = new JLabel("Town");
-//        areaLabel.setForeground(Color.WHITE);
-//        areaLabel.setFont(titleFont);
-//        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
-        areaLabel = new JLabel("Clinic", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                // Enable anti-aliasing for smoother text rendering
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Draw the outline
-                g2d.setFont(getFont());
-                g2d.setColor(Color.BLACK); // Outline color
-                String text = getText();
-                FontMetrics metrics = g2d.getFontMetrics(getFont());
-                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            g2d.drawString(text, x + dx, y + dy);
-                        }
-                    }
-                }
-
-                // Draw the main text
-                g2d.setColor(Color.WHITE); // Main text color
-                g2d.drawString(text, x, y);
-
-                g2d.dispose();
-            }
-        };
-        areaLabel.setFont(titleFont); // Apply your font
-        areaLabel.setOpaque(false); // Transparent background
-        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
@@ -1381,12 +1414,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
 // Bag Button
         bagButton = createHeaderButton(
@@ -1404,7 +1437,6 @@ public class GameUI {
         headerButtons.add(characterButton);
 
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(areaLabel, BorderLayout.CENTER);
         headerPanel.add(headerButtons, BorderLayout.EAST);
 
         interactionPanel = new JPanel();
@@ -1679,7 +1711,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
 
         headerButtons = new JPanel();
@@ -1688,12 +1720,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
 // Bag Button
         bagButton = createHeaderButton(
@@ -1711,7 +1743,6 @@ public class GameUI {
         headerButtons.add(characterButton);
 
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(areaLabel, BorderLayout.CENTER);
         headerPanel.add(headerButtons, BorderLayout.EAST);
 
         interactionPanel = new JPanel();
@@ -1812,7 +1843,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
 //        areaLabel = new JLabel("Town");
 //        areaLabel.setForeground(Color.WHITE);
@@ -2017,7 +2048,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
@@ -2025,12 +2056,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
 // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
 // Bag Button
         bagButton = createHeaderButton(
@@ -2124,7 +2155,7 @@ public class GameUI {
         pauseButton.setBorderPainted(false); // Optional: Remove button border
         pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
+        pauseButton.addActionListener(e -> pauseGame()); // Add your pause logic here
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
@@ -2132,12 +2163,12 @@ public class GameUI {
         headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
 
         // Map Button
-        mapButton = createHeaderButton(
+        /* mapButton = createHeaderButton(
                 "./resources/map.png", 40, 40,
                 e -> System.out.println("Map button clicked")
         );
         mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
+        headerButtons.add(mapButton); */
 
         // Bag Button
         bagButton = createHeaderButton(
