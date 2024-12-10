@@ -22,7 +22,7 @@ public class GameUI {
     private JTextArea mainTextArea;
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font buttonFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private Font textFont = new Font("Times New Roman", Font.BOLD, 25);
+    private Font textFont = new Font("Times New Roman", Font.PLAIN, 25);
     private Image mainMenuBackground, loadGameBackground, mainAreaBackground, clinicBackground, chapelBackground,
             merchantBackground, tavernBackground, area1Background, direWolfBackground;
     private boolean isTyping = false;

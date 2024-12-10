@@ -249,7 +249,7 @@
   "roadContinues": {
     "text": "- You gather your supplies and press on, the snow crunching beneath your boots. The unsettling silence returns, broken only by the occasional howl of the wind. -",
     "choices": [
-      { "text": "Continue onward.", "nextNode": "mysteriousEncampment" }
+      { "text": "Continue onward.", "nextNode": "mainArea", "action":  true}
     ]
   }
 }
