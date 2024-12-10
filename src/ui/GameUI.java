@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class GameUI {
@@ -32,6 +34,10 @@ public class GameUI {
     private String currentBGM = "TitleScreenBGM";
     private String[] enemies = {"A Direwolf", "A Skeleton", "A Goblin", "A Vampire", "A Bandit"};
     private String currentEnemy;
+    private Map<String, String> attackDetails;
+    private Map<String, String> skillDetails;
+    private Map<String, String> itemDetails;
+
 
     private static boolean guiMode = true; // Set to true if running in GUI mode
 
@@ -478,64 +484,40 @@ public class GameUI {
     }
 
     public void direwolfFightScreen() {
+        // Set up the background panel
         backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(direWolfBackground, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(direWolfBackground, 0, 0, getWidth(), getHeight(), this); // Use direWolfBackground
             }
         };
         backgroundPanel.setLayout(new BorderLayout());
 
+        // Create the header panel
         headerPanel = new JPanel();
         headerPanel.setOpaque(false);
         headerPanel.setLayout(new BorderLayout());
 
-        // Load the pause icon
-        ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png"); // Replace with your image path
-        Image scaledPauseIcon = pauseIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH); // Resize if needed
-        pauseIcon = new ImageIcon(scaledPauseIcon);
-
-        // Create the pause button with the icon
-        pauseButton = new JButton();
-        pauseButton.setIcon(pauseIcon); // Set the icon
-        pauseButton.setBackground(Color.BLACK);
-        pauseButton.setBorderPainted(false); // Optional: Remove button border
-        pauseButton.setContentAreaFilled(false); // Optional: Make button background transparent
-        pauseButton.setFocusPainted(false); // Optional: Remove focus border
-        pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
-
-        headerButtons = new JPanel();
-        headerButtons.setOpaque(false);
-        headerButtons.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.setLayout(new FlowLayout(FlowLayout.TRAILING, 0, 0));
-
-        // Map Button
-        mapButton = createHeaderButton(
-                "./resources/map.png", 40, 40,
-                e -> System.out.println("Map button clicked")
-        );
-        mapButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        headerButtons.add(mapButton);
-
-        // Bag Button
-        bagButton = createHeaderButton(
-                "./resources/Bag.png", 40, 40,
-                e -> inventoryScreen()
-        );
-        headerButtons.add(bagButton);
-
-        // Character Button
-        characterButton = createHeaderButton(
-                "./resources/Character.png", 40, 40,
-                e -> characterScreen()
-        );
-        characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
-        headerButtons.add(characterButton);
-
+        // Add a pause button to the header panel
+        pauseButton = createHeaderButton("./resources/pause_icon.png", 40, 40, e -> System.out.println("Game Paused"));
         headerPanel.add(pauseButton, BorderLayout.WEST);
-        headerPanel.add(headerButtons, BorderLayout.EAST);
 
+        // Set up the interaction panel with the initial state
+        setupInitialInteractionPanel();
+
+        // Add the header and interaction panels to the background
+        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
+        backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
+
+        // Set the content pane
+        window.setContentPane(backgroundPanel);
+        window.revalidate();
+    }
+
+    // Method to set up the initial interaction panel
+    private void setupInitialInteractionPanel() {
+        // Interaction panel
         interactionPanel = new JPanel();
         interactionPanel.setOpaque(false);
         interactionPanel.setLayout(new BorderLayout());
@@ -551,6 +533,7 @@ public class GameUI {
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         interactionPanel.add(textLabel, BorderLayout.NORTH);
 
+        // Dialogue Label (Middle of Interaction Panel)
         dialogueLabel = new JLabel("Woof Woof Woof", SwingConstants.LEFT);
         dialogueLabel.setOpaque(true); // Make the background visible
         dialogueLabel.setForeground(Color.WHITE); // Set text color to white for contrast
@@ -562,7 +545,6 @@ public class GameUI {
         // Set the background color with reduced opacity (RGBA color)
         dialogueLabel.setBackground(new Color(0, 0, 0, 200)); // RGBA where A is the alpha (opacity)
 
-
         interactionPanel.add(dialogueLabel, BorderLayout.WEST);
 
         // Button Panel (Bottom Part of Interaction Panel)
@@ -573,26 +555,158 @@ public class GameUI {
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
         // Adjust button size
-        Dimension choicebuttonSize = new Dimension(150, 50); // Make buttons smaller to match the image
+        Dimension choiceButtonSize = new Dimension(150, 50); // Make buttons smaller to match the image
 
-        attackButton = createChoiceButton("Attack", choicebuttonSize);
-        skillButton = createChoiceButton("Use Skill", choicebuttonSize);
-        itemButton = createChoiceButton("Use Item", choicebuttonSize);
-        runButton = createChoiceButton("Run", choicebuttonSize);
+        attackButton = createChoiceButton("Attack", choiceButtonSize);
+        skillButton = createChoiceButton("Use Skill", choiceButtonSize);
+        itemButton = createChoiceButton("Use Item", choiceButtonSize);
+        runButton = createChoiceButton("Run", choiceButtonSize);
+
+        initializeAttackDetails();
+        initializeSkillAndItemDetails();
+        // Add action listener to the "Attack" button
+        attackButton.addActionListener(e -> showAttackOptions());
+        skillButton.addActionListener(e -> showSkillOptions());
+        itemButton.addActionListener(e -> showItemOptions());
+
+        // Add action listener to the "Run" button
         runButton.addActionListener(e -> adventureScreen());
 
+        // Add buttons to the button panel
         buttonPanel.add(attackButton);
         buttonPanel.add(skillButton);
         buttonPanel.add(itemButton);
         buttonPanel.add(runButton);
 
         interactionPanel.add(buttonPanel, BorderLayout.EAST);
+    }
 
-        backgroundPanel.add(headerPanel, BorderLayout.NORTH);
-        backgroundPanel.add(interactionPanel, BorderLayout.SOUTH);
+    private void initializeAttackDetails() {
+        attackDetails = new HashMap<>();
+        attackDetails.put("Attack 1", "<html><b>Attack 1</b><br>Description: A swift strike.<br>Damage: 10<br>Effect: None</html>");
+        attackDetails.put("Attack 2", "<html><b>Attack 2</b><br>Description: A powerful blow.<br>Damage: 20<br>Effect: Stun</html>");
+        attackDetails.put("Attack 3", "<html><b>Attack 3</b><br>Description: A precise jab.<br>Damage: 15<br>Effect: Bleed</html>");
+        attackDetails.put("Attack 4", "<html><b>Attack 4</b><br>Description: A crushing smash.<br>Damage: 25<br>Effect: Knockback</html>");
+    }
 
-        window.setContentPane(backgroundPanel);
-        window.revalidate();
+    private void initializeSkillAndItemDetails() {
+        skillDetails = new HashMap<>();
+        skillDetails.put("Skill 1", "<html><b>Skill 1</b><br>Description: A healing spell.<br>Effect: Restores 20 HP</html>");
+        skillDetails.put("Skill 2", "<html><b>Skill 2</b><br>Description: A fireball.<br>Damage: 30<br>Effect: Burn</html>");
+        skillDetails.put("Skill 3", "<html><b>Skill 3</b><br>Description: A shield spell.<br>Effect: Blocks damage for 1 turn</html>");
+        skillDetails.put("Skill 4", "<html><b>Skill 4</b><br>Description: A speed boost.<br>Effect: Increases agility</html>");
+
+        itemDetails = new HashMap<>();
+        itemDetails.put("Item 1", "<html><b>Item 1</b><br>Description: A healing potion.<br>Effect: Restores 50 HP</html>");
+        itemDetails.put("Item 2", "<html><b>Item 2</b><br>Description: A mana potion.<br>Effect: Restores 30 MP</html>");
+        itemDetails.put("Item 3", "<html><b>Item 3</b><br>Description: A smoke bomb.<br>Effect: Escape battle</html>");
+        itemDetails.put("Item 4", "<html><b>Item 4</b><br>Description: A strength elixir.<br>Effect: Increases attack</html>");
+    }
+
+    // Method to show the attack options
+    private void showAttackOptions() {
+        // Update the text label
+        textLabel.setText("Choose your attack!");
+
+        // Update the dialogue label
+        dialogueLabel.setText("The Direwolf waits for your next move.");
+
+        // Clear the button panel and set up the layout
+        buttonPanel.removeAll();
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Grid layout for attack buttons (5 rows for 4 attacks + 1 back button)
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding around the buttons
+
+        // Create buttons for attacks
+        String[] attacks = {"Attack 1", "Attack 2", "Attack 3", "Attack 4"};
+        for (String attack : attacks) {
+            JButton attackButton = createChoiceButton(attack, new Dimension(150, 30));
+            attackButton.addActionListener(e -> updateAttackDetails(attack));
+            buttonPanel.add(attackButton);
+        }
+
+        // Add the "Back" button
+        JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
+        backButton.addActionListener(e -> direwolfFightScreen());
+        buttonPanel.add(backButton);
+
+        // Revalidate and repaint the panel
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+    private void showSkillOptions() {
+        textLabel.setText("Choose your skill!");
+        dialogueLabel.setText("Select a skill to use.");
+
+        buttonPanel.removeAll();
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // 4 skill buttons + 1 back button
+
+        String[] skills = {"Skill 1", "Skill 2", "Skill 3", "Skill 4"};
+        for (String skill : skills) {
+            JButton skillButton = createChoiceButton(skill, new Dimension(150, 30));
+            skillButton.addActionListener(e -> updateSkillDetails(skill));
+            buttonPanel.add(skillButton);
+        }
+
+        JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
+        backButton.addActionListener(e -> direwolfFightScreen());
+        buttonPanel.add(backButton);
+
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+    private void showItemOptions() {
+        textLabel.setText("Choose an item!");
+        dialogueLabel.setText("Select an item to use.");
+
+        buttonPanel.removeAll();
+        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // 4 item buttons + 1 back button
+
+        String[] items = {"Item 1", "Item 2", "Item 3", "Item 4"};
+        for (String item : items) {
+            JButton itemButton = createChoiceButton(item, new Dimension(150, 30));
+            itemButton.addActionListener(e -> updateItemDetails(item));
+            buttonPanel.add(itemButton);
+        }
+
+        JButton backButton = createChoiceButton("Back", new Dimension(150, 30));
+        backButton.addActionListener(e -> direwolfFightScreen());
+        buttonPanel.add(backButton);
+
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+
+    // Method to update attack details dynamically
+    private void updateAttackDetails(String attack) {
+        // Get attack details
+        String details = attackDetails.getOrDefault(attack, "No details available for this attack.");
+
+        // Update the dialogue label
+        dialogueLabel.setText(details);
+
+        // Ensure proper repaint
+        dialogueLabel.repaint();
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+    private void updateSkillDetails(String skill) {
+        String details = skillDetails.getOrDefault(skill, "No details available for this skill.");
+        dialogueLabel.setText(details);
+        dialogueLabel.repaint();
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+    private void updateItemDetails(String item) {
+        String details = itemDetails.getOrDefault(item, "No details available for this item.");
+        dialogueLabel.setText(details);
+        dialogueLabel.repaint();
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
     }
 
     private void handleFight() {
@@ -1567,47 +1681,6 @@ public class GameUI {
         pauseButton.setFocusPainted(false); // Optional: Remove focus border
         pauseButton.addActionListener(e -> System.out.println("Paused!")); // Add your pause logic here
 
-//        areaLabel = new JLabel("Town");
-//        areaLabel.setForeground(Color.WHITE);
-//        areaLabel.setFont(titleFont);
-//        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
-        areaLabel = new JLabel("Chapel", SwingConstants.CENTER) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-
-                // Enable anti-aliasing for smoother text rendering
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Draw the outline
-                g2d.setFont(getFont());
-                g2d.setColor(Color.BLACK); // Outline color
-                String text = getText();
-                FontMetrics metrics = g2d.getFontMetrics(getFont());
-                int x = (getWidth() - metrics.stringWidth(text)) / 2;
-                int y = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
-                for (int dx = -1; dx <= 1; dx++) {
-                    for (int dy = -1; dy <= 1; dy++) {
-                        if (dx != 0 || dy != 0) {
-                            g2d.drawString(text, x + dx, y + dy);
-                        }
-                    }
-                }
-
-                // Draw the main text
-                g2d.setColor(Color.WHITE); // Main text color
-                g2d.drawString(text, x, y);
-
-                g2d.dispose();
-            }
-        };
-        areaLabel.setFont(titleFont); // Apply your font
-        areaLabel.setOpaque(false); // Transparent background
-        areaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        areaLabel.setBorder(BorderFactory.createEmptyBorder(20, 120, 0, 0)); // Top, Left, Bottom, Right
-
 
         headerButtons = new JPanel();
         headerButtons.setOpaque(false);
@@ -2102,6 +2175,7 @@ public class GameUI {
         dialogueLabel = new JLabel("Tavern Dialogue", SwingConstants.LEFT);
         dialogueLabel.setOpaque(true); // Make the background visible
         dialogueLabel.setForeground(Color.WHITE); // Set text color to white for contrast
+        dialogueLabel.setBackground(Color.BLACK);
         dialogueLabel.setFont(new Font("Times New Roman", Font.BOLD, 20)); // Smaller font size
         dialogueLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the label
         dialogueLabel.setPreferredSize(new Dimension(window.getWidth() - 300, 40)); // Set width to 100 less than window's width, height to 40
