@@ -977,8 +977,8 @@ public class GameUI {
         JButton dropButton = createChoiceButton("Trash Item", new Dimension(150, 30));
         JButton acceptButton = createChoiceButton("Equip", new Dimension(150, 30));
 
-        pointsPanel.add(dropButton);
         pointsPanel.add(acceptButton);
+        pointsPanel.add(dropButton);
 
         leftCharacterPanel.add(Box.createVerticalGlue()); // Push the buttons to the bottom
         leftCharacterPanel.add(pointsPanel);
@@ -1559,19 +1559,19 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Item Name");
+        JLabel nameLabel = new JLabel("Potion Name");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(nameLabel);
 
-        JLabel itemTypeLabel = new JLabel("Limitations/Item Type");
+        JLabel itemTypeLabel = new JLabel("Limitations/Potion Type");
         itemTypeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         itemTypeLabel.setForeground(Color.WHITE);
         itemTypeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(itemTypeLabel);
 
-        JLabel descriptionLabel = new JLabel("Item Description");
+        JLabel descriptionLabel = new JLabel("Potion Description");
         descriptionLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -1642,7 +1642,7 @@ public class GameUI {
         pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         pointsPanel.setBackground(Color.BLACK);
 
-        JButton dropButton = createChoiceButton("Buy Item", new Dimension(150, 30));
+        JButton dropButton = createChoiceButton("Buy Potion", new Dimension(150, 30));
 
         pointsPanel.add(dropButton);
 
@@ -1675,9 +1675,9 @@ public class GameUI {
         questButtonListPanel.setLayout(new BoxLayout(questButtonListPanel, BoxLayout.Y_AXIS));
         questButtonListPanel.setBackground(Color.BLACK);
 
-        JButton quest1Button = createChoiceButton("Item Name 1", new Dimension(200, 30));
-        JButton quest2Button = createChoiceButton("Item Name 2", new Dimension(200, 30));
-        JButton quest3Button = createChoiceButton("Item Name 3", new Dimension(200, 30));
+        JButton quest1Button = createChoiceButton("Potion Name 1", new Dimension(200, 30));
+        JButton quest2Button = createChoiceButton("Potion Name 2", new Dimension(200, 30));
+        JButton quest3Button = createChoiceButton("Potion Name 3", new Dimension(200, 30));
 
         quest1Button.setAlignmentX(Component.CENTER_ALIGNMENT);
         quest2Button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -1724,19 +1724,19 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Item Name");
+        JLabel nameLabel = new JLabel("Potion Name");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(nameLabel);
 
-        JLabel itemTypeLabel = new JLabel("Limitations/Item Type");
+        JLabel itemTypeLabel = new JLabel("Limitations/Potion Type");
         itemTypeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         itemTypeLabel.setForeground(Color.WHITE);
         itemTypeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(itemTypeLabel);
 
-        JLabel descriptionLabel = new JLabel("Item Description");
+        JLabel descriptionLabel = new JLabel("Potion Description");
         descriptionLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -1807,7 +1807,7 @@ public class GameUI {
         pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         pointsPanel.setBackground(Color.BLACK);
 
-        JButton dropButton = createChoiceButton("Sell Item", new Dimension(150, 30));
+        JButton dropButton = createChoiceButton("Sell Potion", new Dimension(150, 30));
 
         pointsPanel.add(dropButton);
 
@@ -1840,9 +1840,9 @@ public class GameUI {
         questButtonListPanel.setLayout(new BoxLayout(questButtonListPanel, BoxLayout.Y_AXIS));
         questButtonListPanel.setBackground(Color.BLACK);
 
-        JButton quest1Button = createChoiceButton("Item Name 1", new Dimension(200, 30));
-        JButton quest2Button = createChoiceButton("Item Name 2", new Dimension(200, 30));
-        JButton quest3Button = createChoiceButton("Item Name 3", new Dimension(200, 30));
+        JButton quest1Button = createChoiceButton("Potion Name 1", new Dimension(200, 30));
+        JButton quest2Button = createChoiceButton("Potion Name 2", new Dimension(200, 30));
+        JButton quest3Button = createChoiceButton("Potion Name 3", new Dimension(200, 30));
 
         quest1Button.setAlignmentX(Component.CENTER_ALIGNMENT);
         quest2Button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -2556,8 +2556,8 @@ public class GameUI {
         questButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         questButtonPanel.setBackground(Color.BLACK);
 
-        JButton dropButton = createChoiceButton("Buy and Eat", new Dimension(150, 30));
-        JButton acceptButton = createChoiceButton("Buy", new Dimension(150, 30));
+        JButton dropButton = createChoiceButton("Buy", new Dimension(150, 30));
+        JButton acceptButton = createChoiceButton("Buy and Eat", new Dimension(150, 30));
 
         questButtonPanel.add(acceptButton);
         questButtonPanel.add(dropButton);
@@ -2618,7 +2618,7 @@ public class GameUI {
 
     public void buyEquipmentShopScreen() {
         // Create the dialog
-        JDialog characterDialog = new JDialog(window, "Inventory", true);
+        JDialog characterDialog = new JDialog(window, "Equipment", true);
         characterDialog.setSize(600, 400);
         characterDialog.setLocationRelativeTo(window);
         characterDialog.setUndecorated(true); // Remove default window decorations
@@ -2640,19 +2640,19 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("ItemName");
+        JLabel nameLabel = new JLabel("Equipment Name");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(nameLabel);
 
-        JLabel itemTypeLabel = new JLabel("Limitations/Item Type");
+        JLabel itemTypeLabel = new JLabel("Limitations/Equipment Type");
         itemTypeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         itemTypeLabel.setForeground(Color.WHITE);
         itemTypeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(itemTypeLabel);
 
-        JLabel descriptionLabel = new JLabel("Item Description");
+        JLabel descriptionLabel = new JLabel("Equipment Description");
         descriptionLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2711,7 +2711,7 @@ public class GameUI {
         statsPanel.add(luckLabel);
         statsPanel.add(agiLabel);
 
-        JLabel costLabel = new JLabel("Item Cost: $10000000");
+        JLabel costLabel = new JLabel("Equipment Cost: $10000000");
         costLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         costLabel.setForeground(Color.WHITE);
         costLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2729,8 +2729,8 @@ public class GameUI {
         pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         pointsPanel.setBackground(Color.BLACK);
 
-        JButton dropButton = createChoiceButton("Buy", new Dimension(150, 30));
-        JButton acceptButton = createChoiceButton("Sell", new Dimension(150, 30));
+        JButton dropButton = createChoiceButton("Buy Equipment", new Dimension(150, 30));
+        JButton acceptButton = createChoiceButton("Sell Equipment", new Dimension(150, 30));
 
         pointsPanel.add(dropButton);
         //pointsPanel.add(acceptButton);
@@ -2764,9 +2764,9 @@ public class GameUI {
         questButtonListPanel.setLayout(new BoxLayout(questButtonListPanel, BoxLayout.Y_AXIS));
         questButtonListPanel.setBackground(Color.BLACK);
 
-        JButton quest1Button = createChoiceButton("Item Name 1", new Dimension(200, 30));
-        JButton quest2Button = createChoiceButton("Item Name 2", new Dimension(200, 30));
-        JButton quest3Button = createChoiceButton("Item Name 3", new Dimension(200, 30));
+        JButton quest1Button = createChoiceButton("Equipment Name 1", new Dimension(200, 30));
+        JButton quest2Button = createChoiceButton("Equipment Name 2", new Dimension(200, 30));
+        JButton quest3Button = createChoiceButton("Equipment Name 3", new Dimension(200, 30));
 
         quest1Button.setAlignmentX(Component.CENTER_ALIGNMENT);
         quest2Button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -2791,7 +2791,7 @@ public class GameUI {
 
     public void sellEquipmentShopScreen() {
         // Create the dialog
-        JDialog characterDialog = new JDialog(window, "Inventory", true);
+        JDialog characterDialog = new JDialog(window, "Equipment", true);
         characterDialog.setSize(600, 400);
         characterDialog.setLocationRelativeTo(window);
         characterDialog.setUndecorated(true); // Remove default window decorations
@@ -2813,19 +2813,19 @@ public class GameUI {
         characterInfoPanel.setBackground(Color.BLACK);
 
         // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("ItemName");
+        JLabel nameLabel = new JLabel("Equipment Name");
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(nameLabel);
 
-        JLabel itemTypeLabel = new JLabel("Limitations/Item Type");
+        JLabel itemTypeLabel = new JLabel("Limitations/Equipment Type");
         itemTypeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         itemTypeLabel.setForeground(Color.WHITE);
         itemTypeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(itemTypeLabel);
 
-        JLabel descriptionLabel = new JLabel("Item Description");
+        JLabel descriptionLabel = new JLabel("Equipment Description");
         descriptionLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2884,7 +2884,7 @@ public class GameUI {
         statsPanel.add(luckLabel);
         statsPanel.add(agiLabel);
 
-        JLabel costLabel = new JLabel("Item Cost: $10000000");
+        JLabel costLabel = new JLabel("Equipment Cost: $10000000");
         costLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         costLabel.setForeground(Color.WHITE);
         costLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -2902,8 +2902,8 @@ public class GameUI {
         pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         pointsPanel.setBackground(Color.BLACK);
 
-        JButton dropButton = createChoiceButton("Buy", new Dimension(150, 30));
-        JButton acceptButton = createChoiceButton("Sell", new Dimension(150, 30));
+        JButton dropButton = createChoiceButton("Buy Equipment", new Dimension(150, 30));
+        JButton acceptButton = createChoiceButton("Sell Equipment", new Dimension(150, 30));
 
         //pointsPanel.add(dropButton);
         pointsPanel.add(acceptButton);
@@ -2937,9 +2937,9 @@ public class GameUI {
         questButtonListPanel.setLayout(new BoxLayout(questButtonListPanel, BoxLayout.Y_AXIS));
         questButtonListPanel.setBackground(Color.BLACK);
 
-        JButton quest1Button = createChoiceButton("Item Name 1", new Dimension(200, 30));
-        JButton quest2Button = createChoiceButton("Item Name 2", new Dimension(200, 30));
-        JButton quest3Button = createChoiceButton("Item Name 3", new Dimension(200, 30));
+        JButton quest1Button = createChoiceButton("Equipment Name 1", new Dimension(200, 30));
+        JButton quest2Button = createChoiceButton("Equipment Name 2", new Dimension(200, 30));
+        JButton quest3Button = createChoiceButton("Equipment Name 3", new Dimension(200, 30));
 
         quest1Button.setAlignmentX(Component.CENTER_ALIGNMENT);
         quest2Button.setAlignmentX(Component.CENTER_ALIGNMENT);
