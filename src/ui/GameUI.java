@@ -5,7 +5,6 @@ import main.Game;
 import audio.AudioPlayer;
 import adventure.AdventureManager;
 import enemies.Enemy;
-import characters.PlayerCharacter;
 
 import javax.swing.*;
 import java.awt.*;
