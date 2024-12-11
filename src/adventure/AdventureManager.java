@@ -57,14 +57,14 @@ public class AdventureManager {
 
     private void randomEncounter() {
         int roll = random.nextInt(100); // Random value between 0 and 99
-        if (roll < 50) {
-            System.out.println("You encountered nothing. The path is clear.");
-        } else if (roll < 85) {
+        if (roll < 40) { // 40% chance for an enemy encounter
             System.out.println("A wild monster appears!");
             Enemy enemy = generateRandomEnemy();
             enemy.resetStats();
             combat(enemy);
-        } else {
+        } else if (roll < 80) { // 40% chance for encountering nothing
+            System.out.println("You encountered nothing. The path is clear.");
+        } else { // Remaining 20% chance for finding treasure
             System.out.println("You found treasure!");
             int gold = random.nextInt(20) + 10; // Random gold between 10 and 30
             player.addGold(gold);
@@ -196,7 +196,7 @@ public class AdventureManager {
     }
 
     // Picks a random enemy from EnemyRegistry.
-    private Enemy generateRandomEnemy() {
+    public Enemy generateRandomEnemy() {
         List<Enemy> allEnemies = EnemyRegistry.getAllEnemies();
         // Exclude bosses from random encounters
         List<Enemy> nonBossEnemies = allEnemies.stream()

@@ -53,6 +53,7 @@ public class PlayerCharacter {
     }
 
 
+
     public void addQuest(Quest quest) {
         activeQuests.add(quest);
         System.out.println("Quest added: " + quest.getName());
@@ -227,6 +228,8 @@ public class PlayerCharacter {
         return inventory;
     }
 
+    public String getName(){return name; }
+
     public int getGold() {
         return gold;
     }
@@ -293,4 +296,25 @@ public class PlayerCharacter {
     public void setCharacterClass(CharacterClass characterClass) {
         this.characterClass = characterClass;
     }
+
+    // Getter for equipmentSlots
+    public Map<String, Item> getEquipmentSlots() {
+        return equipmentSlots;
+    }
+
+    // Setter for equipmentSlots
+    public void setEquipmentSlots(Map<String, Item> equipmentSlots) {
+        this.equipmentSlots = equipmentSlots;
+    }
+
+    // Getter for a specific equipment slot
+    public Item getEquipment(String slot) {
+        return equipmentSlots.get(slot);
+    }
+
+    // Setter for a specific equipment slot
+    public void setEquipment(String slot, Item item) {
+        equipmentSlots.put(slot, item);
+    }
+
 }

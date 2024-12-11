@@ -3,6 +3,9 @@ package ui;
 import characters.PlayerCharacter;
 import main.Game;
 import audio.AudioPlayer;
+import adventure.AdventureManager;
+import enemies.Enemy;
+import characters.PlayerCharacter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +42,8 @@ public class GameUI {
     private Map<String, String> attackDetails;
     private Map<String, String> skillDetails;
     private Map<String, String> itemDetails;
-
+    private Random random;
+    private AdventureManager adventureManager;
 
     private static boolean guiMode = true; // Set to true if running in GUI mode
 
@@ -66,6 +70,8 @@ public class GameUI {
 
     public GameUI(Game game) {
         this.player = new PlayerCharacter();
+        this.adventureManager = new AdventureManager(player);
+
         this.game = game;
         this.audioPlayer.playMusic("./resources/music/TitleScreenBGM.mp3");
         mainMenuBackground = new ImageIcon("./resources/MainMenuBackground.png").getImage();
@@ -347,6 +353,7 @@ public class GameUI {
         headerPanel = new JPanel();
         headerPanel.setOpaque(false);
         headerPanel.setLayout(new BorderLayout());
+        this.random = new Random();
 
         // Load the pause icon
         ImageIcon pauseIcon = new ImageIcon("./resources/pause_icon.png"); // Replace with your image path
@@ -476,7 +483,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -532,18 +539,30 @@ public class GameUI {
         contAdventureButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Randomly select a background, excluding the current one
-                Random rand = new Random();
-// Randomly select a new background and enemy
-                Image newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
-                String newEnemy = enemies[rand.nextInt(enemies.length)];
+                // Execute a random encounter and update the UI based on the outcome
+                int roll = random.nextInt(100);
+                if (roll < 40) { // 40% chance for an enemy encounter
+                    Enemy enemy = adventureManager.generateRandomEnemy(); // Ensure this method is accessible
+                    currentEnemy = enemy.getName();
+                    enemyLabel.setText("A wild " + currentEnemy + " has appeared!");
+                    backgroundPanel.repaint();
+                    // Trigger combat or prepare combat screen
+                    // Call your combat handling logic here if needed
+                } else if (roll < 80) { // 40% chance for nothing
+                    currentEnemy = null; // No enemy
+                    enemyLabel.setText("The path is clear. No enemies in sight.");
+                    backgroundPanel.repaint();
+                } else { // 20% chance for treasure
+                    int gold = random.nextInt(20) + 10; // Random gold between 10 and 30
+                    player.addGold(gold);
+                    enemyLabel.setText("You found " + gold + " gold! Total gold: " + player.getGold());
+                    backgroundPanel.repaint();
+                }
 
-// Update background and enemy label
+                // Optionally update the background to a new random area
+                Image newBackground = areaBackgrounds[random.nextInt(areaBackgrounds.length)];
                 area1Background = newBackground;
-                currentEnemy = newEnemy;
-                enemyLabel.setText(newEnemy + " has appeared!");
                 backgroundPanel.repaint();
-
             }
         });
 
@@ -706,10 +725,7 @@ public class GameUI {
 
     private void initializeAttackDetails() {
         attackDetails = new HashMap<>();
-        attackDetails.put("Attack 1", "<html><b>Attack 1</b><br>Description: A swift strike.<br>Damage: 10<br>Effect: None</html>");
-        attackDetails.put("Attack 2", "<html><b>Attack 2</b><br>Description: A powerful blow.<br>Damage: 20<br>Effect: Stun</html>");
-        attackDetails.put("Attack 3", "<html><b>Attack 3</b><br>Description: A precise jab.<br>Damage: 15<br>Effect: Bleed</html>");
-        attackDetails.put("Attack 4", "<html><b>Attack 4</b><br>Description: A crushing smash.<br>Damage: 25<br>Effect: Knockback</html>");
+        attackDetails.put("Attack 1", "<html><b>Basic Strike</b><br>Description: A swift strike.<br>Damage: 10<br>Effect: None</html>");
     }
 
     private void initializeSkillAndItemDetails() {
@@ -1022,7 +1038,7 @@ public class GameUI {
         characterDialog.setVisible(true);
     }
 
-    public void characterScreen() {
+    public void characterScreen(PlayerCharacter player) {
         // Create the dialog
         JDialog characterDialog = new JDialog(window, "Stats", true);
         characterDialog.setSize(600, 400);
@@ -1035,40 +1051,43 @@ public class GameUI {
         characterPanel.setBackground(Color.BLACK);
         characterPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Add a white border
 
-        // Left panel for quest details
+        // Left panel for character details
         JPanel leftCharacterPanel = new JPanel();
         leftCharacterPanel.setLayout(new BoxLayout(leftCharacterPanel, BoxLayout.Y_AXIS));
         leftCharacterPanel.setBackground(Color.BLACK);
         leftCharacterPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel characterInfoPanel = new JPanel();
-        characterInfoPanel.setLayout(new GridLayout(4,1));
+        characterInfoPanel.setLayout(new GridLayout(4, 1));
         characterInfoPanel.setBackground(Color.BLACK);
 
-        // Align labels to the left-most side
-        JLabel nameLabel = new JLabel("Name: RykelleBayot");
+        // Dynamically set the character's name
+        JLabel nameLabel = new JLabel("Name: " + player.getName());
         nameLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(nameLabel);
 
-        JLabel classLabel = new JLabel("Class: Gaylord");
+        // Dynamically set the character's class
+        JLabel classLabel = new JLabel("Class: " + player.getCharacterClass());
         classLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         classLabel.setForeground(Color.WHITE);
         classLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(classLabel);
 
+        // Set health and mana based on the player's stats
         health_manaPanel = new JPanel();
         health_manaPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         health_manaPanel.setBackground(Color.BLACK);
         health_manaPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        healthLabel = new JLabel("HP: 30/30");
+        // Dynamically set the health and mana
+        healthLabel = new JLabel("HP: " + player.getStats().getHealth() + "/" + player.getMaxHealth());
         healthLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         healthLabel.setForeground(Color.WHITE);
         healthLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        manaLabel = new JLabel("MP: 30/30");
+        manaLabel = new JLabel("MP: " + player.getStats().getMana() + "/" + player.getMaxMana());
         manaLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         manaLabel.setForeground(Color.WHITE);
         manaLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -1078,57 +1097,60 @@ public class GameUI {
 
         characterInfoPanel.add(health_manaPanel);
 
+        // Status effects
         JLabel statusEffectsLabel = new JLabel("Status Effects: Poison, Str Potion Buff");
         statusEffectsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         statusEffectsLabel.setForeground(Color.WHITE);
         statusEffectsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         characterInfoPanel.add(statusEffectsLabel);
 
+        // Stats section
         JPanel statusPanel = new JPanel();
-        statusPanel.setLayout(new GridLayout(3,1));
+        statusPanel.setLayout(new GridLayout(3, 1));
         statusPanel.setBackground(Color.BLACK);
         statusPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
 
         JLabel statsLabel = new JLabel("Stats");
         statsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        statsLabel.setForeground(Color.WHITE);
+        statsLabel.setForeground(Color.WHITE);  // Set font color to white
 
         statsPanel = new JPanel();
         statsPanel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         statsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         statsPanel.setBackground(Color.BLACK);
         statsPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        statsPanel.setLayout(new GridLayout(3,3));
+        statsPanel.setLayout(new GridLayout(3, 3));
 
-        strLabel = new JLabel("Str: (+10)");
-        strLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        strLabel.setForeground(Color.WHITE);
-//        strLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+// Dynamically set stats based on PlayerCharacter's stats
+        strLabel = new JLabel("Str: " + player.getStats().getStrength());
+        strLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));  // Set font size and color
+        strLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        intLabel = new JLabel("Int: (0)");
-        intLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        intLabel.setForeground(Color.WHITE);
+        intLabel = new JLabel("Int: " + player.getStats().getIntelligence());
+        intLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        intLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        dexLabel = new JLabel("Dex: (0)");
-        dexLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        dexLabel.setForeground(Color.WHITE);
+        dexLabel = new JLabel("Dex: " + player.getStats().getDexterity());
+        dexLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        dexLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        conLabel = new JLabel("Con: (-10)");
-        conLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        conLabel.setForeground(Color.WHITE);
+        conLabel = new JLabel("Con: " + player.getStats().getConstitution());
+        conLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        conLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        wisLabel = new JLabel("Wis: (0)");
-        wisLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        wisLabel.setForeground(Color.WHITE);
+        wisLabel = new JLabel("Wis: " + player.getStats().getWisdom());
+        wisLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        wisLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        luckLabel = new JLabel("Luck: (0)");
-        luckLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        luckLabel.setForeground(Color.WHITE);
+        luckLabel = new JLabel("Luck: " + player.getStats().getLuck());
+        luckLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        luckLabel.setForeground(Color.WHITE);  // Set font color to white
 
-        agiLabel = new JLabel("Agi: (+10)");
-        agiLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        agiLabel.setForeground(Color.WHITE);
+        agiLabel = new JLabel("Agi: " + player.getStats().getAgility());
+        agiLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        agiLabel.setForeground(Color.WHITE);  // Set font color to white
 
+// Add labels to statsPanel
         statsPanel.add(strLabel);
         statsPanel.add(intLabel);
         statsPanel.add(dexLabel);
@@ -1137,37 +1159,58 @@ public class GameUI {
         statsPanel.add(luckLabel);
         statsPanel.add(agiLabel);
 
-        JLabel availablePointsLabel = new JLabel("Available Stat points: 20");
-        availablePointsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        availablePointsLabel.setForeground(Color.WHITE);
-
         statusPanel.add(statsLabel);
         statusPanel.add(statsPanel);
-        statusPanel.add(availablePointsLabel);
-
-        leftCharacterPanel.add(characterInfoPanel);
-        leftCharacterPanel.add(Box.createVerticalStrut(10));
-        leftCharacterPanel.add(statusPanel);
-
-        // Buttons for accepting or dropping quests
-        JPanel pointsPanel = new JPanel();
-        pointsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        pointsPanel.setBackground(Color.BLACK);
-
-        JButton dropButton = createChoiceButton("Distribute Points", new Dimension(150, 30));
-        JButton acceptButton = createChoiceButton("Reset", new Dimension(150, 30));
-
-        pointsPanel.add(dropButton);
-        pointsPanel.add(acceptButton);
-
-        leftCharacterPanel.add(Box.createVerticalGlue()); // Push the buttons to the bottom
-        leftCharacterPanel.add(pointsPanel);
 
         // Right panel for quest list
         JPanel rightCharacterPanel = new JPanel();
         rightCharacterPanel.setLayout(new BorderLayout());
         rightCharacterPanel.setBackground(Color.BLACK);
         rightCharacterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        leftCharacterPanel.add(characterInfoPanel);
+        leftCharacterPanel.add(Box.createVerticalStrut(10));
+        leftCharacterPanel.add(statusPanel);
+
+        // Adding the Equipped Items Section
+        JPanel equippedPanel = new JPanel();
+        equippedPanel.setLayout(new BoxLayout(equippedPanel, BoxLayout.Y_AXIS));
+        equippedPanel.setBackground(Color.BLACK);
+        equippedPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        JLabel equippedLabel = new JLabel("Equipped Items:");
+        equippedLabel.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        equippedLabel.setForeground(Color.WHITE);
+
+        // Display equipped items
+        JLabel headLabel = new JLabel("Head: " + (player.getEquipment("Head") != null ? player.getEquipment("Head").getName() : "None"));
+        headLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        headLabel.setForeground(Color.WHITE);
+
+        JLabel bodyLabel = new JLabel("Body: " + (player.getEquipment("Body") != null ? player.getEquipment("Body").getName() : "None"));
+        bodyLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        bodyLabel.setForeground(Color.WHITE);
+
+        JLabel legsLabel = new JLabel("Legs: " + (player.getEquipment("Legs") != null ? player.getEquipment("Legs").getName() : "None"));
+        legsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        legsLabel.setForeground(Color.WHITE);
+
+        JLabel mainHandLabel = new JLabel("Main Hand: " + (player.getEquipment("Weapon") != null ? player.getEquipment("Weapon").getName() : "None"));
+        mainHandLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        mainHandLabel.setForeground(Color.WHITE);
+
+        JLabel offHandLabel = new JLabel("Off Hand: " + (player.getEquipment("OffHand") != null ? player.getEquipment("OffHand").getName() : "None"));
+        offHandLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        offHandLabel.setForeground(Color.WHITE);
+
+
+        // Add all the labels to the equipped panel
+        equippedPanel.add(equippedLabel);
+        equippedPanel.add(headLabel);
+        equippedPanel.add(bodyLabel);
+        equippedPanel.add(legsLabel);
+        equippedPanel.add(mainHandLabel);
+        equippedPanel.add(offHandLabel);
 
         // Top-right corner panel for the close button
         JPanel closeButtonPanel = new JPanel();
@@ -1184,45 +1227,18 @@ public class GameUI {
 
         closeButtonPanel.add(closeButton);
 
-        // Center panel for quest buttons
-        JPanel armoryButtonPanel = new JPanel();
-        armoryButtonPanel.setLayout(new BoxLayout(armoryButtonPanel, BoxLayout.Y_AXIS));
-        armoryButtonPanel.setBackground(Color.BLACK);
-
-        JButton headArmorButton = createChoiceButton("Head Armor", new Dimension(200, 30));
-        JButton bodyArmorButton = createChoiceButton("Body Armor", new Dimension(200, 30));
-        JButton legArmorButton = createChoiceButton("Leg Armor", new Dimension(200, 30));
-        JButton mainHandButton = createChoiceButton("Main Hand", new Dimension(200, 30));
-
-        headArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        bodyArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        legArmorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainHandButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        armoryButtonPanel.add(headArmorButton);
-        armoryButtonPanel.add(Box.createVerticalStrut(10));
-        armoryButtonPanel.add(bodyArmorButton);
-        armoryButtonPanel.add(Box.createVerticalStrut(10));
-        armoryButtonPanel.add(legArmorButton);
-        armoryButtonPanel.add(Box.createVerticalStrut(10));
-        armoryButtonPanel.add(mainHandButton);
-        armoryButtonPanel.add(Box.createVerticalStrut(10));
-
-        JLabel cashText = new JLabel("Cash: $99999999");
-        cashText.setForeground(Color.WHITE);
-        cashText.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-        cashText.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 0));
-
+        // Add the Equipped panel to the right panel
         rightCharacterPanel.add(closeButtonPanel, BorderLayout.NORTH); // Add close button at the top
-        rightCharacterPanel.add(armoryButtonPanel, BorderLayout.CENTER); // Add quest buttons in the center
-        rightCharacterPanel.add(cashText, BorderLayout.SOUTH);
+        rightCharacterPanel.add(equippedPanel, BorderLayout.CENTER);
 
-        // Add panels to the main quest panel
         characterPanel.add(leftCharacterPanel, BorderLayout.WEST);
         characterPanel.add(rightCharacterPanel, BorderLayout.EAST);
 
+
         characterDialog.add(characterPanel);
         characterDialog.setVisible(true);
+
+
     }
 
     public void mainArea() {
@@ -1282,7 +1298,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -1435,7 +1451,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -1741,7 +1757,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -1935,7 +1951,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -2077,7 +2093,7 @@ public class GameUI {
 // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
@@ -2184,7 +2200,7 @@ public class GameUI {
         // Character Button
         characterButton = createHeaderButton(
                 "./resources/Character.png", 40, 40,
-                e -> characterScreen()
+                e -> characterScreen(player)
         );
         characterButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         headerButtons.add(characterButton);
