@@ -554,7 +554,7 @@ public class GameUI {
                 if (roll < 40) { // 40% chance for an enemy encounter
                     Enemy enemy = adventureManager.generateRandomEnemy(); // Ensure this method is accessible
                     currentEnemy = enemy.getName();
-                    enemyLabel.setText("A wild " + currentEnemy + " has appeared!");
+                    enemyLabel.setText(currentEnemy + " has appeared!");
                     backgroundPanel.repaint();
                     // Trigger combat or prepare combat screen
                     // Call your combat handling logic here if needed
@@ -581,11 +581,11 @@ public class GameUI {
             public void actionPerformed(ActionEvent e) {
                 // Randomly select a background, excluding the current one
                 Random rand = new Random();
-// Randomly select a new background and enemy
+                // Randomly select a new background and enemy
                 Image newBackground = areaBackgrounds[rand.nextInt(areaBackgrounds.length)];
                 String newEnemy = enemies[rand.nextInt(enemies.length)];
 
-// Update background and enemy label
+                // Update background and enemy label
                 area1Background = newBackground;
                 currentEnemy = newEnemy;
                 enemyLabel.setText(newEnemy + " has appeared!");

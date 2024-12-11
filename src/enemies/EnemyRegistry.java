@@ -10,7 +10,7 @@ import java.util.List;
 public class EnemyRegistry {
 
     public static final Enemy GOBLIN = new Enemy(
-            "Goblin",
+            "A Goblin",
             new Stats(2, 2, 1, 1, 0, 0, 1), // Balanced starter enemy
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.GOLD_COIN.createItem(1), 0.8), // 80% chance
@@ -20,7 +20,7 @@ public class EnemyRegistry {
     );
 
     public static final Enemy WOLF = new Enemy(
-            "Wolf",
+            "A Direwolf",
             new Stats(2, 4, 3, 2, 0, 0, 2), // High agility and dexterity
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.MEAT.createItem(1), 0.7), // 70% chance
@@ -30,7 +30,7 @@ public class EnemyRegistry {
     );
 
     public static final Enemy SKELETON = new Enemy(
-            "Skeleton",
+            "A Skeleton",
             new Stats(3, 3, 2, 1, 0, 0, 3), // Higher health and resilience
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.BONE.createItem(1), 0.6), // 60% chance
@@ -40,7 +40,7 @@ public class EnemyRegistry {
     );
 
     public static final Enemy BANDIT = new Enemy(
-            "Bandit",
+            "A Bandit",
             new Stats(3, 3, 4, 3, 0, 1, 3), // Agile and dangerous
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.GOLD_COIN.createItem(2), 0.9), // 90% chance
@@ -50,7 +50,7 @@ public class EnemyRegistry {
     );
 
     public static final Enemy ELEMENTAL = new Enemy(
-            "Elemental",
+            "A Dragon",
             new Stats(4, 2, 2, 1, 5, 4, 2), // High intelligence and wisdom
             Arrays.asList(
                     new Enemy.ItemDrop(ItemRegistry.LEATHER_ARMOR.createItem(1), 0.8), // 80% chance
