@@ -4,7 +4,36 @@
     "choices": [
       { "text": "Push forward into the unknown.", "nextNode": "strangerIntro" },
       { "text": "Hesitate, then step forward.", "nextNode": "strangerIntro" },
-      { "text": "Skip Prologue", "nextNode": "mainArea", "action":  true}
+      { "text": "Skip Prologue", "nextNode": "classChoice" }
+    ]
+  },"classChoice": {
+    "text": "Before you, several weapons are scattered across the ground. Choose one to determine your path.'",
+    "choices": [
+      {
+        "text": "'A sword. I’ll fight as a Warrior.'",
+        "nextNode": "mainArea",
+        "action": true
+      },
+      {
+        "text": "'A staff. I’ll become a Mage.'",
+        "nextNode": "mainArea",
+        "action": true
+      },
+      {
+        "text": "'A bow. I’ll take the path of a Ranger.'",
+        "nextNode": "mainArea",
+        "action": true
+      },
+      {
+        "text": "'Daggers. I’ll be an Assassin.'",
+        "nextNode": "mainArea",
+        "action": true
+      },
+      {
+        "text": "'Bare hands. I’ll fight as a Monk.'",
+        "nextNode": "mainArea",
+        "action": true
+      }
     ]
   },
   "strangerIntro": {
@@ -173,11 +202,31 @@
   "playerOpensCrates": {
     "text": "Mercina: 'Hey, Simon! Do me a favor and open those crates. It’s not much, but take what you need.'",
     "choices": [
-      { "text": "'A sword. I’ll fight as a Warrior.'", "nextNode": "classChosen" },
-      { "text": "'A staff. I’ll become a Mage.'", "nextNode": "classChosen" },
-      { "text": "'A bow. I’ll take the path of a Ranger.'", "nextNode": "classChosen" },
-      { "text": "'Daggers. I’ll be an Assassin.'", "nextNode": "classChosen" },
-      { "text": "'Bare hands. I’ll fight as a Monk.'", "nextNode": "classChosen" }
+      {
+        "text": "'A sword. I’ll fight as a Warrior.'",
+        "nextNode": "classChosen",
+        "action": true
+      },
+      {
+        "text": "'A staff. I’ll become a Mage.'",
+        "nextNode": "classChosen",
+        "action": true
+      },
+      {
+        "text": "'A bow. I’ll take the path of a Ranger.'",
+        "nextNode": "classChosen",
+        "action": true
+      },
+      {
+        "text": "'Daggers. I’ll be an Assassin.'",
+        "nextNode": "classChosen",
+        "action": true
+      },
+      {
+        "text": "'Bare hands. I’ll fight as a Monk.'",
+        "nextNode": "classChosen",
+        "action": true
+      }
     ]
   },
   "classChosen": {
